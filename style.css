@@ -1,0 +1,313 @@
+/* 🔧 Configuración general */
+@import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Changa:wght@400;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Changa', Arial, sans-serif;
+  margin: 0;
+  background: #f4f4f4;
+  color: #222;
+  transition: background 0.3s ease, color 0.3s ease;
+  line-height: 1.6;
+}
+
+/* 🎯 Estilo exclusivo para OMIR */
+.omir {
+  font-family: 'Alfa Slab One', serif;
+  font-size: 3em;
+  letter-spacing: 1px;
+  color: #004080;
+  text-transform: uppercase;
+}
+
+/* 📦 Contenedor principal */
+.container {
+  max-width: 100vw;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* 🧭 Encabezado */
+.header {
+  background: transparent;
+  color: #222;
+  box-shadow: none;
+}
+
+.header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+/* 🖼️ Logo */
+.logo {
+  height: 80px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
+/* 🧭 Navegación */
+.nav a {
+  color: #004080;
+  text-decoration: none;
+  margin-left: 15px;
+  font-weight: 700;
+  transition: color 0.3s ease;
+}
+
+.nav a:hover {
+  color: #ffcc00;
+}
+
+/* 🎯 Sección de portada */
+.hero {
+  padding: 60px 20px;
+  text-align: center;
+  background: white;
+  margin-bottom: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  width: 100%;
+}
+
+/* 🏷️ Título principal */
+h1, h2, h3 {
+  margin: 0;
+  font-size: 2.8em;
+  animation: fadeInUp 1s ease forwards;
+}
+
+/* 📋 Lista de servicios */
+ul {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  list-style: none;
+  width: 100%;
+}
+
+ul li {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+ul li:last-child {
+  border-bottom: none;
+}
+
+/* 📝 Campos de formulario */
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0 16px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1em;
+  background-color: #fff;
+  transition: border 0.3s ease, background 0.3s ease;
+}
+
+input:focus, textarea:focus {
+  border-color: #004080;
+  outline: none;
+}
+
+/* ✅ Mensaje de resultado del formulario */
+#formResult {
+  font-size: 1em;
+  font-weight: bold;
+  margin-top: 15px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+/* 🟦 Botón principal */
+button, .btn-pro {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  background: #004080;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1em;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+button:hover, .btn-pro:hover {
+  background: white;
+  color: #004080;
+  border: none;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* 📍 Pie de página */
+.footer {
+  background: #004080;
+  color: white;
+  padding: 16px 0;
+  text-align: center;
+  margin-top: 40px;
+  font-size: 0.9em;
+  border-top: 1px solid #003366;
+}
+
+/* ✨ Animación personalizada */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 🌙 Modo oscuro */
+body.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+body.dark-mode .header,
+body.dark-mode .footer {
+  background-color: #1e1e1e;
+}
+
+body.dark-mode .container,
+body.dark-mode .hero,
+body.dark-mode [style*="background:#f7f9fc"],
+body.dark-mode [style*="background:#fff"] {
+  background-color: #23272f !important;
+  color: #fff !important;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.18) !important;
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode strong,
+body.dark-mode p,
+body.dark-mode li,
+body.dark-mode span {
+  color: #fff !important;
+}
+
+body.dark-mode .nav a {
+  color: #ffcc00;
+}
+
+body.dark-mode ul,
+body.dark-mode .hero {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  box-shadow: none;
+}
+
+body.dark-mode input,
+body.dark-mode textarea {
+  background-color: #2a2a2a;
+  color: white;
+  border: 1px solid #555;
+}
+
+body.dark-mode button,
+body.dark-mode .btn-pro {
+  background-color: #333;
+  color: #f4f4f4;
+  border: 1px solid #777;
+}
+
+body.dark-mode button:hover,
+body.dark-mode .btn-pro:hover {
+  background-color: #555;
+  color: white;
+}
+
+/* 🖼️ Logo en modo oscuro */
+body.dark-mode .logo {
+  filter: brightness(0.8);
+}
+
+/* 📱 Responsive para móviles */
+@media (max-width: 600px) {
+  .header .container {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .logo {
+    height: 50px;
+  }
+  .hero {
+    padding: 30px 5px;
+    border-radius: 8px;
+  }
+  button, .btn-pro {
+    width: 100%;
+  }
+  ul li {
+    font-size: 0.95em;
+  }
+  /* Recuadros generales y tarjetas */
+  [style*="max-width:1920px"],
+  [style*="max-width:1600px"],
+  [style*="max-width:1200px"],
+  [style*="min-width:1200px"],
+  [style*="min-width:900px"],
+  [style*="min-width:600px"] {
+    max-width: 98vw !important;
+    min-width: 0 !important;
+    padding: 18px 4vw !important;
+    border-radius: 10px !important;
+  }
+  [style*="flex-direction:row"] {
+    flex-direction: column !important;
+    gap: 24px !important;
+    align-items: stretch !important;
+  }
+  [style*="flex:1;min-width:320px"],
+  [style*="flex:1;min-width:260px"],
+  [style*="flex:1;min-width:220px"] {
+    min-width: 0 !important;
+    max-width: 100vw !important;
+    padding: 16px 2vw !important;
+  }
+}
+@media (max-width: 1100px) {
+  [style*="max-width:1920px"],
+  [style*="max-width:1600px"],
+  [style*="max-width:1200px"],
+  [style*="min-width:1200px"],
+  [style*="min-width:900px"],
+  [style*="min-width:600px"] {
+    max-width: 98vw !important;
+    min-width: 0 !important;
+    padding: 24px 3vw !important;
+    border-radius: 14px !important;
+  }
+  [style*="flex-direction:row"] {
+    flex-direction: column !important;
+    gap: 32px !important;
+    align-items: stretch !important;
+  }
+  [style*="flex:1;min-width:320px"],
+  [style*="flex:1;min-width:260px"],
+  [style*="flex:1;min-width:220px"] {
+    min-width: 0 !important;
+    max-width: 100vw !important;
+    padding: 18px 2vw !important;
+  }
+}
