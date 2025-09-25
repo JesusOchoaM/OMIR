@@ -340,27 +340,33 @@ body.dark-mode .logo-container.sobre-contorno {
 
 /* --- FIN REGLAS DE ENCABEZADO --- */
 
+/* Responsive: tablets y laptops pequeñas */
+@media (max-width: 992px) {
+  .main-container { padding-top: 60px; }
+  .logo { height: 68px; }
+  .nav.sobre-contorno { gap: 20px; padding: 8px 20px; }
+}
+
+/* Responsive: tablets vertical y móviles grandes */
+@media (max-width: 768px) {
+  .main-container { padding-top: 66px; }
+  .logo { height: 56px; }
+  .nav.sobre-contorno { gap: 16px; padding: 6px 16px; }
+  .nav a { margin: 0 10px; font-size: 0.95em; }
+}
+
 /* 📱 Responsive para móviles */
 @media (max-width: 600px) {
-  .header .container {
-    flex-direction: column;
-    gap: 30px;
-  }
+  /* Asegura espacio suficiente entre los elementos fijos del header y el menú */
+  .main-container { padding-top: 72px; }
 
-  .logo {
-    height: 50px;
-  }
+  /* Menú más compacto en pantallas pequeñas */
+  .nav.sobre-contorno { gap: 14px; padding: 6px 14px; border-radius: 10px; }
+  .nav a { margin: 0 10px; font-size: 0.95em; }
 
-  .hero-main-box {
-    padding: 30px 15px;
-  }
+  .logo { height: 48px; }
+  .hero-main-box { padding: 30px 15px; }
 
-  button,
-  .btn-pro {
-    width: 100%;
-  }
-
-  ul li {
-    font-size: 0.95em;
-  }
+  button, .btn-pro { width: 100%; }
+  ul li { font-size: 0.95em; }
 }
