@@ -1,25 +1,21 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <!-- 🧱 Configuración básica -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OMIR - Innovación en Reparación</title>
-  <meta name="description" content="Servicios profesionales de reparación, pintura, fontanería y electricidad en El Salvador.">
+  <meta name="description"
+    content="Servicios profesionales de reparación, pintura, fontanería y electricidad en El Salvador.">
 
-  <!-- 🔤 Fuente exclusiva para OMIR -->
   <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
 
-  <!-- 🎨 Estilos -->
   <link rel="stylesheet" href="style.css">
 
-  <!-- 💎 Recuadros destacados -->
   <link rel="stylesheet" href="recuadro-extra.css">
 
-  <!-- ✨ Animaciones AOS -->
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-  <!-- 🎯 Estilo personalizado para OMIR -->
   <style>
     .omir {
       font-family: 'Alfa Slab One', serif;
@@ -27,100 +23,13 @@
       color: #004080;
       text-transform: uppercase;
     }
-
-    /* --- Estilos Base y Responsivos --- */
-    /* Contenedores principales */
-    .main-container {
-      background: #f7f9fc;
-      border-radius: 18px;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.10);
-      padding: 18px;
-      max-width: 98vw;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      position: relative;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .header-controls {
-      border: 2px solid #1976d2;
-      border-radius: 16px;
-      padding: 8px;
-      background: #e3eaf5;
-      box-shadow: 0 2px 8px rgba(58,123,213,0.10);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .logo-container {
-      border: 2px solid #1976d2;
-      border-radius: 16px;
-      padding: 10px 24px;
-      background: #fff;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .logo { height: 60px; }
-    .nav-container {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-    }
-    .nav {
-      border: 2px solid #1976d2;
-      border-radius: 20px;
-      padding: 18px 24px;
-      background: #fff;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      width: 100%;
-      max-width: 700px;
-      font-size: 1.2em;
-      font-weight: bold;
-      justify-content: space-around;
-      flex-wrap: wrap;
-    }
-
-    /* Media Queries para Responsividad */
-    @media (min-width: 1024px) {
-      .main-container {
-        flex-wrap: nowrap;
-        padding: 18px 32px;
-        gap: 32px;
-      }
-      .header-controls {
-        position: absolute;
-        top: 12px;
-        right: 12px;
-        z-index: 10;
-        padding: 8px 18px;
-      }
-      .nav {
-        gap: 48px;
-        padding: 22px 64px;
-        font-size: 1.35em;
-        transform: translateX(-60px);
-        justify-content: center;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .omir { font-size: 2.5em; }
-      .hero-icons { display: none; }
-      .nav { gap: 1rem; font-size: 1em; padding: 12px 16px; }
-      .nosotros-flex { flex-direction: column; }
-      #servicios .recuadro-container { min-width: auto; }
-    }
+    
+    /* ⚠️ NOTA: Todos los estilos de .main-container, .header-controls, .logo-container, .nav y sus media queries
+       fueron MOVISTOS a 'recuadro-extra.css' para un control centralizado del modo oscuro. */
   </style>
 </head>
+
 <body>
-  <!-- Selector de idioma y modo oscuro en el header -->
   <script>
     // Traducciones principales
     const translations = {
@@ -142,7 +51,7 @@
         camaras_desc: "Instalamos cámaras WiFi para proteger tu casa con conexión fácil y vigilancia 24/7.",
         sobre: "Sobre OMIR",
         sobre_sub: "Innovando en reparaciones para tu hogar con dedicación familiar.",
-        sobre_text: "OMIR es una empresa pequeña pero poderosa, fundada por la familia Ochoa Melendez. Nos especializamos en servicios de fontanería, pintura, remodelaciones y electricidad básica, incluyendo conexiones de enchufes, interruptores y cámaras de seguridad inalámbricas. Con años de experiencia, traemos innovación a cada reparación para que tu casa esté siempre en perfectas condiciones.",
+        sobre_text: "OMIR es más que una empresa: somos una familia dedicada a cuidar tu hogar. Fundada por los Ochoa Meléndez, nuestra pasión es resolver problemas y embellecer tus espacios. Aunque somos un equipo pequeño, nuestra fuerza radica en la atención al detalle y el compromiso con la calidad. Desde una fuga inesperada hasta la renovación de tus sueños, estamos aquí para ayudarte. Conectamos, reparamos y creamos con la misma dedicación que pondríamos en nuestra propia casa. Porque para nosotros, cada proyecto es personal.",
         equipo: "Equipo familiar dedicado",
         experiencia: "Más de 10 años de experiencia",
         elegirnos: "¿Por qué elegirnos?",
@@ -199,7 +108,7 @@
       document.querySelector('.subtitulo').textContent = t.subtitulo;
       document.querySelector('#inicio p:not(.subtitulo)').textContent = t.portada;
       document.querySelector('.btn-pro').textContent = t.presupuesto;
-      
+
       // Servicios
       document.querySelector('#servicios h2').textContent = t.servicios;
       document.querySelector('.servicio-card.fontaneria strong').textContent = t.fontaneria;
@@ -218,13 +127,13 @@
       document.querySelector('#nosotros .sobre-subtitulo').textContent = t.sobre_sub;
       document.querySelector('#nosotros div > div > p').textContent = t.sobre_text;
       const sobreList = document.querySelectorAll('#nosotros ul li');
-      if(sobreList.length >= 2) {
+      if (sobreList.length >= 2) {
         sobreList[0].innerHTML = '<span style="font-size:1.5em;display:block;">&#128100;</span>' + t.equipo;
         sobreList[1].innerHTML = '<span style="font-size:1.5em;display:block;">&#127942;</span>' + t.experiencia;
       }
       document.querySelector('#nosotros h3').textContent = t.elegirnos;
       const elegirList = document.querySelectorAll('#nosotros h3 + ul li');
-      if(elegirList.length >= 4) {
+      if (elegirList.length >= 4) {
         elegirList[0].textContent = t.elegirnos1;
         elegirList[1].textContent = t.elegirnos2;
         elegirList[2].textContent = t.elegirnos3;
@@ -236,14 +145,14 @@
       document.querySelector('.contacto-facebook strong').textContent = t.facebook;
       document.querySelector('.contacto-instagram strong').textContent = t.instagram;
       document.querySelector('button[type="submit"]').textContent = t.enviar;
-      
+
       // Actualizar placeholders y textos iniciales
       document.getElementById('name').placeholder = lang === 'es' ? 'Tu nombre' : 'Your name';
       document.getElementById('email').placeholder = lang === 'es' ? 'Tu email' : 'Your email';
       document.getElementById('message').placeholder = lang === 'es' ? 'Tu mensaje (por ejemplo, qué servicio necesitas)' : 'Your message (e.g., what service you need)';
     }
 
-    document.getElementById('langSelector').addEventListener('change', function(e) {
+    document.getElementById('langSelector').addEventListener('change', function (e) {
       setLanguage(e.target.value);
     });
     // Inicializar idioma español
@@ -251,21 +160,14 @@
   </script>
 
 
-  <!-- 🧭 Encabezado con logo dinámico y navegación -->
   <header class="header" data-aos="fade-down">
     <div class="main-container">
-      <div class="header-controls sobre-contorno">
-        <div style="background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,64,128,0.10);padding:6px 10px;display:flex;align-items:center;gap:8px;">
-          <select id="langSelector" style="padding:6px 12px;border-radius:8px;font-weight:bold;font-size:1em;border:2px solid #1976d2;background:#fff;">
-            <option value="es">Español</option>
-            <option value="en">English</option>
-          </select>
-        </div>
-        <div style="background:#1565c0;border-radius:10px;box-shadow:0 2px 8px rgba(0,64,128,0.10);padding:6px 10px;display:flex;align-items:center;gap:8px;">
-          <button class="dark-toggle" aria-label="Activar modo oscuro" style="font-size:1.3em;padding:6px 12px;border-radius:8px;background:transparent;color:#fff;border:none;cursor:pointer;">🌙</button>
+      <div class="header-controls sobre-contorno" style="position:absolute;top:12px;left:12px;z-index:10;display:flex;align-items:center;gap:8px;">
+                <div class="dark-toggle-box">
+          <button class="dark-toggle" aria-label="Activar modo oscuro">🌙</button>
         </div>
       </div>
-      <div class="logo-container sobre-contorno">
+      <div class="logo-container sobre-contorno" style="position:absolute;top:12px;right:12px;z-index:10;">
         <img src="images/logo2.png" alt="Logo OMIR" class="logo" id="logo">
       </div>
       <div class="nav-container">
@@ -280,39 +182,35 @@
   </header>
 
   <main>
-    <!-- 🎯 Portada -->
     <section id="inicio" class="hero container" data-aos="fade-up">
-      <div class="sobre-contorno hero-main-box">
+      <div class="sobre-contorno hero-main-box recuadro">
         <div class="hero-content">
-          <!-- Íconos decorativos a la izquierda -->
           <div class="hero-icons">
-              <svg width="64" height="64" viewBox="0 0 64 64" fill="none" style="opacity:0.13;">
-              <rect x="6" y="18" width="36" height="10" rx="5" fill="#1565c0"/>
-              <rect x="42" y="22" width="10" height="32" rx="5" fill="#90caf9"/>
-              <rect x="52" y="54" width="8" height="10" rx="4" fill="#1565c0"/>
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" style="opacity:0.13;">
+              <rect x="6" y="18" width="36" height="10" rx="5" fill="#1565c0" />
+              <rect x="42" y="22" width="10" height="32" rx="5" fill="#90caf9" />
+              <rect x="52" y="54" width="8" height="10" rx="4" fill="#1565c0" />
             </svg>
             <svg width="64" height="64" viewBox="0 0 64 64" fill="none" style="opacity:0.35;">
-              <rect x="28" y="24" width="12" height="32" rx="6" fill="#8d6e63"/>
-              <rect x="28" y="56" width="12" height="12" rx="6" fill="#ffd54f"/>
+              <rect x="28" y="24" width="12" height="32" rx="6" fill="#8d6e63" />
+              <rect x="28" y="56" width="12" height="12" rx="6" fill="#ffd54f" />
             </svg>
           </div>
-          <!-- Texto OMIR -->
           <h1 style="position:relative;z-index:1;margin:0 16px;"><span class="omir">OMIR</span></h1>
-          <!-- Íconos decorativos a la derecha -->
           <div class="hero-icons">
             <svg width="64" height="64" viewBox="0 0 64 64" fill="none" style="opacity:0.35;">
-              <rect x="12" y="24" width="40" height="12" rx="6" fill="#607d8b"/>
-              <rect x="52" y="18" width="12" height="24" rx="6" fill="#b0bec5"/>
+              <rect x="12" y="24" width="40" height="12" rx="6" fill="#607d8b" />
+              <rect x="52" y="18" width="12" height="24" rx="6" fill="#b0bec5" />
             </svg>
             <svg width="64" height="64" viewBox="0 0 64 64" fill="none" style="opacity:0.35;">
-              <ellipse cx="32" cy="24" rx="20" ry="12" fill="#263238"/>
-              <rect x="20" y="44" width="24" height="8" rx="4" fill="#90caf9"/>
-              <circle cx="32" cy="24" r="6" fill="#90caf9"/>
+              <ellipse cx="32" cy="24" rx="20" ry="12" fill="#263238" />
+              <rect x="20" y="44" width="24" height="8" rx="4" fill="#90caf9" />
+              <circle cx="32" cy="24" r="6" fill="#90caf9" />
             </svg>
             <svg width="64" height="64" viewBox="0 0 64 64" fill="none" style="opacity:0.35;">
-              <rect x="16" y="24" width="32" height="28" rx="7" fill="#fffde7" stroke="#1565c0" stroke-width="2"/>
-              <rect x="24" y="36" width="6" height="16" rx="3" fill="#1565c0"/>
-              <rect x="38" y="36" width="6" height="16" rx="3" fill="#1565c0"/>
+              <rect x="16" y="24" width="32" height="28" rx="7" fill="#fffde7" stroke="#1565c0" stroke-width="2" />
+              <rect x="24" y="36" width="6" height="16" rx="3" fill="#1565c0" />
+              <rect x="38" y="36" width="6" height="16" rx="3" fill="#1565c0" />
             </svg>
           </div>
         </div>
@@ -322,74 +220,101 @@
       </div>
     </section>
 
-    <!-- 🛠️ Servicios -->
     <section id="servicios" class="container servicios" data-aos="zoom-in">
       <div class="recuadro recuadro-container section-box">
         <h2>Nuestros Servicios</h2>
         <div class="servicios-grid">
           <div class="recuadro servicio-card fontaneria">
-            <span style="background:#e3f2fd;border-radius:8px;padding:10px;display:inline-block;"><svg width="28" height="28" fill="none"><path d="M14 3a7 7 0 0 1 7 7c0 2.5-1.5 4.7-3.7 5.7v2.3h2.2a2.5 2.5 0 0 1 2.5 2.5v2.5a2.5 2.5 0 0 1-2.5 2.5H8.5A2.5 2.5 0 0 1 6 23v-2.5a2.5 2.5 0 0 1 2.5-2.5h2.2v-2.3A7 7 0 0 1 7 10a7 7 0 0 1 7-7zm0 2a5 5 0 0 0-5 5c0 2.1 1.3 4 3.2 4.7a1 1 0 0 1 .8 1v3.3a1 1 0 0 1-1 1H8.5a.5.5 0 0 0-.5.5V23c0 .3.2.5.5.5h11c.3 0 .5-.2.5-.5v-2.5a.5.5 0 0 0-.5-.5h-3.5a1 1 0 0 1-1-1v-3.3a1 1 0 0 1 .8-1A5 5 0 0 0 19 10a5 5 0 0 0-5-5z" fill="#2196f3"/></svg></span>
+            <span style="background:#f1f2f3;border-radius:8px;padding:10px;display:inline-block;"><svg width="28"
+                height="28" fill="none">
+                <path
+                  d="M14 3a7 7 0 0 1 7 7c0 2.5-1.5 4.7-3.7 5.7v2.3h2.2a2.5 2.5 0 0 1 2.5 2.5v2.5a2.5 2.5 0 0 1-2.5 2.5H8.5A2.5 2.5 0 0 1 6 23v-2.5a2.5 2.5 0 0 1 2.5-2.5h2.2v-2.3A7 7 0 0 1 7 10a7 7 0 0 1 7-7zm0 2a5 5 0 0 0-5 5c0 2.1 1.3 4 3.2 4.7a1 1 0 0 1 .8 1v3.3a1 1 0 0 1-1 1H8.5a.5.5 0 0 0-.5.5V23c0 .3.2.5.5.5h11c.3 0 .5-.2.5-.5v-2.5a.5.5 0 0 0-.5-.5h-3.5a1 1 0 0 1-1-1v-3.3a1 1 0 0 1 .8-1A5 5 0 0 0 19 10a5 5 0 0 0-5-5z"
+                  fill="#2196f3" />
+              </svg></span>
             <strong style="font-size:1.15em;">Fontanería</strong>
-            <span class="servicio-desc" style="color:#222;font-size:1em;">Reparamos fugas, instalamos tuberías y arreglamos todo lo que gotea en tu hogar.</span>
+            <span class="servicio-desc" style="color:#222;font-size:1em;">Reparamos fugas, instalamos tuberías y
+              arreglamos todo lo que gotea en tu hogar.</span>
           </div>
           <div class="recuadro servicio-card pintura">
-            <span style="background:#e3f2fd;border-radius:8px;padding:10px;display:inline-block;"><svg width="28" height="28" fill="none"><path d="M14 3c-2.8 0-5 2.2-5 5 0 2.1 1.3 4 3.2 4.7a1 1 0 0 1 .8 1v3.3a1 1 0 0 1-1 1H8.5a.5.5 0 0 0-.5.5V23c0 .3.2.5.5.5h11c.3 0 .5-.2.5-.5v-2.5a.5.5 0 0 0-.5-.5h-3.5a1 1 0 0 1-1-1v-3.3a1 1 0 0 1 .8-1A5 5 0 0 0 19 10a5 5 0 0 0-5-5z" fill="#2196f3"/></svg></span>
+            <span style="background:#e3f2fd;border-radius:8px;padding:10px;display:inline-block;"><svg width="28"
+                height="28" fill="none">
+                <path
+                  d="M14 3c-2.8 0-5 2.2-5 5 0 2.1 1.3 4 3.2 4.7a1 1 0 0 1 .8 1v3.3a1 1 0 0 1-1 1H8.5a.5.5 0 0 0-.5.5V23c0 .3.2.5.5.5h11c.3 0 .5-.2.5-.5v-2.5a.5.5 0 0 0-.5-.5h-3.5a1 1 0 0 1-1-1v-3.3a1 1 0 0 1 .8-1A5 5 0 0 0 19 10a5 5 0 0 0-5-5z"
+                  fill="#2196f3" />
+              </svg></span>
             <strong style="font-size:1.15em;">Pintura</strong>
-            <span class="servicio-desc" style="color:#222;font-size:1em;">Pintamos interiores y exteriores con colores duraderos y acabados impecables.</span>
+            <span class="servicio-desc" style="color:#222;font-size:1em;">Pintamos interiores y exteriores con colores
+              duraderos y acabados impecables.</span>
           </div>
           <div class="recuadro servicio-card remodelacion">
-            <span style="background:#e3f2fd;border-radius:8px;padding:10px;display:inline-block;"><svg width="28" height="28" fill="none"><path d="M14 3c-2.8 0-5 2.2-5 5 0 2.1 1.3 4 3.2 4.7a1 1 0 0 1 .8 1v3.3a1 1 0 0 1-1 1H8.5a.5.5 0 0 0-.5.5V23c0 .3.2.5.5.5h11c.3 0 .5-.2.5-.5v-2.5a.5.5 0 0 0-.5-.5h-3.5a1 1 0 0 1-1-1v-3.3a1 1 0 0 1 .8-1A5 5 0 0 0 19 10a5 5 0 0 0-5-5z" fill="#2196f3"/></svg></span>
+            <span style="background:#e3f2fd;border-radius:8px;padding:10px;display:inline-block;"><svg width="28"
+                height="28" fill="none">
+                <path
+                  d="M14 3c-2.8 0-5 2.2-5 5 0 2.1 1.3 4 3.2 4.7a1 1 0 0 1 .8 1v3.3a1 1 0 0 1-1 1H8.5a.5.5 0 0 0-.5.5V23c0 .3.2.5.5.5h11c.3 0 .5-.2.5-.5v-2.5a.5.5 0 0 0-.5-.5h-3.5a1 1 0 0 1-1-1v-3.3a1 1 0 0 1 .8-1A5 5 0 0 0 19 10a5 5 0 0 0-5-5z"
+                  fill="#2196f3" />
+              </svg></span>
             <strong style="font-size:1.15em;">Remodelación</strong>
-            <span class="servicio-desc" style="color:#222;font-size:1em;">Transformamos espacios con renovaciones completas, desde cocinas hasta baños.</span>
+            <span class="servicio-desc" style="color:#222;font-size:1em;">Transformamos espacios con renovaciones
+              completas, desde cocinas hasta baños.</span>
           </div>
           <div class="recuadro servicio-card electricidad">
-            <span style="background:#e3f2fd;border-radius:8px;padding:10px;display:inline-block;"><svg width="28" height="28" fill="none"><path d="M14 3c-2.8 0-5 2.2-5 5 0 2.1 1.3 4 3.2 4.7a1 1 0 0 1 .8 1v3.3a1 1 0 0 1-1 1H8.5a.5.5 0 0 0-.5.5V23c0 .3.2.5.5.5h11c.3 0 .5-.2.5-.5v-2.5a.5.5 0 0 0-.5-.5h-3.5a1 1 0 0 1-1-1v-3.3a1 1 0 0 1 .8-1A5 5 0 0 0 19 10a5 5 0 0 0-5-5z" fill="#2196f3"/></svg></span>
+            <span style="background:#e3f2fd;border-radius:8px;padding:10px;display:inline-block;"><svg width="28"
+                height="28" fill="none">
+                <path
+                  d="M14 3c-2.8 0-5 2.2-5 5 0 2.1 1.3 4 3.2 4.7a1 1 0 0 1 .8 1v3.3a1 1 0 0 1-1 1H8.5a.5.5 0 0 0-.5.5V23c0 .3.2.5.5.5h11c.3 0 .5-.2.5-.5v-2.5a.5.5 0 0 0-.5-.5h-3.5a1 1 0 0 1-1-1v-3.3a1 1 0 0 1 .8-1A5 5 0 0 0 19 10a5 5 0 0 0-5-5z"
+                  fill="#2196f3" />
+              </svg></span>
             <strong style="font-size:1.15em;">Electricidad Básica</strong>
-            <span class="servicio-desc" style="color:#222;font-size:1em;">Conectamos enchufes, interruptores y circuitos seguros para tu día a día.</span>
+            <span class="servicio-desc" style="color:#222;font-size:1em;">Conectamos enchufes, interruptores y circuitos
+              seguros para tu día a día.</span>
           </div>
           <div class="recuadro servicio-card camaras">
-            <span style="background:#e3f2fd;border-radius:8px;padding:10px;display:inline-block;"><svg width="28" height="28" fill="none"><path d="M14 3c-2.8 0-5 2.2-5 5 0 2.1 1.3 4 3.2 4.7a1 1 0 0 1 .8 1v3.3a1 1 0 0 1-1 1H8.5a.5.5 0 0 0-.5.5V23c0 .3.2.5.5.5h11c.3 0 .5-.2.5-.5v-2.5a.5.5 0 0 0-.5-.5h-3.5a1 1 0 0 1-1-1v-3.3a1 1 0 0 1 .8-1A5 5 0 0 0 19 10a5 5 0 0 0-5-5z" fill="#2196f3"/></svg></span>
+            <span style="background:#e3f2fd;border-radius:8px;padding:10px;display:inline-block;"><svg width="28"
+                height="28" fill="none">
+                <path
+                  d="M14 3c-2.8 0-5 2.2-5 5 0 2.1 1.3 4 3.2 4.7a1 1 0 0 1 .8 1v3.3a1 1 0 0 1-1 1H8.5a.5.5 0 0 0-.5.5V23c0 .3.2.5.5.5h11c.3 0 .5-.2.5-.5v-2.5a.5.5 0 0 0-.5-.5h-3.5a1 1 0 0 1-1-1v-3.3a1 1 0 0 1 .8-1A5 5 0 0 0 19 10a5 5 0 0 0-5-5z"
+                  fill="#2196f3" />
+              </svg></span>
             <strong style="font-size:1.15em;">Cámaras de Seguridad</strong>
-            <span class="servicio-desc" style="color:#222;font-size:1em;">Instalamos cámaras WiFi para proteger tu casa con conexión fácil y vigilancia 24/7.</span>
+            <span class="servicio-desc" style="color:#222;font-size:1em;">Instalamos cámaras WiFi para proteger tu casa
+              con conexión fácil y vigilancia 24/7.</span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 👨‍🔧 Nosotros -->
     <section id="nosotros" class="container" data-aos="fade-right">
-    <div class="sobre-contorno section-box">
-      <h2>Sobre OMIR</h2>      
-      <p class="sobre-subtitulo">Innovando en reparaciones para tu hogar con dedicación familiar.</p>
-      <div class="nosotros-flex">
-      <div class="sobre-central">
-        <p>OMIR es una empresa pequeña pero poderosa, fundada por la familia Ochoa Melendez. Nos especializamos en servicios de fontanería, pintura, remodelaciones y electricidad básica, incluyendo conexiones de enchufes, interruptores y cámaras de seguridad inalámbricas. Con años de experiencia, traemos innovación a cada reparación para que tu casa esté siempre en perfectas condiciones.</p>
-        <ul>
-          <li>
-            <span>&#128100;</span>
-            <span>Equipo familiar dedicado</span>
-          </li>
-          <li>
-            <span>&#127942;</span>
-            <span>Más de 10 años de experiencia</span>
-          </li>
-        </ul>
-      </div>
-      <div class="recuadro elegir-nos-box">
-        <h3>¿Por qué elegirnos?</h3>
-        <ul class="elegir-list">
-          <li><span class="elegir-text">Precios justos y transparentes</span></li>
-          <li><span class="elegir-text">Llegamos rápido a tu puerta</span></li>
-          <li><span class="elegir-text">Garantía en todos los trabajos</span></li>
-          <li><span class="elegir-text">Atención personalizada</span></li>
-        </ul>
-      </div>
-    </div>
+      <div class="sobre-contorno section-box">
+        <h2>Sobre OMIR</h2>
+        <p class="sobre-subtitulo">Innovando en reparaciones para tu hogar con dedicación familiar.</p>
+        <div class="nosotros-flex">
+          <div class="sobre-central">
+            <p>OMIR es más que una empresa: somos una familia dedicada a cuidar tu hogar. Fundada por los Ochoa Meléndez, nuestra pasión es resolver problemas y embellecer tus espacios. Aunque somos un equipo pequeño, nuestra fuerza radica en la atención al detalle y el compromiso con la calidad. Desde una fuga inesperada hasta la renovación de tus sueños, estamos aquí para ayudarte. Conectamos, reparamos y creamos con la misma dedicación que pondríamos en nuestra propia casa. Porque para nosotros, cada proyecto es personal.</p>
+            <ul class="sobre-items-list">
+              <li>
+                <span>&#128100;</span>
+                <span>Equipo familiar dedicado</span>
+              </li>
+              <li>
+                <span>&#127942;</span>
+                <span>Más de 10 años de experiencia</span>
+              </li>
+            </ul>
+          </div>
+          <div class="elegir-nos-box">
+            <h3>¿Por qué elegirnos?</h3>
+            <ul class="elegir-list">
+              <li><span class="elegir-text">Precios justos y transparentes</span></li>
+              <li><span class="elegir-text">Llegamos rápido a tu puerta</span></li>
+              <li><span class="elegir-text">Garantía en todos los trabajos</span></li>
+              <li><span class="elegir-text">Atención personalizada</span></li>
+            </ul>
+          </div>
+        </div>
     </section>
 
-    <!-- 📬 Contacto -->
     <section id="contacto" class="container contacto" data-aos="fade-up">
-  <div class="sobre-contorno section-box contacto-box">
+      <div class="sobre-contorno section-box contacto-box">
         <h2>Contacto</h2>
         <div class="contacto-flex-container">
           <div class="contacto-info">
@@ -397,21 +322,38 @@
               <span style="font-size:1.5em;color:#1565c0;">&#128231;</span>
               <div class="contacto-text">
                 <strong>Envíanos un email</strong><br>
-                <a href="mailto:servicios.ochoamelendez.sv@gmail.com" style="color:#1565c0;text-decoration:underline;word-break:break-all;">servicios.ochoamelendez.sv@gmail.com</a>
+                <a href="mailto:servicios.ochoamelendez.sv@gmail.com"
+                  style="color:#1565c0;text-decoration:underline;word-break:break-all;">servicios.ochoamelendez.sv@gmail.com</a>
               </div>
             </div>
-            <a href="https://www.facebook.com/share/17UJfcjMf5/" target="_blank" class="contacto-facebook contacto-card-item">
+            <a href="https://www.facebook.com/share/17UJfcjMf5/" target="_blank"
+              class="contacto-facebook contacto-card-item">
               <span style="width:32px;height:32px;display:inline-block;">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"><circle cx="16" cy="16" r="16" fill="#1565c0"/><path d="M21.5 16h-3v8h-3v-8h-2v-2.5h2v-1.5c0-2.1 1.1-3.5 3.5-3.5h2v2.5h-2c-0.6 0-1 0.2-1 1v1h3l-0.5 2.5z" fill="#fff"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+                  <circle cx="16" cy="16" r="16" fill="#1565c0" />
+                  <path
+                    d="M21.5 16h-3v8h-3v-8h-2v-2.5h2v-1.5c0-2.1 1.1-3.5 3.5-3.5h2v2.5h-2c-0.6 0-1 0.2-1 1v1h3l-0.5 2.5z"
+                    fill="#fff" />
+                </svg>
               </span>
               <div class="contacto-text">
                 <strong>Síguenos en Facebook</strong><br>
                 Ochoa Melendez Omir
               </div>
             </a>
-            <a href="https://www.instagram.com/ochoam_reparacion?igsh=N3Q0ZHY4czR2eDIz" target="_blank" class="contacto-instagram contacto-card-item">
+            <a href="https://www.instagram.com/ochoam_reparacion?igsh=N3Q0ZHY4czR2eDIz" target="_blank"
+              class="contacto-instagram contacto-card-item">
               <span style="width:32px;height:32px;display:inline-block;">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"><radialGradient id="ig" cx="16" cy="16" r="16" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#fdc468"/><stop offset="100%" stop-color="#d81b60"/></radialGradient><circle cx="16" cy="16" r="16" fill="url(#ig)"/><rect x="9" y="9" width="14" height="14" rx="4" fill="#fff"/><circle cx="16" cy="16" r="4" fill="#d81b60"/><circle cx="21" cy="11" r="1.2" fill="#fdc468"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+                  <radialGradient id="ig" cx="16" cy="16" r="16" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#fdc468" />
+                    <stop offset="100%" stop-color="#d81b60" />
+                  </radialGradient>
+                  <circle cx="16" cy="16" r="16" fill="url(#ig)" />
+                  <rect x="9" y="9" width="14" height="14" rx="4" fill="#fff" />
+                  <circle cx="16" cy="16" r="4" fill="#d81b60" />
+                  <circle cx="21" cy="11" r="1.2" fill="#fdc468" />
+                </svg>
               </span>
               <div class="contacto-text">
                 <strong>Síguenos en Instagram</strong><br>
@@ -423,23 +365,22 @@
             <form id="contactForm" aria-label="Formulario de contacto">
               <input type="text" name="name" id="name" placeholder="Tu nombre" required>
               <input type="email" name="email" id="email" placeholder="Tu email" required>
-              <textarea name="message" id="message" rows="4" placeholder="Tu mensaje (por ejemplo, qué servicio necesitas)" required></textarea>
+              <textarea name="message" id="message" rows="4"
+                placeholder="Tu mensaje (por ejemplo, qué servicio necesitas)" required></textarea>
               <button type="submit" class="btn-pro" style="width:100%;margin-top:10px;">Enviar Mensaje</button>
             </form>
             <div id="formResult" style="display:none; font-weight:bold; margin-top:15px;"></div>
           </div>
-      </div>
+        </div>
     </section>
   </main>
 
-  <!-- 📍 Pie de página -->
   <footer class="footer" data-aos="fade-up">
     <div class="container">
       <p>&copy; 2025 OMIR - Ochoa Meléndez Innovación en Reparación</p>
     </div>
   </footer>
 
-  <!-- 📦 Scripts -->
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
     // Inicialización de AOS y modo oscuro
@@ -457,4 +398,5 @@
   </script>
   <script src="script.js"></script>
 </body>
+
 </html>

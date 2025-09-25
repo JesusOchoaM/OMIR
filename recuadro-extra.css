@@ -1,22 +1,50 @@
 /* Fondo adecuado para el bloque selector de idioma/mode */
 .header-controls.sobre-contorno {
-    background: #e3eaf5 !important;
+    background: #8faee1 !important;
 }
+
+/* Fondo para el contenedor del logo */
+.logo-container.sobre-contorno {
+    background: #44608d !important;
+}
+
 body.dark-mode .header-controls.sobre-contorno {
-    background: #232a3a !important;
+    /* Fondo oscuro para el contenedor del idioma/toggle */
+    background: #364b7b !important;
+    border-color: #ffcc00 !important; 
 }
+
 body.dark-mode .sobre-contorno:hover,
 body.dark-mode .nav.sobre-contorno:hover {
     border-color: #ffcc00 !important;
-    box-shadow: 0 16px 40px rgba(255,204,0,0.18) !important;
+    box-shadow: 0 16px 40px rgba(255, 204, 0, 0.18) !important;
 }
+
+body.dark-mode .logo-container.sobre-contorno {
+    /* Fondo oscuro para el logo */
+    background: #232a3a !important;
+    box-shadow: 0 16px 40px rgba(255, 204, 0, 0.18) !important;
+    border-color: #ffcc00 !important; 
+}
+
 /* Modo oscuro para el bloque de navegación centrado */
 body.dark-mode .nav.sobre-contorno {
-    background: #232a3a !important;
-    border: 2px solid #90caf9 !important;
-    color: #fff !important;
-    box-shadow: 0 4px 24px rgba(144,202,249,0.18) !important;
+    /* Fondo oscuro para el menú de navegación */
+    background: #171c28 !important;
+    border: 2px solid #ffcc00 !important; 
+    color: #4974d1 !important;
+    box-shadow: 0 4px 24px rgba(121, 172, 214, 0.18) !important;
 }
+
+/* --- Regla clave: para adaptar el div interno del select (el que se veía blanco) --- */
+body.dark-mode .header-controls.sobre-contorno > div {
+    /* Fondo para el div que contiene el select y el toggle, asegurando que no sea blanco */
+    background: #232a3a !important;
+    border-radius: 8px; /* Pequeño ajuste visual */
+}
+/* Fin Regla clave */
+
+
 /* Lista especial para '¿Por qué elegirnos?' */
 .elegir-list {
     width: 100%;
@@ -25,24 +53,19 @@ body.dark-mode .nav.sobre-contorno {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background: none;
+    box-shadow: none;
 }
+
 .elegir-list li {
-    background: #fff;
-    color: #222;
     font-family: 'Alfa Slab One', 'Changa', Arial, sans-serif;
     font-size: 1.08em;
     font-weight: bold;
     text-align: center;
-    padding: 22px 32px;
-    margin: 14px 0;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(25,118,210,0.10);
-    border: 2px solid #1976d2;
-    min-width: 260px;
-    max-width: 540px;
-    width: 95%;
+    padding: 8px 0;
     transition: box-shadow 0.3s, border-color 0.3s, background 0.3s;
 }
+
 .elegir-text {
     font-family: 'Changa', Arial, sans-serif;
     font-size: 1.08em;
@@ -52,21 +75,24 @@ body.dark-mode .nav.sobre-contorno {
     display: block;
     text-align: center;
 }
+
 body.dark-mode .elegir-list li {
-    background: #232a3a;
     color: #fff;
-    border: 2px solid #90caf9;
-    box-shadow: 0 2px 8px rgba(144,202,249,0.18);
 }
+
 body.dark-mode .elegir-text {
     color: #fff;
 }
 
 /* 💎 Recuadros destacados para OMIR */
-.recuadro, .card, .servicio-card, .sobre-card, .contacto-card {
+.recuadro,
+.card,
+.servicio-card,
+.sobre-card,
+.contacto-card {
     background: #fff;
     border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(25,118,210,0.10);
+    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.10);
     padding: 16px 24px;
     margin: 24px auto;
     max-width: 900px;
@@ -88,9 +114,9 @@ body.dark-mode .sobre-card,
 body.dark-mode .contacto-card {
     background: #232a3a;
     border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(144,202,249,0.18);
+    box-shadow: 0 2px 8px rgba(144, 202, 249, 0.18);
     border: 2px solid #90caf9;
-    color: #fff;
+    color: #476a92;
     font-weight: 700;
     font-size: 1.15em;
     text-align: center;
@@ -105,40 +131,39 @@ body.dark-mode .card:hover,
 body.dark-mode .servicio-card:hover,
 body.dark-mode .sobre-card:hover,
 body.dark-mode .contacto-card:hover {
-    box-shadow: 0 16px 40px rgba(0,64,128,0.32);
+    box-shadow: 0 16px 40px rgba(0, 64, 128, 0.32);
     border-color: #ffcc00;
 }
 
-.recuadro:hover, .card:hover, .servicio-card:hover, .sobre-card:hover, .contacto-card:hover {
-    box-shadow: 0 12px 32px rgba(58,123,213,0.18);
+.recuadro:hover,
+.card:hover,
+.servicio-card:hover,
+.sobre-card:hover,
+.contacto-card:hover {
+    box-shadow: 0 12px 32px rgba(58, 123, 213, 0.18);
     border-color: #004080;
 }
 
-/* Sobre OMIR */
-.sobre-central {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    margin: 0 auto;
-}
 .sobre-central p {
     text-align: center;
     max-width: 420px;
     margin: 0 auto;
 }
-.sobre-central ul {
+
+.sobre-items-list {
     display: flex;
     gap: 32px;
     padding: 0;
     background: none;
     box-shadow: none;
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
+    /* Para que las tarjetas tengan la misma altura */
     margin: 24px auto 0 auto;
+    flex-wrap: wrap;
 }
-.sobre-central li {
+
+.sobre-items-list li {
     list-style: none;
     text-align: center;
     color: #1565c0;
@@ -146,11 +171,13 @@ body.dark-mode .contacto-card:hover {
     flex-direction: column;
     align-items: center;
 }
-.sobre-central li span:first-child {
+
+.sobre-items-list li span:first-child {
     font-size: 2em;
     display: block;
 }
-.sobre-central li span:last-child {
+
+.sobre-items-list li span:last-child {
     font-size: 1em;
     font-weight: 700;
 }
@@ -169,18 +196,23 @@ body.dark-mode .contacto-card:hover {
     align-items: center;
     justify-content: center;
 }
-.section-box h2, .section-box h3 {
+
+.section-box h2,
+.section-box h3 {
     text-align: center;
 }
+
 .contacto-box {
     background: #f7f9fc;
 }
+
 .servicios-grid {
     display: flex;
     flex-wrap: wrap;
     gap: 32px;
     justify-content: center;
 }
+
 .servicio-card {
     flex: 1 1 280px;
     max-width: 360px;
@@ -190,6 +222,7 @@ body.dark-mode .contacto-card:hover {
     align-items: flex-start;
     text-align: left;
 }
+
 .nosotros-flex {
     display: flex;
     gap: 48px;
@@ -198,7 +231,13 @@ body.dark-mode .contacto-card:hover {
     justify-content: center;
     width: 100%;
 }
-.sobre-central { flex: 2; min-width: 260px; max-width: 400px; }
+
+.sobre-central {
+    flex: 2;
+    min-width: 260px;
+    max-width: 400px;
+}
+
 .elegir-nos-box {
     flex: 1;
     min-width: 320px;
@@ -210,13 +249,82 @@ body.dark-mode .contacto-card:hover {
     justify-content: center;
     padding: 24px 18px;
 }
-.elegir-list { padding: 0; list-style: none; text-align: center; width: 100%; margin: 0 auto; }
-.contacto-flex-container { display: flex; gap: 48px; flex-wrap: wrap; align-items: center; justify-content: center; width: 100%; margin-top: 24px; }
-.contacto-info { flex: 1; min-width: 300px; max-width: 400px; display: flex; flex-direction: column; gap: 24px; }
-.contacto-card-item { background: #fff; border-radius: 12px; padding: 20px 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
-.contacto-text { font-size: 1.1em; }
-.form-container { flex: 1; min-width: 300px; max-width: 500px; background: #fff; border-radius: 12px; padding: 32px 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
 
-body.dark-mode .contacto-box { background: #1a1d24 !important; }
-body.dark-mode .contacto-card-item, body.dark-mode .form-container { background: #232a3a; }
-body.dark-mode .contacto-text a { color: #90caf9 !important; }
+.elegir-list {
+    padding: 0;
+    list-style: none;
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.contacto-flex-container {
+    display: flex;
+    gap: 48px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 24px;
+}
+
+.contacto-info {
+    flex: 1;
+    min-width: 300px;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.contacto-card-item {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px 24px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.contacto-text {
+    font-size: 1.1em;
+}
+
+.form-container {
+    flex: 1;
+    min-width: 300px;
+    max-width: 500px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 32px 28px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+body.dark-mode .contacto-box {
+    background: #1a1d24 !important;
+}
+
+body.dark-mode .contacto-card-item,
+body.dark-mode .form-container {
+    background: #232a3a;
+}
+
+body.dark-mode .contacto-text a {
+    color: #90caf9 !important;
+}
+
+/* --- Correcciones Modo Oscuro --- */
+body.dark-mode .hero-main-box {
+    background: #1a1d24;
+}
+
+body.dark-mode .sobre-items-list {
+    background: transparent !important;
+}
+
+body.dark-mode .elegir-nos-box.recuadro {
+    background: transparent;
+}

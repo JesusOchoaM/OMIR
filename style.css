@@ -8,7 +8,7 @@
 body {
   font-family: 'Changa', Arial, sans-serif;
   margin: 0;
-  background: #f4f4f4;
+  background: #ffffff;
   color: #222;
   transition: background 0.3s ease, color 0.3s ease;
   line-height: 1.6;
@@ -21,6 +21,17 @@ body {
   letter-spacing: 1px;
   color: #004080;
   text-transform: uppercase;
+}
+
+.omir-box {
+  border: 2px solid #1976d2;
+  border-radius: 16px;
+  padding: 10px 24px;
+  background: #b4b4b4;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* 📦 Contenedor principal */
@@ -58,7 +69,7 @@ body {
 .nav a {
   color: #004080;
   text-decoration: none;
-  margin-left: 15px;
+  margin: 0 15px;
   font-weight: 700;
   transition: color 0.3s ease;
 }
@@ -75,12 +86,19 @@ body {
   margin-bottom: 30px;
   width: 100%;
 }
+
 .hero-main-box {
   padding: 48px 32px;
   margin: 40px auto;
   width: 97vw;
-  background: #f7f9fc;
+  background: #5174a7;
 }
+
+.hero-main-box.recuadro {
+  flex-direction: column;
+  max-width: 1200px;
+}
+
 .hero-content {
   width: 100%;
   display: flex;
@@ -88,6 +106,7 @@ body {
   justify-content: center;
   gap: 32px;
 }
+
 .hero-icons {
   display: flex;
   flex-direction: column;
@@ -95,7 +114,9 @@ body {
 }
 
 /* 🏷️ Título principal */
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   margin: 0;
   font-size: 2.8em;
   animation: fadeInUp 1s ease forwards;
@@ -103,17 +124,17 @@ h1, h2, h3 {
 
 /* 📋 Lista de servicios */
 ul {
-  background: white;
+  background: rgb(218, 79, 79);
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   list-style: none;
   width: 100%;
 }
 
 ul li {
   padding: 10px 0;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #f7f7f7;
 }
 
 ul li:last-child {
@@ -121,7 +142,8 @@ ul li:last-child {
 }
 
 /* 📝 Campos de formulario */
-input, textarea {
+input,
+textarea {
   width: 100%;
   padding: 10px;
   margin: 10px 0 16px 0;
@@ -132,7 +154,8 @@ input, textarea {
   transition: border 0.3s ease, background 0.3s ease;
 }
 
-input:focus, textarea:focus {
+input:focus,
+textarea:focus {
   border-color: #004080;
   outline: none;
 }
@@ -147,7 +170,8 @@ input:focus, textarea:focus {
 }
 
 /* 🟦 Botón principal */
-button, .btn-pro {
+button,
+.btn-pro {
   padding: 12px 20px;
   border: none;
   border-radius: 6px;
@@ -160,12 +184,13 @@ button, .btn-pro {
   text-decoration: none;
 }
 
-button:hover, .btn-pro:hover {
+button:hover,
+.btn-pro:hover {
   background: white;
   color: #004080;
   border: none;
   transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* 📍 Pie de página */
@@ -185,6 +210,7 @@ button:hover, .btn-pro:hover {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -204,11 +230,8 @@ body.dark-mode .footer {
 
 body.dark-mode .container,
 body.dark-mode .hero,
-body.dark-mode [style*="background:#f7f9fc"],
-body.dark-mode [style*="background:#fff"] {
-  background-color: #23272f !important;
-  color: #fff !important;
-  box-shadow: 0 4px 32px rgba(0,0,0,0.18) !important;
+body.dark-mode .section-box {
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.18) !important;
 }
 
 body.dark-mode h1,
@@ -223,13 +246,6 @@ body.dark-mode span {
 
 body.dark-mode .nav a {
   color: #ffcc00;
-}
-
-body.dark-mode ul,
-body.dark-mode .hero {
-  background-color: #1e1e1e;
-  color: #e0e0e0;
-  box-shadow: none;
 }
 
 body.dark-mode input,
@@ -257,6 +273,73 @@ body.dark-mode .logo {
   filter: brightness(0.8);
 }
 
+/* --- REGLAS PARA EL ENCABEZADO SUPERIOR (Complemento de recuadro-extra.css) --- */
+
+/* Ajusta el color del texto y el fondo del SELECT de idioma */
+body.dark-mode #langSelector {
+    background: #333 !important;
+    color: #fff !important;
+    border-color: #ffcc00 !important;
+}
+
+/* Ajusta el color del icono de la luna */
+body.dark-mode .dark-toggle {
+    color: #ffcc00 !important;
+}
+
+/* Reglas para centrar la navegación */
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding-top: 56px;
+}
+
+.nav-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 6px;
+}
+
+.nav.sobre-contorno {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 8px 24px;
+  margin: 0 auto;
+  border: 2px solid #1976d2;
+  border-radius: 12px;
+  background: #f7f9fc;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  flex: 0 0 auto;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+/* Cuadro personal del logo */
+.logo-container.sobre-contorno {
+  padding: 6px 8px;
+  border: 2px solid #1976d2;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.10);
+}
+
+/* Ajustes del cuadro del logo en modo oscuro */
+body.dark-mode .logo-container.sobre-contorno {
+  border-color: #ffcc00 !important;
+  box-shadow: 0 2px 8px rgba(144, 202, 249, 0.18);
+}
+
+/* --- FIN REGLAS DE ENCABEZADO --- */
+
 /* 📱 Responsive para móviles */
 @media (max-width: 600px) {
   .header .container {
@@ -267,12 +350,16 @@ body.dark-mode .logo {
   .logo {
     height: 50px;
   }
+
   .hero-main-box {
     padding: 30px 15px;
   }
-  button, .btn-pro {
+
+  button,
+  .btn-pro {
     width: 100%;
   }
+
   ul li {
     font-size: 0.95em;
   }
