@@ -46,6 +46,7 @@ body {
   background: transparent;
   color: #222;
   box-shadow: none;
+  position: relative;
 }
 
 .header .container {
@@ -315,6 +316,9 @@ body.dark-mode .dark-toggle {
   background: #f7f9fc;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   flex: 0 0 auto;
+  flex-wrap: wrap;
+  max-width: 92vw;
+  box-sizing: border-box;
 }
 
 .nav {
@@ -352,7 +356,7 @@ body.dark-mode .logo-container.sobre-contorno {
   .main-container { padding-top: 66px; }
   .logo { height: 56px; }
   .nav.sobre-contorno { gap: 16px; padding: 6px 16px; }
-  .nav a { margin: 0 10px; font-size: 0.95em; }
+  .nav a { margin: 0 10px; font-size: 0.95em; padding: 6px 8px; }
 }
 
 /* 📱 Responsive para móviles */
@@ -362,11 +366,28 @@ body.dark-mode .logo-container.sobre-contorno {
 
   /* Menú más compacto en pantallas pequeñas */
   .nav.sobre-contorno { gap: 14px; padding: 6px 14px; border-radius: 10px; }
-  .nav a { margin: 0 10px; font-size: 0.95em; }
+  .nav a { margin: 0 10px; font-size: 0.95em; padding: 6px 8px; }
 
   .logo { height: 48px; }
   .hero-main-box { padding: 30px 15px; }
 
   button, .btn-pro { width: 100%; }
   ul li { font-size: 0.95em; }
+}
+
+/* Phones (<=576px) */
+@media (max-width: 576px) {
+  .main-container { padding-top: 76px; }
+  .nav.sobre-contorno { max-width: 94vw; gap: 12px; padding: 6px 12px; }
+  .nav a { margin: 0 8px; font-size: 0.9em; padding: 6px 8px; }
+  .logo { height: 42px; }
+  .logo-container.sobre-contorno { padding: 4px 6px; }
+}
+
+/* Small phones (<=400px) */
+@media (max-width: 400px) {
+  .main-container { padding-top: 80px; }
+  .nav.sobre-contorno { max-width: 96vw; gap: 10px; padding: 6px 10px; }
+  .nav a { margin: 0 6px; font-size: 0.85em; padding: 5px 6px; }
+  .logo { height: 38px; }
 }

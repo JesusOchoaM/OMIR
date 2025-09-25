@@ -152,11 +152,15 @@
       document.getElementById('message').placeholder = lang === 'es' ? 'Tu mensaje (por ejemplo, qué servicio necesitas)' : 'Your message (e.g., what service you need)';
     }
 
-    document.getElementById('langSelector').addEventListener('change', function (e) {
-      setLanguage(e.target.value);
+    window.addEventListener('DOMContentLoaded', () => {
+      const langEl = document.getElementById('langSelector');
+      if (langEl) {
+        langEl.addEventListener('change', (e) => setLanguage(e.target.value));
+      }
+      if (typeof setLanguage === 'function') {
+        setLanguage('es');
+      }
     });
-    // Inicializar idioma español
-    setLanguage('es');
   </script>
 
 
