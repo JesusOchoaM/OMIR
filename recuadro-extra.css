@@ -154,3 +154,69 @@ body.dark-mode .contacto-card:hover {
     font-size: 1em;
     font-weight: 700;
 }
+
+/* --- Clases para contenedores de sección --- */
+.section-box {
+    border: 2px solid #1976d2;
+    border-radius: 16px;
+    padding: 32px 18px;
+    margin: 32px auto;
+    max-width: 1600px;
+    width: 95vw;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.section-box h2, .section-box h3 {
+    text-align: center;
+}
+.contacto-box {
+    background: #f7f9fc;
+}
+.servicios-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    justify-content: center;
+}
+.servicio-card {
+    flex: 1 1 280px;
+    max-width: 360px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+    text-align: left;
+}
+.nosotros-flex {
+    display: flex;
+    gap: 48px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+.sobre-central { flex: 2; min-width: 260px; max-width: 400px; }
+.elegir-nos-box {
+    flex: 1;
+    min-width: 320px;
+    max-width: 700px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 18px;
+}
+.elegir-list { padding: 0; list-style: none; text-align: center; width: 100%; margin: 0 auto; }
+.contacto-flex-container { display: flex; gap: 48px; flex-wrap: wrap; align-items: center; justify-content: center; width: 100%; margin-top: 24px; }
+.contacto-info { flex: 1; min-width: 300px; max-width: 400px; display: flex; flex-direction: column; gap: 24px; }
+.contacto-card-item { background: #fff; border-radius: 12px; padding: 20px 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+.contacto-text { font-size: 1.1em; }
+.form-container { flex: 1; min-width: 300px; max-width: 500px; background: #fff; border-radius: 12px; padding: 32px 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+
+body.dark-mode .contacto-box { background: #1a1d24 !important; }
+body.dark-mode .contacto-card-item, body.dark-mode .form-container { background: #232a3a; }
+body.dark-mode .contacto-text a { color: #90caf9 !important; }
