@@ -328,3 +328,37 @@ body.dark-mode .sobre-items-list {
 body.dark-mode .elegir-nos-box.recuadro {
     background: transparent;
 }
+
+/* Mejora de legibilidad para '¿Por qué elegirnos?' */
+.elegir-nos-box h3 {
+    margin-bottom: 10px;
+}
+
+.elegir-list {
+    background: transparent !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    max-width: 520px;
+}
+
+.elegir-list li {
+    /* Evitar líneas heredadas y mejorar lectura */
+    border-bottom: none !important;
+    padding: 10px 0;
+    margin: 2px 0;
+    line-height: 1.35;
+    font-family: 'Changa', Arial, sans-serif;
+    font-weight: 700;
+}
+
+.elegir-text {
+    font-size: 1.05em;
+    letter-spacing: 0.3px;
+}
+
+body.dark-mode .elegir-list li { color: #f5f7fb; }
+
+@media (max-width: 600px) {
+    .elegir-list { max-width: 90vw; }
+    .elegir-text { font-size: 1em; }
+}
