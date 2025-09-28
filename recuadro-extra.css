@@ -362,3 +362,134 @@ body.dark-mode .elegir-list li { color: #f5f7fb; }
     .elegir-list { max-width: 90vw; }
     .elegir-text { font-size: 1em; }
 }
+
+/* --- Estilos para el Chatbot Omi --- */
+#omi-chatbot-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: #004080;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 999;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+#omi-chatbot-icon:hover {
+    transform: scale(1.1);
+}
+
+#omi-chatbot-window {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 350px;
+    max-width: 90vw;
+    height: 500px;
+    max-height: 70vh;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    transition: opacity 0.3s, transform 0.3s;
+    transform-origin: bottom right;
+}
+
+#omi-chatbot-window.hidden {
+    opacity: 0;
+    transform: scale(0.5);
+    pointer-events: none;
+}
+
+#omi-chatbot-header {
+    padding: 12px 16px;
+    background: #f7f9fc;
+    border-bottom: 1px solid #e0e0e0;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #004080;
+}
+
+#omi-chatbot-close {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: #888;
+}
+
+#omi-chatbot-messages {
+    flex-grow: 1;
+    padding: 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.message-wrapper {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    max-width: 90%;
+}
+
+.bot-wrapper { align-self: flex-start; }
+.user-wrapper { align-self: flex-end; flex-direction: row-reverse; }
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #004080;
+}
+
+.omi-message { background: #e3f2fd; color: #111; padding: 10px 14px; border-radius: 16px 16px 16px 0; align-self: flex-start; max-width: 80%; }
+.user-message { background: #004080; color: #fff; padding: 10px 14px; border-radius: 16px 16px 0 16px; align-self: flex-end; max-width: 80%; }
+
+#omi-chatbot-input-container { display: flex; padding: 10px; border-top: 1px solid #e0e0e0; }
+#omi-chatbot-input { flex-grow: 1; border: 1px solid #ccc; border-radius: 6px; padding: 8px; }
+#omi-chatbot-send { margin-left: 8px; }
+
+/* Modo Oscuro para Chatbot */
+body.dark-mode #omi-chatbot-icon { background-color: #ffcc00; color: #121212; }
+body.dark-mode #omi-chatbot-window { background: #232a3a; }
+body.dark-mode #omi-chatbot-header { background: #1a1d24; border-bottom-color: #333; color: #ffcc00; }
+body.dark-mode #omi-chatbot-close { color: #aaa; }
+body.dark-mode .avatar { background: #364b7b; color: #ffcc00; }
+body.dark-mode .user-wrapper .avatar { background: #ffcc00; color: #121212; }
+body.dark-mode .omi-message { background: #364b7b; color: #f0f0f0; }
+body.dark-mode .user-message { background: #ffcc00; color: #121212; }
+body.dark-mode #omi-chatbot-input-container { border-top-color: #333; }
+
+/* --- Adaptación del Chatbot para Dispositivos Móviles --- */
+@media (max-width: 480px) {
+    #omi-chatbot-window {
+        width: 95vw; /* Ocupa más ancho en pantallas pequeñas */
+        max-width: 95vw;
+        height: 85vh; /* Un poco más alto para mejor visibilidad */
+        max-height: 85vh;
+        bottom: 80px; /* Ajuste de posición */
+        right: 2.5vw; /* Centrado con un pequeño margen */
+    }
+
+    #omi-chatbot-icon {
+        width: 55px; /* Ícono ligeramente más pequeño en móviles */
+        height: 55px;
+    }
+}
