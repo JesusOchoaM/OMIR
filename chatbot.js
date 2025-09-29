@@ -21,12 +21,34 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             includesAssistant: true
         },
-        'remodelación': { price: 120, unit: 'metro cuadrado', includesAssistant: true }, // Incluye ayudante
+        'remodelación': {
+            unit: 'metro cuadrado',
+            includesAssistant: true,
+            // Precios base por tipo de remodelación
+            types: {
+                'baño': 250,
+                'cocina': 220,
+                'general': 100
+            }
+        },
         'electricidad': { price: 75, unit: 'día', includesAssistant: true }, // Incluye ayudante
         'cámaras': { price: 170, unit: 'instalación base', includesAssistant: true } // Incluye ayudante
     };
  
-    let awaitingQuantityFor = null; // Para saber qué servicio estamos cotizando
+    let awaitingQuantityFor = null; // Para saber qué servicio estamos cotizando.
+    let awaitingContactInfo = null; // Para guardar el contexto del presupuesto y esperar datos de contacto.
+
+    // --- Abrir automáticamente en la primera visita ---
+    const hasVisited = localStorage.getItem('omiHasVisited');
+    if (!hasVisited) {
+        setTimeout(() => {
+            // Abre el chat solo si no está ya abierto
+            if (chatbotWindow.classList.contains('hidden')) {
+                toggleChatbot();
+            }
+            localStorage.setItem('omiHasVisited', 'true');
+        }, 3000); // Espera 3 segundos antes de abrir
+    }
 
     // --- Funciones del Chatbot ---
 
@@ -124,11 +146,83 @@ document.addEventListener('DOMContentLoaded', () => {
         return bestMatch;
     };
 
-    const giveFinalDisclaimer = () => {
-        addBotMessage("Recuerda que este es un costo aproximado de <strong>mano de obra</strong> y no incluye materiales. Para una cotización final, por favor completa el formulario de contacto. 😊");
+    const giveFinalDisclaimer = (service, total) => {
+        addBotMessage("Recuerda que este es un costo aproximado de <strong>mano de obra</strong> y no incluye materiales.");
+        setTimeout(() => {
+            addBotMessage("Para guardar esta cotización y que un especialista te contacte, por favor, bríndame tu <strong>nombre completo</strong>.");
+            awaitingContactInfo = { stage: 'name', service, total }; // Guardamos el contexto para rellenar el formulario
+        }, 1200);
     };
 
     const processMessage = (text) => {
+        if (awaitingContactInfo) {
+            if (awaitingContactInfo.stage === 'name') {
+                const name = text.trim();
+                if (name) {
+                    addBotMessage(`¡Gracias, ${name}! Ahora, por favor, bríndame tu <strong>correo electrónico</strong>.`);
+                    awaitingContactInfo.stage = 'email';
+                    awaitingContactInfo.name = name;
+                } else {
+                    addBotMessage("Por favor, escribe tu nombre.");
+                }
+            } else if (awaitingContactInfo.stage === 'email') {
+                const email = text.trim();
+                if (email.includes('@') && email.includes('.')) {
+                    addBotMessage("¡Genial! Por último, si deseas, puedes dejarme tu <strong>número de teléfono</strong> para un contacto más rápido. Si no, solo escribe 'no'.");
+                    awaitingContactInfo.stage = 'phone';
+                    awaitingContactInfo.email = email;
+                } else {
+                    addBotMessage("El correo no parece válido. Por favor, asegúrate de que tenga un formato como <strong>ejemplo@correo.com</strong>.");
+                }
+            } else if (awaitingContactInfo.stage === 'phone') {
+                const phone = text.trim();
+                const name = awaitingContactInfo.name;
+                const email = awaitingContactInfo.email;
+
+                // Prepara los datos para la base de datos y el formulario
+                const leadData = {
+                    name: name,
+                    email: email,
+                    phone: (phone.toLowerCase() !== 'no' && phone.length > 5) ? phone : '',
+                    service: awaitingContactInfo.service,
+                    total: awaitingContactInfo.total,
+                    message: `Hola, estoy interesado en un presupuesto para ${awaitingContactInfo.service}. El chatbot Omi me dio un estimado de $${awaitingContactInfo.total.toFixed(2)}. Gracias.`
+                };
+
+                document.getElementById('name').value = name;
+                document.getElementById('email').value = email;
+                if (phone.toLowerCase() !== 'no' && phone.length > 5) {
+                    document.getElementById('phone').value = phone;
+                }
+                // Rellenar campos ocultos de Formspree para mejorar la entrega
+                document.getElementById('formReplyTo').value = email;
+                document.getElementById('formSubject').value = `Nueva consulta de ${name} (vía Chatbot)`;
+
+                document.getElementById('message').value = leadData.message;
+
+                // Envía los datos a la base de datos de Google Sheets
+                // Usamos una función anónima para poder usar async/await y esperar la respuesta
+                (async () => {
+                    try {
+                        // Enviamos los datos y esperamos la confirmación
+                        await fetch('https://script.google.com/macros/s/AKfycbzlO-4dj0w7PY_9w33rHe7tbnfa2_OYt9X1WrgC75CtRZeMhvTdbNQUb_fEWR1Euqmv/exec', {
+                            method: "POST",
+                            body: JSON.stringify(leadData),
+                            headers: { "Content-Type": "text/plain;charset=utf-8" },
+                            mode: 'no-cors' // Mantenemos no-cors para evitar errores de navegador
+                        });
+                        addBotMessage(`¡Listo, ${name}! Tus datos se han guardado. 🎉`);
+                        addBotMessage(`He rellenado el formulario de contacto por ti. Por favor, revísalo y presiona "Enviar Mensaje" para confirmar.`);
+                    } finally {
+                        awaitingContactInfo = null;
+                        document.getElementById('contacto').scrollIntoView({ behavior: 'smooth' });
+                        setTimeout(toggleChatbot, 2000); // Cierra el chat para mostrar el formulario
+                    }
+                })();
+            }
+            return;
+        }
+
         if (awaitingQuantityFor) {
             const serviceName = awaitingQuantityFor;
             const service = services[serviceName];
@@ -139,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (predefinedOption) {
                     const total = service.predefined[predefinedOption];
                     addBotMessage(`El presupuesto de mano de obra para pintar un <strong>${predefinedOption}</strong> es de aproximadamente <strong>$${total.toFixed(2)}</strong>.`);
-                    giveFinalDisclaimer();
+                    giveFinalDisclaimer(`pintura de ${predefinedOption}`, total);
                     return;
                 }
 
@@ -150,17 +244,34 @@ document.addEventListener('DOMContentLoaded', () => {
                     const total = area * service.price;
                     addBotMessage(`Calculando: ${alto}m de alto × ${ancho}m de ancho = <strong>${area.toFixed(2)} m²</strong>.`);
                     addBotMessage(`El presupuesto de mano de obra para pintar esa área es de <strong>$${total.toFixed(2)}</strong>.`);
-                    giveFinalDisclaimer();
+                    giveFinalDisclaimer('pintura', total);
                 } else {
                     addBotMessage("No entendí tu respuesta. Por favor, dime si es para un <strong>cuarto, casa, local</strong> o dame las medidas en formato <strong>alto x ancho</strong> (ej: 3x4).");
                     awaitingQuantityFor = serviceName; // Volver a esperar respuesta para el mismo servicio
                 }
+            } else if (serviceName.startsWith('remodelación-')) {
+                const type = serviceName.split('-')[1];
+                const quantity = parseFloat(text);
+                if (!isNaN(quantity) && quantity > 0) {
+                    const price = service.types[type];
+                    const total = price * quantity;
+                    addBotMessage(`Perfecto. Para ${quantity} m² de remodelación de <strong>${type}</strong>, el presupuesto de mano de obra comienza desde <strong>$${total.toFixed(2)}</strong>.`);
+                    giveFinalDisclaimer(`remodelación de ${type}`, total);
+                } else {
+                    addBotMessage("Por favor, introduce un número válido para los metros cuadrados (ej: 8, 15.5).");
+                    awaitingQuantityFor = serviceName; // Volver a esperar respuesta
+                }
+            } else if (serviceName === 'remodelación') {
+                const type = findBestMatch(text, Object.keys(service.types));
+                addBotMessage(`¡Entendido, remodelación de <strong>${type}</strong>! El costo base de mano de obra es de <strong>$${service.types[type]}/m²</strong>.`);
+                addBotMessage("Ahora, por favor, dime cuántos metros cuadrados tiene el área a remodelar.");
+                awaitingQuantityFor = `remodelación-${type}`; // Espera la cantidad para el tipo específico
             } else {
                 const quantity = parseFloat(text);
                 if (!isNaN(quantity) && quantity > 0) {
                     const total = service.price * quantity;
                     addBotMessage(`Perfecto. Para ${quantity} ${service.unit}(s) de ${serviceName}, el presupuesto de mano de obra es de <strong>$${total.toFixed(2)}</strong>.`);
-                    giveFinalDisclaimer();
+                    giveFinalDisclaimer(serviceName, total);
                 } else {
                     addBotMessage("Por favor, introduce un número válido (ej: 2, 5, 10.5).");
                     awaitingQuantityFor = serviceName; // Volver a esperar respuesta
@@ -177,8 +288,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Caso especial: Cámaras (no necesita cantidad)
             if (selectedService === 'cámaras') {
+                const total = service.price;
                 addBotMessage(`El costo de mano de obra para la <strong>${service.unit}</strong> de cámaras es de <strong>$${service.price.toFixed(2)}</strong>.`);
-                giveFinalDisclaimer();
+                giveFinalDisclaimer(selectedService, total);
                 return;
             }
 
@@ -188,7 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (predefined) {
                     const total = service.predefined[predefined];
                     addBotMessage(`El presupuesto de mano de obra para pintar un <strong>${predefined}</strong> es de aproximadamente <strong>$${total.toFixed(2)}</strong>.`);
-                    giveFinalDisclaimer();
+                    giveFinalDisclaimer(`pintura de ${predefined}`, total);
                     return;
                 }
                 const match = text.match(/(\d+(\.\d+)?)\s*x\s*(\d+(\.\d+)?)/); // Busca "3x4" o "3.5 x 4"
@@ -198,7 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const total = area * service.price;
                     addBotMessage(`Calculando: ${alto}m × ${ancho}m = <strong>${area.toFixed(2)} m²</strong>.`);
                     addBotMessage(`El presupuesto de mano de obra para pintar esa área es de <strong>$${total.toFixed(2)}</strong>.`);
-                    giveFinalDisclaimer();
+                    giveFinalDisclaimer('pintura', total);
                     return;
                 }
             }
@@ -209,7 +321,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const quantity = parseFloat(quantityMatch[0]);
                 const total = service.price * quantity;
                 addBotMessage(`Perfecto. Para ${quantity} ${service.unit}(s) de ${selectedService}, el presupuesto de mano de obra es de <strong>$${total.toFixed(2)}</strong>.`);
-                giveFinalDisclaimer();
+                giveFinalDisclaimer(selectedService, total);
                 return;
             }
 

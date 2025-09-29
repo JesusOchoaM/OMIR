@@ -14,13 +14,11 @@ function validarEmail(email) {
 form.addEventListener('submit', function (e) {
   e.preventDefault(); // Evita el envío tradicional
 
-  // Crea un objeto FormData para enviar los datos del formulario
-  const formData = new FormData(form);
-
   // 🧼 Obtiene y limpia los valores de los campos
   const name = document.getElementById('name').value.trim();
   const email = document.getElementById('email').value.trim();
   const message = document.getElementById('message').value.trim();
+  const phone = document.getElementById('phone').value.trim(); // Añadido para consistencia
 
   // 🔄 Reinicia estilos del resultado
   result.style.opacity = 0;
@@ -29,7 +27,7 @@ form.addEventListener('submit', function (e) {
 
   // ⚠️ Validación: campos vacíos
   if (!name || !email || !message) {
-    result.innerHTML = '⚠️ <strong>Por favor completa todos los campos.</strong>';
+    result.innerHTML = '⚠️ <strong>Por favor completa los campos de nombre, email y mensaje.</strong>';
     result.style.color = 'red';
     result.style.opacity = 1;
     return;
@@ -51,7 +49,7 @@ form.addEventListener('submit', function (e) {
   // Envía el formulario usando Fetch a Formspree
   fetch("https://formspree.io/f/xjkakbdr", {
     method: 'POST',
-    body: formData,
+    body: new FormData(form),
     headers: {
         'Accept': 'application/json'
     }

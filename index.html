@@ -165,6 +165,7 @@
       // Actualizar placeholders y textos iniciales
       document.getElementById('name').placeholder = lang === 'es' ? 'Tu nombre' : 'Your name';
       document.getElementById('email').placeholder = lang === 'es' ? 'Tu email' : 'Your email';
+      document.getElementById('phone').placeholder = lang === 'es' ? 'Tu número de teléfono (opcional)' : 'Your phone number (optional)';
       document.getElementById('message').placeholder = lang === 'es' ? 'Tu mensaje (por ejemplo, qué servicio necesitas)' : 'Your message (e.g., what service you need)';
     }
 
@@ -385,8 +386,12 @@
             <form id="contactForm" aria-label="Formulario de contacto">
               <input type="text" name="name" id="name" placeholder="Tu nombre" required>
               <input type="email" name="email" id="email" placeholder="Tu email" required>
+              <input type="tel" name="phone" id="phone" placeholder="Tu número de teléfono (opcional)">
               <textarea name="message" id="message" rows="4"
                 placeholder="Tu mensaje (por ejemplo, qué servicio necesitas)" required></textarea>
+              <!-- Campos especiales para Formspree para evitar spam -->
+              <input type="hidden" name="_replyto" id="formReplyTo">
+              <input type="hidden" name="_subject" id="formSubject">
               <button type="submit" class="btn-pro" style="width:100%;margin-top:10px;">Enviar Mensaje</button>
             </form>
             <div id="formResult" style="display:none; font-weight:bold; margin-top:15px;"></div>
