@@ -493,3 +493,28 @@ body.dark-mode #omi-chatbot-input-container { border-top-color: #333; }
         height: 55px;
     }
 }
+
+/* --- Estilos para el Indicador de Escritura --- */
+.typing-indicator {
+    display: flex;
+    align-items: center;
+    padding: 14px 18px !important; /* Ajuste para que se vea bien */
+}
+
+.typing-indicator span {
+    height: 8px;
+    width: 8px;
+    background-color: #90caf9;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 2px;
+    animation: typing-bounce 1.4s infinite ease-in-out both;
+}
+
+.typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+.typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes typing-bounce {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1.0); }
+}

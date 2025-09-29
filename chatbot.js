@@ -35,6 +35,20 @@ document.addEventListener('DOMContentLoaded', () => {
         'cámaras': { price: 170, unit: 'instalación base', includesAssistant: true } // Incluye ayudante
     };
  
+    // Costos de transporte desde Tonacatepeque (puedes ajustarlos)
+    const locationFees = {
+        'san salvador': 10,
+        'santa tecla': 15,
+        'soyapango': 5,
+        'apopa': 5,
+        'mejicanos': 8,
+        'ilopango': 7,
+        'santa ana': 25,
+        'san miguel': 40,
+        'cojutepeque': 10,
+    };
+    const defaultFee = 20; // Tarifa para lugares no listados
+
     let awaitingQuantityFor = null; // Para saber qué servicio estamos cotizando.
     let awaitingContactInfo = null; // Para guardar el contexto del presupuesto y esperar datos de contacto.
 
@@ -89,6 +103,31 @@ document.addEventListener('DOMContentLoaded', () => {
         messagesContainer.scrollTop = messagesContainer.scrollHeight; // Auto-scroll
     };
 
+    const showTypingIndicator = () => {
+        // Evita añadir múltiples indicadores
+        if (document.querySelector('.typing-indicator')) return;
+
+        const wrapper = document.createElement('div');
+        wrapper.classList.add('message-wrapper', 'bot-wrapper', 'typing-indicator-wrapper');
+
+        const avatar = document.createElement('div');
+        avatar.classList.add('avatar');
+        avatar.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M16 4.03a2.5 2.5 0 0 0-2.2-1.03h-3.6A2.5 2.5 0 0 0 8 4.03v3.94h8V4.03zM4 9v7a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V9H4zm9 7h-2v-4h2v4z"/></svg>`;
+
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('omi-message', 'typing-indicator');
+        messageElement.innerHTML = '<span></span><span></span><span></span>';
+
+        wrapper.appendChild(avatar);
+        wrapper.appendChild(messageElement);
+        messagesContainer.appendChild(wrapper);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    };
+
+    const hideTypingIndicator = () => {
+        document.querySelector('.typing-indicator-wrapper')?.remove();
+    };
+
     const addBotMessage = (text) => addMessage(text, 'bot');
     const addUserMessage = (text) => addMessage(text, 'user');
 
@@ -99,7 +138,11 @@ document.addEventListener('DOMContentLoaded', () => {
         addUserMessage(input.value);
         input.value = '';
 
-        setTimeout(() => processMessage(text), 500);
+        showTypingIndicator();
+        setTimeout(() => {
+            hideTypingIndicator();
+            processMessage(text);
+        }, 1000); // Aumentamos el tiempo para que el indicador sea visible
     };
 
     /**
@@ -147,16 +190,39 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const giveFinalDisclaimer = (service, total) => {
-        addBotMessage("Recuerda que este es un costo aproximado de <strong>mano de obra</strong> y no incluye materiales.");
+         showTypingIndicator();
         setTimeout(() => {
-            addBotMessage("Para guardar esta cotización y que un especialista te contacte, por favor, bríndame tu <strong>nombre completo</strong>.");
-            awaitingContactInfo = { stage: 'name', service, total }; // Guardamos el contexto para rellenar el formulario
-        }, 1200);
+            hideTypingIndicator();
+            addBotMessage("Para ajustar el presupuesto final, por favor, dime tu <strong>lugar de residencia</strong> (ej: San Salvador, Santa Tecla).");
+            awaitingContactInfo = { stage: 'location', service, total }; // Guardamos el contexto para rellenar el formulario
+        }, 1500);
     };
 
     const processMessage = (text) => {
         if (awaitingContactInfo) {
-            if (awaitingContactInfo.stage === 'name') {
+            if (awaitingContactInfo.stage === 'location') {
+                const location = text.toLowerCase();
+                let travelFee = defaultFee;
+                const matchedLocation = Object.keys(locationFees).find(loc => location.includes(loc));
+
+                if (matchedLocation) {
+                    travelFee = locationFees[matchedLocation];
+                }
+
+                const newTotal = awaitingContactInfo.total + travelFee;
+                awaitingContactInfo.total = newTotal; // Actualizamos el total
+
+                addBotMessage(`¡Entendido! Para la zona de <strong>${location}</strong>, el presupuesto final estimado es de <strong>$${newTotal.toFixed(2)}</strong>.`);
+                addBotMessage("Este costo es por mano de obra y no incluye materiales.");
+                
+                showTypingIndicator();
+                setTimeout(() => {
+                    hideTypingIndicator();
+                    addBotMessage("Para guardar esta cotización y que un especialista te contacte, por favor, bríndame tu <strong>nombre completo</strong>.");
+                    awaitingContactInfo.stage = 'name';
+                }, 1500);
+
+            } else if (awaitingContactInfo.stage === 'name') {
                 const name = text.trim();
                 if (name) {
                     addBotMessage(`¡Gracias, ${name}! Ahora, por favor, bríndame tu <strong>correo electrónico</strong>.`);
@@ -186,7 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     phone: (phone.toLowerCase() !== 'no' && phone.length > 5) ? phone : '',
                     service: awaitingContactInfo.service,
                     total: awaitingContactInfo.total,
-                    message: `Hola, estoy interesado en un presupuesto para ${awaitingContactInfo.service}. El chatbot Omi me dio un estimado de $${awaitingContactInfo.total.toFixed(2)}. Gracias.`
+                    message: `Hola, estoy interesado en un presupuesto para ${awaitingContactInfo.service}. El chatbot Omi me dio un estimado final de $${awaitingContactInfo.total.toFixed(2)}. Quedo a la espera de su contacto para coordinar los detalles. Gracias.`
                 };
 
                 document.getElementById('name').value = name;
@@ -231,9 +297,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (serviceName === 'pintura') {
                 const predefinedOption = findBestMatch(text, Object.keys(service.predefined));
                 if (predefinedOption) {
-                    const total = service.predefined[predefinedOption];
-                    addBotMessage(`El presupuesto de mano de obra para pintar un <strong>${predefinedOption}</strong> es de aproximadamente <strong>$${total.toFixed(2)}</strong>.`);
-                    giveFinalDisclaimer(`pintura de ${predefinedOption}`, total);
+                    const baseTotal = service.predefined[predefinedOption];
+                    giveFinalDisclaimer(`pintura de ${predefinedOption}`, baseTotal);
                     return;
                 }
 
@@ -241,10 +306,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1]) && parts[0] > 0 && parts[1] > 0) {
                     const [alto, ancho] = parts;
                     const area = alto * ancho;
-                    const total = area * service.price;
-                    addBotMessage(`Calculando: ${alto}m de alto × ${ancho}m de ancho = <strong>${area.toFixed(2)} m²</strong>.`);
-                    addBotMessage(`El presupuesto de mano de obra para pintar esa área es de <strong>$${total.toFixed(2)}</strong>.`);
-                    giveFinalDisclaimer('pintura', total);
+                    const baseTotal = area * service.price;
+                    addBotMessage(`¡Entendido! Un área de ${area.toFixed(2)} m².`);
+                    giveFinalDisclaimer(`pintura de ${area.toFixed(2)} m²`, baseTotal);
                 } else {
                     addBotMessage("No entendí tu respuesta. Por favor, dime si es para un <strong>cuarto, casa, local</strong> o dame las medidas en formato <strong>alto x ancho</strong> (ej: 3x4).");
                     awaitingQuantityFor = serviceName; // Volver a esperar respuesta para el mismo servicio
@@ -254,9 +318,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 const quantity = parseFloat(text);
                 if (!isNaN(quantity) && quantity > 0) {
                     const price = service.types[type];
-                    const total = price * quantity;
-                    addBotMessage(`Perfecto. Para ${quantity} m² de remodelación de <strong>${type}</strong>, el presupuesto de mano de obra comienza desde <strong>$${total.toFixed(2)}</strong>.`);
-                    giveFinalDisclaimer(`remodelación de ${type}`, total);
+                    const baseTotal = price * quantity;
+                    addBotMessage(`¡Entendido! ${quantity} m² para remodelación de <strong>${type}</strong>.`);
+                    giveFinalDisclaimer(`remodelación de ${type}`, baseTotal);
                 } else {
                     addBotMessage("Por favor, introduce un número válido para los metros cuadrados (ej: 8, 15.5).");
                     awaitingQuantityFor = serviceName; // Volver a esperar respuesta
@@ -269,9 +333,9 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 const quantity = parseFloat(text);
                 if (!isNaN(quantity) && quantity > 0) {
-                    const total = service.price * quantity;
-                    addBotMessage(`Perfecto. Para ${quantity} ${service.unit}(s) de ${serviceName}, el presupuesto de mano de obra es de <strong>$${total.toFixed(2)}</strong>.`);
-                    giveFinalDisclaimer(serviceName, total);
+                    const baseTotal = service.price * quantity;
+                    addBotMessage(`¡Entendido! ${quantity} ${service.unit}(s) de ${serviceName}.`);
+                    giveFinalDisclaimer(serviceName, baseTotal);
                 } else {
                     addBotMessage("Por favor, introduce un número válido (ej: 2, 5, 10.5).");
                     awaitingQuantityFor = serviceName; // Volver a esperar respuesta
@@ -288,9 +352,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Caso especial: Cámaras (no necesita cantidad)
             if (selectedService === 'cámaras') {
-                const total = service.price;
-                addBotMessage(`El costo de mano de obra para la <strong>${service.unit}</strong> de cámaras es de <strong>$${service.price.toFixed(2)}</strong>.`);
-                giveFinalDisclaimer(selectedService, total);
+                const baseTotal = service.price;
+                giveFinalDisclaimer(selectedService, baseTotal);
                 return;
             }
 
@@ -298,9 +361,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (selectedService === 'pintura') {
                 const predefined = findBestMatch(text, Object.keys(service.predefined));
                 if (predefined) {
-                    const total = service.predefined[predefined];
-                    addBotMessage(`El presupuesto de mano de obra para pintar un <strong>${predefined}</strong> es de aproximadamente <strong>$${total.toFixed(2)}</strong>.`);
-                    giveFinalDisclaimer(`pintura de ${predefined}`, total);
+                    const baseTotal = service.predefined[predefined];
+                    addBotMessage(`¡Entendido! Presupuesto para pintar un <strong>${predefined}</strong>.`);
+                    giveFinalDisclaimer(`pintura de ${predefined}`, baseTotal);
                     return;
                 }
                 const match = text.match(/(\d+(\.\d+)?)\s*x\s*(\d+(\.\d+)?)/); // Busca "3x4" o "3.5 x 4"
@@ -308,9 +371,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     const [, alto, , ancho] = match.map(parseFloat);
                     const area = alto * ancho;
                     const total = area * service.price;
-                    addBotMessage(`Calculando: ${alto}m × ${ancho}m = <strong>${area.toFixed(2)} m²</strong>.`);
-                    addBotMessage(`El presupuesto de mano de obra para pintar esa área es de <strong>$${total.toFixed(2)}</strong>.`);
-                    giveFinalDisclaimer('pintura', total);
+                    addBotMessage(`¡Entendido! Un área de ${area.toFixed(2)} m².`);
+                    giveFinalDisclaimer(`pintura de ${area.toFixed(2)} m²`, total);
                     return;
                 }
             }
@@ -319,9 +381,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const quantityMatch = text.match(/\d+(\.\d+)?/);
             if (quantityMatch) {
                 const quantity = parseFloat(quantityMatch[0]);
-                const total = service.price * quantity;
-                addBotMessage(`Perfecto. Para ${quantity} ${service.unit}(s) de ${selectedService}, el presupuesto de mano de obra es de <strong>$${total.toFixed(2)}</strong>.`);
-                giveFinalDisclaimer(selectedService, total);
+                const baseTotal = service.price * quantity;
+                addBotMessage(`¡Entendido! ${quantity} ${service.unit}(s) de ${selectedService}.`);
+                giveFinalDisclaimer(selectedService, baseTotal);
                 return;
             }
 
