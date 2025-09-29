@@ -469,13 +469,20 @@ body.dark-mode .elegir-list li { color: #f5f7fb; }
 /* Modo Oscuro para Chatbot */
 body.dark-mode #omi-chatbot-icon { background-color: #ffcc00; color: #121212; }
 body.dark-mode #omi-chatbot-window { background: #232a3a; }
-body.dark-mode #omi-chatbot-header { background: #1a1d24; border-bottom-color: #333; color: #ffcc00; }
-body.dark-mode #omi-chatbot-close { color: #aaa; }
+body.dark-mode #omi-chatbot-header { background: #1a1d24; border-bottom-color: #333; color: #ffcc00; } body.dark-mode #omi-chatbot-close,
+body.dark-mode #omi-chatbot-restart { 
+    color: #aaa;
+}
 body.dark-mode .avatar { background: #364b7b; color: #ffcc00; }
 body.dark-mode .user-wrapper .avatar { background: #ffcc00; color: #121212; }
 body.dark-mode .omi-message { background: #364b7b; color: #f0f0f0; }
 body.dark-mode .user-message { background: #ffcc00; color: #121212; }
 body.dark-mode #omi-chatbot-input-container { border-top-color: #333; }
+
+/* Ajuste para avatar con imagen */
+.avatar img {
+    background: transparent;
+}
 
 /* --- Adaptación del Chatbot para Dispositivos Móviles --- */
 @media (max-width: 480px) {

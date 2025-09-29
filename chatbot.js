@@ -3,10 +3,12 @@
 document.addEventListener('DOMContentLoaded', () => {
     const chatbotIcon = document.getElementById('omi-chatbot-icon');
     const chatbotWindow = document.getElementById('omi-chatbot-window');
+    const restartButton = document.getElementById('omi-chatbot-restart');
     const closeButton = document.getElementById('omi-chatbot-close');
     const messagesContainer = document.getElementById('omi-chatbot-messages');
     const input = document.getElementById('omi-chatbot-input');
     const sendButton = document.getElementById('omi-chatbot-send');
+    const notificationSound = document.getElementById('omi-notification-sound');
  
     // Precios base para los servicios (puedes ajustarlos)
     const services = {
@@ -26,9 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
             includesAssistant: true,
             // Precios base por tipo de remodelación
             types: {
-                'baño': 250,
-                'cocina': 220,
-                'general': 100
+                'baño': 210,  // Actualizado
+                'cocina': 260, // Actualizado
+                'general': 105  // Actualizado
             }
         },
         'electricidad': { price: 75, unit: 'día', includesAssistant: true }, // Incluye ayudante
@@ -79,6 +81,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    const restartChat = () => {
+        messagesContainer.innerHTML = ''; // Limpia los mensajes
+        awaitingQuantityFor = null;
+        awaitingContactInfo = null;
+
+        showTypingIndicator();
+        setTimeout(() => {
+            hideTypingIndicator();
+            addBotMessage("¡Hola de nuevo! 👋 ¿En qué más puedo ayudarte?");
+            addBotMessage("Recuerda que puedo darte un presupuesto para: <br>• Fontanería<br>• Pintura<br>• Remodelación<br>• Electricidad<br>• Cámaras");
+        }, 800);
+    };
+
     const addMessage = (text, sender) => {
         const wrapper = document.createElement('div');
         wrapper.classList.add('message-wrapper', sender === 'bot' ? 'bot-wrapper' : 'user-wrapper');
@@ -86,8 +101,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const avatar = document.createElement('div');
         avatar.classList.add('avatar');
         if (sender === 'bot') {
-            // Icono de Robot para Omi
-            avatar.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M16 4.03a2.5 2.5 0 0 0-2.2-1.03h-3.6A2.5 2.5 0 0 0 8 4.03v3.94h8V4.03zM4 9v7a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V9H4zm9 7h-2v-4h2v4z"/></svg>`;
+            // Logo de Omi
+            avatar.innerHTML = `<img src="images/omi.png" alt="Omi" style="width: 100%; height: 100%; border-radius: 50%;">`;
         } else {
             // Icono de Persona para el usuario
             avatar.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`;
@@ -112,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const avatar = document.createElement('div');
         avatar.classList.add('avatar');
-        avatar.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M16 4.03a2.5 2.5 0 0 0-2.2-1.03h-3.6A2.5 2.5 0 0 0 8 4.03v3.94h8V4.03zM4 9v7a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V9H4zm9 7h-2v-4h2v4z"/></svg>`;
+        avatar.innerHTML = `<img src="images/omi.png" alt="Omi escribiendo" style="width: 100%; height: 100%; border-radius: 50%;">`;
 
         const messageElement = document.createElement('div');
         messageElement.classList.add('omi-message', 'typing-indicator');
@@ -128,7 +143,16 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.typing-indicator-wrapper')?.remove();
     };
 
-    const addBotMessage = (text) => addMessage(text, 'bot');
+    const addBotMessage = (text) => {
+        addMessage(text, 'bot');
+        // Reproduce el sonido solo si el chat está abierto
+        if (!chatbotWindow.classList.contains('hidden') && notificationSound) {
+            notificationSound.currentTime = 0; // Reinicia el sonido si ya está sonando
+            notificationSound.play().catch(e => {
+                console.warn("El sonido de notificación no se pudo reproducir. El usuario debe interactuar con la página primero.");
+            });
+        }
+    };
     const addUserMessage = (text) => addMessage(text, 'user');
 
     const handleUserInput = () => {
@@ -326,13 +350,25 @@ document.addEventListener('DOMContentLoaded', () => {
                     awaitingQuantityFor = serviceName; // Volver a esperar respuesta
                 }
             } else if (serviceName === 'remodelación') {
+                // Primero, buscar si el usuario dio medidas como "5x8"
+                const match = text.match(/(\d+(\.\d+)?)\s*x\s*(\d+(\.\d+)?)/);
+                if (match) {
+                    const [, alto, , ancho] = match.map(parseFloat);
+                    const area = alto * ancho;
+                    const price = service.types['general']; // Usamos el precio general
+                    const baseTotal = area * price;
+                    addBotMessage(`¡Entendido! Un área de ${area.toFixed(2)} m² para remodelar.`);
+                    giveFinalDisclaimer(`remodelación de ${area.toFixed(2)} m²`, baseTotal);
+                    return; // Salimos para no continuar
+                }
+                // Si no hay medidas, buscar un tipo (baño, cocina, etc.)
                 const type = findBestMatch(text, Object.keys(service.types));
                 if (type) {
                     addBotMessage(`¡Entendido, remodelación de <strong>${type}</strong>! El costo base de mano de obra es de <strong>$${service.types[type]}/m²</strong>.`);
                     addBotMessage("Ahora, por favor, dime cuántos metros cuadrados tiene el área a remodelar.");
                     awaitingQuantityFor = `remodelación-${type}`; // Espera la cantidad para el tipo específico
                 } else {
-                    addBotMessage("No entendí el tipo de remodelación. Por favor, elige entre <strong>baño, cocina</strong> o <strong>general</strong>.");
+                    addBotMessage("No entendí tu respuesta. Por favor, elige entre <strong>baño, cocina, general</strong> o dame las medidas (ej: <strong>5x8</strong>).");
                     awaitingQuantityFor = 'remodelación'; // Vuelve a preguntar por el tipo
                 }
             } else {
@@ -382,6 +418,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
+            // Caso especial: Remodelación (no tiene precio general, debe preguntar tipo)
+            if (selectedService === 'remodelación') {
+                awaitingQuantityFor = 'remodelación';
+                addBotMessage("¡Entendido: remodelación!");
+                addBotMessage("Dime si es para un <strong>baño</strong>, una <strong>cocina</strong>, si es <strong>general</strong> o dame las medidas (ej: <strong>5x8</strong>).");
+                return;
+            }
+
             // Busca una cantidad numérica en la frase (ej: "2 horas", "10 metros")
             const quantityMatch = text.match(/\d+(\.\d+)?/);
             if (quantityMatch) {
@@ -408,6 +452,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Event Listeners ---
 
     chatbotIcon.addEventListener('click', toggleChatbot);
+    restartButton.addEventListener('click', restartChat);
     closeButton.addEventListener('click', toggleChatbot);
     sendButton.addEventListener('click', handleUserInput);
     input.addEventListener('keypress', (e) => {

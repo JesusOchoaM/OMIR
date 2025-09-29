@@ -408,14 +408,17 @@
 
   <!-- Chatbot Omi -->
   <div id="omi-chatbot-icon">
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
-        <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.67 3.597-1.935 4.22-2.623A7.952 7.952 0 0 0 8 15z"/>
-    </svg>
+    <img src="images/omi.png" alt="Asistente Omi" style="width: 40px; height: 40px; border-radius: 50%;">
   </div>
   <div id="omi-chatbot-window" class="hidden">
     <div id="omi-chatbot-header">
       <strong>Omi Asistente</strong>
-      <button id="omi-chatbot-close">&times;</button>
+      <div id="omi-chatbot-header-buttons">
+        <button id="omi-chatbot-restart" title="Reiniciar conversación">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/><path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/></svg>
+        </button>
+        <button id="omi-chatbot-close" title="Cerrar chat">&times;</button>
+      </div>
     </div>
     <div id="omi-chatbot-messages"></div>
     <div id="omi-chatbot-input-container">
@@ -423,6 +426,9 @@
       <button id="omi-chatbot-send">Enviar</button>
     </div>
   </div>
+
+  <!-- Sonido de notificación para el chatbot -->
+  <audio id="omi-notification-sound" src="audio/notification.mp3" preload="auto"></audio>
 
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
