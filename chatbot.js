@@ -327,9 +327,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } else if (serviceName === 'remodelación') {
                 const type = findBestMatch(text, Object.keys(service.types));
-                addBotMessage(`¡Entendido, remodelación de <strong>${type}</strong>! El costo base de mano de obra es de <strong>$${service.types[type]}/m²</strong>.`);
-                addBotMessage("Ahora, por favor, dime cuántos metros cuadrados tiene el área a remodelar.");
-                awaitingQuantityFor = `remodelación-${type}`; // Espera la cantidad para el tipo específico
+                if (type) {
+                    addBotMessage(`¡Entendido, remodelación de <strong>${type}</strong>! El costo base de mano de obra es de <strong>$${service.types[type]}/m²</strong>.`);
+                    addBotMessage("Ahora, por favor, dime cuántos metros cuadrados tiene el área a remodelar.");
+                    awaitingQuantityFor = `remodelación-${type}`; // Espera la cantidad para el tipo específico
+                } else {
+                    addBotMessage("No entendí el tipo de remodelación. Por favor, elige entre <strong>baño, cocina</strong> o <strong>general</strong>.");
+                    awaitingQuantityFor = 'remodelación'; // Vuelve a preguntar por el tipo
+                }
             } else {
                 const quantity = parseFloat(text);
                 if (!isNaN(quantity) && quantity > 0) {
