@@ -1,6 +1,8 @@
 /// 🤖 chatbot.js - Lógica para el Asistente Omi
  
 document.addEventListener('DOMContentLoaded', () => {
+    // Elementos para la animación del rodillo (global)
+    const rollerImage = document.querySelector('.hero-roller-image');
     const chatbotIcon = document.getElementById('omi-chatbot-icon');
     const chatbotWindow = document.getElementById('omi-chatbot-window');
     const restartButton = document.getElementById('omi-chatbot-restart');
@@ -460,4 +462,44 @@ document.addEventListener('DOMContentLoaded', () => {
             handleUserInput();
         }
     });
+
+    // --- Animación del Rodillo de Pintura al hacer scroll (global) ---
+    if (rollerImage) { // Check if the roller image exists
+        // La posición inicial (top: -100px) se establece en CSS para el contenedor.
+        // Aplicaremos translateY y rotate relativos a esa posición fija.
+
+        let animationRunning = false;
+
+        const animateRoller = () => {
+            const scrollY = window.scrollY;
+            const documentHeight = document.documentElement.scrollHeight;
+            const viewportHeight = window.innerHeight;
+
+            const maxScroll = documentHeight - viewportHeight;
+            let scrollProgress = maxScroll > 0 ? scrollY / maxScroll : 0;
+
+            const translateY = scrollY * 0.8; // El rodillo se mueve hacia abajo el 80% de la distancia de scroll
+            const rotate = scrollProgress * 1080; // Rota 3 vueltas completas sobre toda el área de scroll
+
+
+            rollerImage.style.transform = `translateY(${translateY}px) rotate(${rotate}deg)`;
+            if (animationRunning) {
+                requestAnimationFrame(animateRoller);
+            }
+        };
+        window.addEventListener('scroll', () => {
+            if (!animationRunning) {
+                animationRunning = true;
+                animateRoller();
+            }
+        });
+
+        let timeout;
+        window.addEventListener('scroll', () => {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                animationRunning = false;
+            }, 100); // Detiene la animación 100ms después de que el usuario deja de hacer scroll
+        });
+    };
 });

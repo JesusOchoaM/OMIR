@@ -1,50 +1,3 @@
-/* Fondo adecuado para el bloque selector de idioma/mode */
-.header-controls.sobre-contorno {
-    background: #8faee1 !important;
-}
-
-/* Fondo para el contenedor del logo */
-.logo-container.sobre-contorno {
-    background: #44608d !important;
-}
-
-body.dark-mode .header-controls.sobre-contorno {
-    /* Fondo oscuro para el contenedor del idioma/toggle */
-    background: #364b7b !important;
-    border-color: #ffcc00 !important; 
-}
-
-body.dark-mode .sobre-contorno:hover,
-body.dark-mode .nav.sobre-contorno:hover {
-    border-color: #ffcc00 !important;
-    box-shadow: 0 16px 40px rgba(255, 204, 0, 0.18) !important;
-}
-
-body.dark-mode .logo-container.sobre-contorno {
-    /* Fondo oscuro para el logo */
-    background: #232a3a !important;
-    box-shadow: 0 16px 40px rgba(255, 204, 0, 0.18) !important;
-    border-color: #ffcc00 !important; 
-}
-
-/* Modo oscuro para el bloque de navegación centrado */
-body.dark-mode .nav.sobre-contorno {
-    /* Fondo oscuro para el menú de navegación */
-    background: #171c28 !important;
-    border: 2px solid #ffcc00 !important; 
-    color: #4974d1 !important;
-    box-shadow: 0 4px 24px rgba(121, 172, 214, 0.18) !important;
-}
-
-/* --- Regla clave: para adaptar el div interno del select (el que se veía blanco) --- */
-body.dark-mode .header-controls.sobre-contorno > div {
-    /* Fondo para el div que contiene el select y el toggle, asegurando que no sea blanco */
-    background: #232a3a !important;
-    border-radius: 8px; /* Pequeño ajuste visual */
-}
-/* Fin Regla clave */
-
-
 /* Lista especial para '¿Por qué elegirnos?' */
 .elegir-list {
     width: 100%;
@@ -69,19 +22,11 @@ body.dark-mode .header-controls.sobre-contorno > div {
 .elegir-text {
     font-family: 'Changa', Arial, sans-serif;
     font-size: 1.08em;
-    font-weight: 700;
-    color: #222;
+    font-weight: 400; /* Ajustado para ser menos audaz y más legible */
+    color: #a1a1a6; /* Color claro para el texto */
     letter-spacing: 0.5px;
     display: block;
     text-align: center;
-}
-
-body.dark-mode .elegir-list li {
-    color: #fff;
-}
-
-body.dark-mode .elegir-text {
-    color: #fff;
 }
 
 /* 💎 Recuadros destacados para OMIR */
@@ -105,34 +50,6 @@ body.dark-mode .elegir-text {
     align-items: center;
     justify-content: center;
     transition: box-shadow 0.3s, border-color 0.3s, background 0.3s;
-}
-
-body.dark-mode .recuadro,
-body.dark-mode .card,
-body.dark-mode .servicio-card,
-body.dark-mode .sobre-card,
-body.dark-mode .contacto-card {
-    background: #232a3a;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(144, 202, 249, 0.18);
-    border: 2px solid #90caf9;
-    color: #476a92;
-    font-weight: 700;
-    font-size: 1.15em;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: box-shadow 0.3s, border-color 0.3s, background 0.3s;
-}
-
-body.dark-mode .recuadro:hover,
-body.dark-mode .card:hover,
-body.dark-mode .servicio-card:hover,
-body.dark-mode .sobre-card:hover,
-body.dark-mode .contacto-card:hover {
-    box-shadow: 0 16px 40px rgba(0, 64, 128, 0.32);
-    border-color: #ffcc00;
 }
 
 .recuadro:hover,
@@ -200,10 +117,6 @@ body.dark-mode .contacto-card:hover {
 .section-box h2,
 .section-box h3 {
     text-align: center;
-}
-
-.contacto-box {
-    background: #f7f9fc;
 }
 
 .servicios-grid {
@@ -303,32 +216,6 @@ body.dark-mode .contacto-card:hover {
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
 }
 
-body.dark-mode .contacto-box {
-    background: #1a1d24 !important;
-}
-
-body.dark-mode .contacto-card-item,
-body.dark-mode .form-container {
-    background: #232a3a;
-}
-
-body.dark-mode .contacto-text a {
-    color: #90caf9 !important;
-}
-
-/* --- Correcciones Modo Oscuro --- */
-body.dark-mode .hero-main-box {
-    background: #1a1d24;
-}
-
-body.dark-mode .sobre-items-list {
-    background: transparent !important;
-}
-
-body.dark-mode .elegir-nos-box.recuadro {
-    background: transparent;
-}
-
 /* Mejora de legibilidad para '¿Por qué elegirnos?' */
 .elegir-nos-box h3 {
     margin-bottom: 10px;
@@ -355,8 +242,6 @@ body.dark-mode .elegir-nos-box.recuadro {
     font-size: 1.05em;
     letter-spacing: 0.3px;
 }
-
-body.dark-mode .elegir-list li { color: #f5f7fb; }
 
 @media (max-width: 600px) {
     .elegir-list { max-width: 90vw; }
@@ -525,3 +410,224 @@ body.dark-mode #omi-chatbot-input-container { border-top-color: #333; }
     0%, 80%, 100% { transform: scale(0); }
     40% { transform: scale(1.0); }
 }
+
+/* --- Estilos Modernos para la Sección Hero (Apple-like) --- */
+.hero-main-box {
+    background: #1a1a1a; /* Fondo oscuro */
+    border: none; /* Sin bordes */
+    border-radius: 18px; /* Bordes más suaves */
+    padding: 80px 30px; /* Más espacio interno */
+    max-width: 1200px;
+    width: 95vw;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    position: relative; /* Necesario para posicionar la imagen */
+}
+
+.hero-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(3rem, 10vw, 6rem); /* Tamaño de fuente adaptable */
+    font-weight: 700;
+    color: #f5f5f7; /* Gris claro de Apple */
+    margin: 0;
+    line-height: 1.1;
+}
+
+.hero-subtitle,
+.hero-description {
+    font-family: 'Poppins', sans-serif;
+    color: #a1a1a6; /* Gris secundario */
+    max-width: 600px;
+    margin: 16px auto 0 auto;
+}
+
+.hero-subtitle {
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+    font-weight: 600;
+    color: #f5f5f7;
+}
+
+.hero-description {
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    margin-bottom: 32px; /* Espacio antes del botón */
+}
+
+/* Botón de acción modernizado */
+.hero-main-box .btn-pro {
+    background-color: #0071e3; /* Azul de Apple */
+    color: white;
+    border-radius: 980px; /* Píldora */
+    padding: 14px 32px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.hero-main-box .btn-pro:hover {
+    background-color: #147ce5; /* Azul más claro al pasar el ratón */
+    transform: scale(1.05);
+    color: white;
+    box-shadow: none;
+}
+
+/* --- Estilos para la imagen 3D de la llave --- */
+.hero-3d-image-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px; /* Activa la perspectiva 3D */
+    overflow: hidden; /* Evita que la imagen se salga del recuadro */
+    z-index: 0; /* Detrás del texto */
+}
+
+.hero-3d-image {
+    width: 450px; /* Ajusta el tamaño según necesites */
+    max-width: 80%;
+    opacity: 0.15; /* La hacemos semitransparente para que no compita con el texto */
+    transform-style: preserve-3d;
+    transition: transform 1.5s cubic-bezier(0.165, 0.84, 0.44, 1); /* Transición suave */
+    transform: rotateX(10deg) rotateY(-15deg) rotateZ(5deg); /* Estado inicial */
+}
+
+/* Animación al pasar el puntero sobre la sección */
+.hero-main-box:hover .hero-3d-image {
+    transform: rotateX(0deg) rotateY(20deg) rotateZ(-5deg) scale(1.1);
+}
+
+/* Aseguramos que el texto esté por encima de la imagen */
+.hero-title, .hero-subtitle, .hero-description, .hero-main-box .btn-pro {
+    position: relative;
+    z-index: 1;
+}
+/* --- Fin de Estilos Hero --- */
+
+/* --- Estilos para el Rodillo de Pintura --- */
+.hero-roller-container {
+    position: fixed; /* Se mantiene en la ventana del navegador */
+    top: -100px; /* Comienza ligeramente fuera de la vista superior */
+    right: 5%; /* Posición a la derecha */
+    width: 150px; /* Tamaño del rodillo (ajusta si es necesario) */
+    height: auto;
+    z-index: 2; /* Por encima de la llave, por debajo del texto */
+    pointer-events: none; /* Para que no interfiera con la interacción del usuario */
+    /* La transformación inicial y la animación se manejarán con JavaScript */
+}
+
+.hero-roller-image {
+    width: 100%;
+    height: auto;
+    opacity: 0.8; /* Ligeramente transparente */
+    transform-origin: center center; /* Punto de origen para la rotación */
+    transition: transform 0.1s linear; /* Transición suave para el movimiento */
+}
+/* --- Fin de Estilos para el Rodillo --- */
+
+/* --- Estilos Globales Modernos --- */
+.section-box {
+    background: #1d1d1f; /* Gris oscuro para contenedores */
+    border: 1px solid #3a3a3c; /* Borde sutil */
+    border-radius: 18px;
+    padding: 60px 30px;
+}
+
+.section-box h2 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: clamp(2rem, 6vw, 3rem);
+    color: #f5f5f7;
+    margin-bottom: 40px;
+}
+
+/* Estilo para las tarjetas de servicio */
+.modern-grid {
+    gap: 20px;
+}
+
+.servicio-card {
+    background: #2c2c2e; /* Un gris ligeramente más claro */
+    border: 1px solid #424245;
+    border-radius: 18px;
+    padding: 24px;
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.servicio-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    border-color: #525255;
+}
+
+.servicio-card strong {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #f5f5f7;
+}
+
+.servicio-desc {
+    color: #a1a1a6;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+}
+
+.service-icon {
+    background: #3a3a3c;
+    border-radius: 12px;
+    padding: 12px;
+    display: inline-block;
+    color: #0071e3; /* Azul Apple */
+    margin-bottom: 12px;
+}
+
+/* Estilo para la sección "Sobre Nosotros" */
+#nosotros .section-box {
+    text-align: center;
+}
+#nosotros p {
+    color: #a1a1a6;
+    font-family: 'Poppins', sans-serif;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+#nosotros .sobre-subtitulo {
+    font-size: 1.5rem;
+    color: #f5f5f7;
+    font-weight: 600;
+}
+
+/* Estilo para el formulario de contacto */
+.contacto-box {
+    background: transparent;
+    border: none;
+    padding-top: 0;
+}
+
+.form-container {
+    background: #1d1d1f;
+    border: 1px solid #3a3a3c;
+    border-radius: 18px;
+}
+
+.contacto-card-item {
+    background: #1d1d1f;
+    border: 1px solid #3a3a3c;
+    border-radius: 18px;
+    color: #f5f5f7;
+}
+
+.contacto-card-item strong {
+    color: #f5f5f7;
+}
+
+.contacto-text a {
+    color: #0071e3 !important;
+}
+/* --- Fin de Estilos Hero --- */

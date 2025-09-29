@@ -6,11 +6,11 @@
 }
 
 body {
-  font-family: 'Changa', Arial, sans-serif;
+  font-family: 'Poppins', 'Changa', sans-serif;
   margin: 0;
-  background: #ffffff;
-  color: #222;
-  transition: background 0.3s ease, color 0.3s ease;
+  background: #1a1a1a;
+  color: #a1a1a6;
+  transition: none;
   line-height: 1.6;
 }
 
@@ -18,7 +18,7 @@ body {
 .omir {
   font-family: 'Alfa Slab One', serif;
   font-size: 3em;
-  letter-spacing: 1px;
+  letter-spacing: 1px; 
   color: #004080;
   text-transform: uppercase;
 }
@@ -44,7 +44,7 @@ body {
 /* 🧭 Encabezado */
 .header {
   background: transparent;
-  color: #222;
+  color: #f5f5f7;
   box-shadow: none;
   position: relative;
 }
@@ -68,7 +68,7 @@ body {
 
 /* 🧭 Navegación */
 .nav a {
-  color: #004080;
+  color: #f5f5f7;
   text-decoration: none;
   margin: 0 15px;
   font-weight: 700;
@@ -76,7 +76,7 @@ body {
 }
 
 .nav a:hover {
-  color: #ffcc00;
+  color: #0071e3;
 }
 
 /* 🎯 Sección de portada */
@@ -121,6 +121,7 @@ h3 {
   margin: 0;
   font-size: 2.8em;
   animation: fadeInUp 1s ease forwards;
+  color: #f5f5f7;
 }
 
 /* 📋 Lista de servicios */
@@ -149,15 +150,17 @@ textarea {
   padding: 10px;
   margin: 10px 0 16px 0;
   border: 1px solid #ccc;
-  border-radius: 6px;
+  border-radius: 12px;
   font-size: 1em;
-  background-color: #fff;
+  background-color: #2c2c2e;
+  border-color: #424245;
+  color: #f5f5f7;
   transition: border 0.3s ease, background 0.3s ease;
 }
 
 input:focus,
 textarea:focus {
-  border-color: #004080;
+  border-color: #0071e3;
   outline: none;
 }
 
@@ -173,25 +176,26 @@ textarea:focus {
 /* 🟦 Botón principal */
 button,
 .btn-pro {
-  padding: 12px 20px;
+  padding: 14px 32px;
   border: none;
-  border-radius: 6px;
-  background: #004080;
+  border-radius: 980px;
+  background: #0071e3;
   color: white;
   cursor: pointer;
   font-weight: bold;
   font-size: 1em;
   transition: all 0.3s ease;
   text-decoration: none;
+  font-family: 'Poppins', sans-serif;
 }
 
 button:hover,
 .btn-pro:hover {
-  background: white;
-  color: #004080;
+  background: #147ce5;
+  color: white;
   border: none;
   transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: none;
 }
 
 /* 📍 Pie de página */
@@ -202,7 +206,7 @@ button:hover,
   text-align: center;
   margin-top: 40px;
   font-size: 0.9em;
-  border-top: 1px solid #003366;
+  background: #1d1d1f;
 }
 
 /* ✨ Animación personalizada */
@@ -216,62 +220,6 @@ button:hover,
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-/* 🌙 Modo oscuro */
-body.dark-mode {
-  background-color: #121212;
-  color: #e0e0e0;
-}
-
-body.dark-mode .header,
-body.dark-mode .footer {
-  background-color: #1e1e1e;
-}
-
-body.dark-mode .container,
-body.dark-mode .hero,
-body.dark-mode .section-box {
-  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.18) !important;
-}
-
-body.dark-mode h1,
-body.dark-mode h2,
-body.dark-mode h3,
-body.dark-mode strong,
-body.dark-mode p,
-body.dark-mode li,
-body.dark-mode span {
-  color: #fff !important;
-}
-
-body.dark-mode .nav a {
-  color: #ffcc00;
-}
-
-body.dark-mode input,
-body.dark-mode textarea {
-  background-color: #2a2a2a;
-  color: white;
-  border: 1px solid #555;
-}
-
-body.dark-mode button,
-body.dark-mode .btn-pro {
-  background-color: #333;
-  color: #f4f4f4;
-  border: 1px solid #777;
-}
-
-body.dark-mode button:hover,
-body.dark-mode .btn-pro:hover {
-  background-color: #555;
-  color: white;
-}
-
-/* 🖼️ Logo en modo oscuro */
-body.dark-mode .logo {
-  filter: brightness(0.8);
 }
 
 /* --- REGLAS PARA EL ENCABEZADO SUPERIOR (Complemento de recuadro-extra.css) --- */
@@ -311,10 +259,10 @@ body.dark-mode .dark-toggle {
   gap: 24px;
   padding: 8px 24px;
   margin: 0 auto;
-  border: 2px solid #1976d2;
-  border-radius: 12px;
-  background: #f7f9fc;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  border: 1px solid #3a3a3c;
+  border-radius: 980px;
+  background: #1d1d1f;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   flex: 0 0 auto;
   flex-wrap: wrap;
   max-width: 92vw;
@@ -331,17 +279,10 @@ body.dark-mode .dark-toggle {
 /* Cuadro personal del logo */
 .logo-container.sobre-contorno {
   padding: 6px 8px;
-  border: 2px solid #1976d2;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.10);
+  border: 1px solid #3a3a3c;
+  border-radius: 12px;
+  background: #1d1d1f;
 }
-
-/* Ajustes del cuadro del logo en modo oscuro */
-body.dark-mode .logo-container.sobre-contorno {
-  border-color: #ffcc00 !important;
-  box-shadow: 0 2px 8px rgba(144, 202, 249, 0.18);
-}
-
 /* --- FIN REGLAS DE ENCABEZADO --- */
 
 /* Responsive: tablets y laptops pequeñas */

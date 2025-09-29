@@ -24,7 +24,8 @@
   <meta name="twitter:description" content="Servicios profesionales de reparación, pintura, fontanería y electricidad en El Salvador.">
   <meta name="twitter:image" content="https://jesusochoam.github.io/OMIR/images/logo2.png">
 
-  <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
+  <!-- Fuentes: Alfa Slab One (legado), Changa (cuerpo), Poppins (nuevo para títulos) -->
+  <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Changa:wght@400;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
 
@@ -184,12 +185,9 @@
   <header class="header" data-aos="fade-down">
     <div class="main-container">
       <div class="header-controls sobre-contorno" style="position:absolute;top:12px;left:12px;z-index:10;display:flex;align-items:center;gap:8px;">
-                <div class="dark-toggle-box">
-          <button class="dark-toggle" aria-label="Activar modo oscuro">🌙</button>
-        </div>
       </div>
       <div class="logo-container sobre-contorno" style="position:absolute;top:12px;right:12px;z-index:10;">
-        <img src="images/logo2.png" alt="Logo OMIR" class="logo" id="logo">
+        <img src="images/logo3.png" alt="Logo OMIR" class="logo" id="logo">
       </div>
       <div class="nav-container">
         <nav class="nav sobre-contorno" aria-label="Navegación principal">
@@ -205,38 +203,12 @@
   <main>
     <section id="inicio" class="hero container" data-aos="fade-up">
       <div class="sobre-contorno hero-main-box recuadro">
-        <div class="hero-content">
-          <div class="hero-icons">
-            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" style="opacity:0.13;">
-              <rect x="6" y="18" width="36" height="10" rx="5" fill="#1565c0" />
-              <rect x="42" y="22" width="10" height="32" rx="5" fill="#90caf9" />
-              <rect x="52" y="54" width="8" height="10" rx="4" fill="#1565c0" />
-            </svg>
-            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" style="opacity:0.35;">
-              <rect x="28" y="24" width="12" height="32" rx="6" fill="#8d6e63" />
-              <rect x="28" y="56" width="12" height="12" rx="6" fill="#ffd54f" />
-            </svg>
-          </div>
-          <h1 style="position:relative;z-index:1;margin:0 16px;"><span class="omir">OMIR</span></h1>
-          <div class="hero-icons">
-            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" style="opacity:0.35;">
-              <rect x="12" y="24" width="40" height="12" rx="6" fill="#607d8b" />
-              <rect x="52" y="18" width="12" height="24" rx="6" fill="#b0bec5" />
-            </svg>
-            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" style="opacity:0.35;">
-              <ellipse cx="32" cy="24" rx="20" ry="12" fill="#263238" />
-              <rect x="20" y="44" width="24" height="8" rx="4" fill="#90caf9" />
-              <circle cx="32" cy="24" r="6" fill="#90caf9" />
-            </svg>
-            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" style="opacity:0.35;">
-              <rect x="16" y="24" width="32" height="28" rx="7" fill="#fffde7" stroke="#1565c0" stroke-width="2" />
-              <rect x="24" y="36" width="6" height="16" rx="3" fill="#1565c0" />
-              <rect x="38" y="36" width="6" height="16" rx="3" fill="#1565c0" />
-            </svg>
-          </div>
+        <div class="hero-3d-image-container">
+          <img src="images/Llave.png" alt="Llave de fontanería" class="hero-3d-image">
         </div>
-        <p class="subtitulo" style="margin-top:32px;">Ochoa Meléndez - Innovación en Reparación</p>
-        <p>Reparaciones, pintura y fontanería con calidad y confianza.</p>
+        <h1 class="hero-title">OMIR</h1>
+        <p class="hero-subtitle">Ochoa Meléndez - Innovación en Reparación</p>
+        <p class="hero-description">Reparaciones, pintura y fontanería con calidad y confianza.</p>
         <a href="#contacto" class="btn-pro">Solicita tu presupuesto</a>
       </div>
     </section>
@@ -244,60 +216,55 @@
     <section id="servicios" class="container servicios" data-aos="zoom-in">
       <div class="recuadro recuadro-container section-box">
         <h2>Nuestros Servicios</h2>
-        <div class="servicios-grid">
+        <div class="servicios-grid modern-grid">
           <div class="recuadro servicio-card fontaneria">
-            <span style="background:#f1f2f3;border-radius:8px;padding:10px;display:inline-block;"><svg width="28"
-                height="28" fill="none">
+            <span class="service-icon"><svg width="28"
+                height="28" fill="currentColor">
                 <path
                   d="M14 3a7 7 0 0 1 7 7c0 2.5-1.5 4.7-3.7 5.7v2.3h2.2a2.5 2.5 0 0 1 2.5 2.5v2.5a2.5 2.5 0 0 1-2.5 2.5H8.5A2.5 2.5 0 0 1 6 23v-2.5a2.5 2.5 0 0 1 2.5-2.5h2.2v-2.3A7 7 0 0 1 7 10a7 7 0 0 1 7-7zm0 2a5 5 0 0 0-5 5c0 2.1 1.3 4 3.2 4.7a1 1 0 0 1 .8 1v3.3a1 1 0 0 1-1 1H8.5a.5.5 0 0 0-.5.5V23c0 .3.2.5.5.5h11c.3 0 .5-.2.5-.5v-2.5a.5.5 0 0 0-.5-.5h-3.5a1 1 0 0 1-1-1v-3.3a1 1 0 0 1 .8-1A5 5 0 0 0 19 10a5 5 0 0 0-5-5z"
-                  fill="#2196f3" />
               </svg></span>
             <strong style="font-size:1.15em;">Fontanería</strong>
-            <span class="servicio-desc" style="color:#222;font-size:1em;">Reparamos fugas, instalamos tuberías y
+            <span class="servicio-desc">Reparamos fugas, instalamos tuberías y
               arreglamos todo lo que gotea en tu hogar.</span>
           </div>
           <div class="recuadro servicio-card pintura">
-            <span style="background:#e3f2fd;border-radius:8px;padding:10px;display:inline-block;"><svg width="28"
-                height="28" fill="none">
+            <span class="service-icon"><svg width="28"
+                height="28" fill="currentColor">
                 <path
                   d="M14 3c-2.8 0-5 2.2-5 5 0 2.1 1.3 4 3.2 4.7a1 1 0 0 1 .8 1v3.3a1 1 0 0 1-1 1H8.5a.5.5 0 0 0-.5.5V23c0 .3.2.5.5.5h11c.3 0 .5-.2.5-.5v-2.5a.5.5 0 0 0-.5-.5h-3.5a1 1 0 0 1-1-1v-3.3a1 1 0 0 1 .8-1A5 5 0 0 0 19 10a5 5 0 0 0-5-5z"
-                  fill="#2196f3" />
               </svg></span>
             <strong style="font-size:1.15em;">Pintura</strong>
-            <span class="servicio-desc" style="color:#222;font-size:1em;">Pintamos interiores y exteriores con colores
+            <span class="servicio-desc">Pintamos interiores y exteriores con colores
               duraderos y acabados impecables.</span>
           </div>
           <div class="recuadro servicio-card remodelacion">
-            <span style="background:#e3f2fd;border-radius:8px;padding:10px;display:inline-block;"><svg width="28"
-                height="28" fill="none">
+            <span class="service-icon"><svg width="28"
+                height="28" fill="currentColor">
                 <path
                   d="M14 3c-2.8 0-5 2.2-5 5 0 2.1 1.3 4 3.2 4.7a1 1 0 0 1 .8 1v3.3a1 1 0 0 1-1 1H8.5a.5.5 0 0 0-.5.5V23c0 .3.2.5.5.5h11c.3 0 .5-.2.5-.5v-2.5a.5.5 0 0 0-.5-.5h-3.5a1 1 0 0 1-1-1v-3.3a1 1 0 0 1 .8-1A5 5 0 0 0 19 10a5 5 0 0 0-5-5z"
-                  fill="#2196f3" />
               </svg></span>
             <strong style="font-size:1.15em;">Remodelación</strong>
-            <span class="servicio-desc" style="color:#222;font-size:1em;">Transformamos espacios con renovaciones
+            <span class="servicio-desc">Transformamos espacios con renovaciones
               completas, desde cocinas hasta baños.</span>
           </div>
           <div class="recuadro servicio-card electricidad">
-            <span style="background:#e3f2fd;border-radius:8px;padding:10px;display:inline-block;"><svg width="28"
-                height="28" fill="none">
+            <span class="service-icon"><svg width="28"
+                height="28" fill="currentColor">
                 <path
                   d="M14 3c-2.8 0-5 2.2-5 5 0 2.1 1.3 4 3.2 4.7a1 1 0 0 1 .8 1v3.3a1 1 0 0 1-1 1H8.5a.5.5 0 0 0-.5.5V23c0 .3.2.5.5.5h11c.3 0 .5-.2.5-.5v-2.5a.5.5 0 0 0-.5-.5h-3.5a1 1 0 0 1-1-1v-3.3a1 1 0 0 1 .8-1A5 5 0 0 0 19 10a5 5 0 0 0-5-5z"
-                  fill="#2196f3" />
               </svg></span>
             <strong style="font-size:1.15em;">Electricidad Básica</strong>
-            <span class="servicio-desc" style="color:#222;font-size:1em;">Conectamos enchufes, interruptores y circuitos
+            <span class="servicio-desc">Conectamos enchufes, interruptores y circuitos
               seguros para tu día a día.</span>
           </div>
           <div class="recuadro servicio-card camaras">
-            <span style="background:#e3f2fd;border-radius:8px;padding:10px;display:inline-block;"><svg width="28"
-                height="28" fill="none">
+            <span class="service-icon"><svg width="28"
+                height="28" fill="currentColor">
                 <path
                   d="M14 3c-2.8 0-5 2.2-5 5 0 2.1 1.3 4 3.2 4.7a1 1 0 0 1 .8 1v3.3a1 1 0 0 1-1 1H8.5a.5.5 0 0 0-.5.5V23c0 .3.2.5.5.5h11c.3 0 .5-.2.5-.5v-2.5a.5.5 0 0 0-.5-.5h-3.5a1 1 0 0 1-1-1v-3.3a1 1 0 0 1 .8-1A5 5 0 0 0 19 10a5 5 0 0 0-5-5z"
-                  fill="#2196f3" />
               </svg></span>
             <strong style="font-size:1.15em;">Cámaras de Seguridad</strong>
-            <span class="servicio-desc" style="color:#222;font-size:1em;">Instalamos cámaras WiFi para proteger tu casa
+            <span class="servicio-desc">Instalamos cámaras WiFi para proteger tu casa
               con conexión fácil y vigilancia 24/7.</span>
           </div>
         </div>
@@ -430,20 +397,13 @@
   <!-- Sonido de notificación para el chatbot -->
   <audio id="omi-notification-sound" src="audio/notification.mp3" preload="auto"></audio>
 
+  <div class="hero-roller-container">
+    <img src="images/rodillo.png" alt="Rodillo de pintura" class="hero-roller-image">
+  </div>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
     // Inicialización de AOS y modo oscuro
     AOS.init();
-
-    const toggleButton = document.querySelector(".dark-toggle");
-    const logo = document.getElementById("logo");
-
-    toggleButton.addEventListener("click", () => {
-      document.body.classList.toggle("dark-mode");
-      logo.src = document.body.classList.contains("dark-mode")
-        ? "images/logo3.png"
-        : "images/logo2.png";
-    });
   </script>
   <script src="script.js"></script>
   <script src="chatbot.js"></script>
