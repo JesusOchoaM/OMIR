@@ -1,3 +1,21 @@
+/* --- Paleta de Colores y Fuentes (Variables CSS) --- */
+:root {
+  /* Colores Base */
+  --color-dark-bg: #1a1a1a;
+  --color-dark-bg-secondary: #1d1d1f;
+  --color-dark-card: #2c2c2e;
+  --color-dark-border: #3a3a3c;
+  --color-dark-border-hover: #525255;
+
+  /* Colores de Texto */
+  --text-primary: #f5f5f7;
+  --text-secondary: #a1a1a6;
+
+  /* Colores de Acento */
+  --accent-blue: #0071e3;
+  --accent-blue-hover: #147ce5;
+}
+
 /* Lista especial para '¿Por qué elegirnos?' */
 .elegir-list {
     width: 100%;
@@ -11,22 +29,27 @@
 }
 
 .elegir-list li {
-    font-family: 'Alfa Slab One', 'Changa', Arial, sans-serif;
-    font-size: 1.08em;
-    font-weight: bold;
-    text-align: center;
-    padding: 8px 0;
-    transition: box-shadow 0.3s, border-color 0.3s, background 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 16px; /* Espacio entre icono y texto */
+    padding: 12px 0;
+    width: 100%;
+    max-width: 380px; /* Ancho máximo para centrar el contenido */
+    justify-content: flex-start; /* Alinea el contenido a la izquierda */
+}
+
+.elegir-icon {
+    color: var(--accent-blue);
+    flex-shrink: 0; /* Evita que el icono se encoja */
 }
 
 .elegir-text {
     font-family: 'Changa', Arial, sans-serif;
     font-size: 1.08em;
-    font-weight: 400; /* Ajustado para ser menos audaz y más legible */
-    color: #a1a1a6; /* Color claro para el texto */
+    font-weight: 400;
+    color: var(--text-secondary);
     letter-spacing: 0.5px;
-    display: block;
-    text-align: center;
+    text-align: left;
 }
 
 /* 💎 Recuadros destacados para OMIR */
@@ -35,14 +58,14 @@
 .servicio-card,
 .sobre-card,
 .contacto-card {
-    background: #fff;
+    background: var(--color-dark-card);
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(25, 118, 210, 0.10);
     padding: 16px 24px;
     margin: 24px auto;
     max-width: 900px;
-    border: 2px solid #1976d2;
-    color: #111;
+    border: 1px solid var(--color-dark-border);
+    color: var(--text-primary);
     font-weight: 700;
     font-size: 1.15em;
     text-align: center;
@@ -58,7 +81,7 @@
 .sobre-card:hover,
 .contacto-card:hover {
     box-shadow: 0 12px 32px rgba(58, 123, 213, 0.18);
-    border-color: #004080;
+    border-color: var(--color-dark-border-hover);
 }
 
 .sobre-central p {
@@ -83,7 +106,7 @@
 .sobre-items-list li {
     list-style: none;
     text-align: center;
-    color: #1565c0;
+    color: var(--accent-blue);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -101,8 +124,8 @@
 
 /* --- Clases para contenedores de sección --- */
 .section-box {
-    border: 2px solid #1976d2;
-    border-radius: 16px;
+    border: 1px solid var(--color-dark-border);
+    border-radius: 18px;
     padding: 32px 18px;
     margin: 32px auto;
     max-width: 1600px;
@@ -191,15 +214,13 @@
 }
 
 .contacto-card-item {
-    background: #fff;
     border-radius: 12px;
     padding: 20px 24px;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
     display: flex;
-    align-items: center;
     gap: 12px;
     text-decoration: none;
-    color: inherit;
+    color: var(--text-primary);
 }
 
 .contacto-text {
@@ -210,7 +231,6 @@
     flex: 1;
     min-width: 300px;
     max-width: 500px;
-    background: #fff;
     border-radius: 12px;
     padding: 32px 28px;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
@@ -234,13 +254,13 @@
     padding: 10px 0;
     margin: 2px 0;
     line-height: 1.35;
-    font-family: 'Changa', Arial, sans-serif;
+    font-family: 'Poppins', 'Changa', Arial, sans-serif;
     font-weight: 700;
 }
 
 .elegir-text {
     font-size: 1.05em;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.3px;    
 }
 
 @media (max-width: 600px) {
@@ -255,7 +275,7 @@
     right: 20px;
     width: 60px;
     height: 60px;
-    background-color: #004080;
+    background-color: var(--accent-blue);
     color: white;
     border-radius: 50%;
     display: flex;
@@ -279,7 +299,7 @@
     max-width: 90vw;
     height: 500px;
     max-height: 70vh;
-    background: #fff;
+    background: var(--color-dark-card);
     border-radius: 12px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
     display: flex;
@@ -297,13 +317,13 @@
 
 #omi-chatbot-header {
     padding: 12px 16px;
-    background: #f7f9fc;
-    border-bottom: 1px solid #e0e0e0;
+    background: var(--color-dark-bg-secondary);
+    border-bottom: 1px solid var(--color-dark-border);
     border-radius: 12px 12px 0 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: #004080;
+    color: var(--text-primary);
 }
 
 #omi-chatbot-close {
@@ -311,7 +331,7 @@
     border: none;
     font-size: 1.5em;
     cursor: pointer;
-    color: #888;
+    color: var(--text-secondary);
 }
 
 #omi-chatbot-messages {
@@ -337,23 +357,47 @@
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background: #f0f0f0;
+    background: var(--color-dark-border);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #004080;
+    color: var(--accent-blue);
 }
 
-.omi-message { background: #e3f2fd; color: #111; padding: 10px 14px; border-radius: 16px 16px 16px 0; align-self: flex-start; max-width: 80%; }
-.user-message { background: #004080; color: #fff; padding: 10px 14px; border-radius: 16px 16px 0 16px; align-self: flex-end; max-width: 80%; }
+.omi-message { background: var(--color-dark-border); color: var(--text-primary); padding: 10px 14px; border-radius: 16px 16px 16px 0; align-self: flex-start; max-width: 80%; }
+.user-message { background: var(--accent-blue); color: #fff; padding: 10px 14px; border-radius: 16px 16px 0 16px; align-self: flex-end; max-width: 80%; }
 
-#omi-chatbot-input-container { display: flex; padding: 10px; border-top: 1px solid #e0e0e0; }
-#omi-chatbot-input { flex-grow: 1; border: 1px solid #ccc; border-radius: 6px; padding: 8px; }
+#omi-chatbot-input-container { display: flex; padding: 10px; border-top: 1px solid var(--color-dark-border); }
+#omi-chatbot-input { flex-grow: 1; border: 1px solid var(--color-dark-border-hover); border-radius: 6px; padding: 8px; background: var(--color-dark-bg-secondary); color: var(--text-primary); }
 #omi-chatbot-send { margin-left: 8px; }
 
 /* Modo Oscuro para Chatbot */
-body.dark-mode #omi-chatbot-icon { background-color: #ffcc00; color: #121212; }
-body.dark-mode #omi-chatbot-window { background: #232a3a; }
+/* Estilos para los botones de respuesta rápida */
+.quick-replies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px 0;
+    justify-content: flex-start;
+    align-self: stretch;
+}
+
+.quick-reply-btn {
+    background: transparent;
+    border: 1px solid var(--accent-blue);
+    color: var(--accent-blue);
+    border-radius: 16px;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.quick-reply-btn:hover {
+    background-color: var(--accent-blue);
+    color: white;
+}
+body.dark-mode #omi-chatbot-icon { background-color: #ffcc00; color: var(--color-dark-bg); }
+body.dark-mode #omi-chatbot-window { background: #232a3a; } /* Ejemplo de color oscuro diferente */
 body.dark-mode #omi-chatbot-header { background: #1a1d24; border-bottom-color: #333; color: #ffcc00; } body.dark-mode #omi-chatbot-close,
 body.dark-mode #omi-chatbot-restart { 
     color: #aaa;
@@ -362,7 +406,7 @@ body.dark-mode .avatar { background: #364b7b; color: #ffcc00; }
 body.dark-mode .user-wrapper .avatar { background: #ffcc00; color: #121212; }
 body.dark-mode .omi-message { background: #364b7b; color: #f0f0f0; }
 body.dark-mode .user-message { background: #ffcc00; color: #121212; }
-body.dark-mode #omi-chatbot-input-container { border-top-color: #333; }
+body.dark-mode #omi-chatbot-input-container { border-top-color: #333; } /* Ejemplo */
 
 /* Ajuste para avatar con imagen */
 .avatar img {
@@ -396,7 +440,7 @@ body.dark-mode #omi-chatbot-input-container { border-top-color: #333; }
 .typing-indicator span {
     height: 8px;
     width: 8px;
-    background-color: #90caf9;
+    background-color: var(--accent-blue);
     border-radius: 50%;
     display: inline-block;
     margin: 0 2px;
@@ -413,7 +457,7 @@ body.dark-mode #omi-chatbot-input-container { border-top-color: #333; }
 
 /* --- Estilos Modernos para la Sección Hero (Apple-like) --- */
 .hero-main-box {
-    background: #1a1a1a; /* Fondo oscuro */
+    background: var(--color-dark-bg);
     border: none; /* Sin bordes */
     border-radius: 18px; /* Bordes más suaves */
     padding: 80px 30px; /* Más espacio interno */
@@ -427,7 +471,7 @@ body.dark-mode #omi-chatbot-input-container { border-top-color: #333; }
     font-family: 'Poppins', sans-serif;
     font-size: clamp(3rem, 10vw, 6rem); /* Tamaño de fuente adaptable */
     font-weight: 700;
-    color: #f5f5f7; /* Gris claro de Apple */
+    color: var(--text-primary);
     margin: 0;
     line-height: 1.1;
 }
@@ -435,7 +479,7 @@ body.dark-mode #omi-chatbot-input-container { border-top-color: #333; }
 .hero-subtitle,
 .hero-description {
     font-family: 'Poppins', sans-serif;
-    color: #a1a1a6; /* Gris secundario */
+    color: var(--text-secondary);
     max-width: 600px;
     margin: 16px auto 0 auto;
 }
@@ -443,7 +487,7 @@ body.dark-mode #omi-chatbot-input-container { border-top-color: #333; }
 .hero-subtitle {
     font-size: clamp(1.1rem, 3vw, 1.5rem);
     font-weight: 600;
-    color: #f5f5f7;
+    color: var(--text-primary);
 }
 
 .hero-description {
@@ -453,7 +497,7 @@ body.dark-mode #omi-chatbot-input-container { border-top-color: #333; }
 
 /* Botón de acción modernizado */
 .hero-main-box .btn-pro {
-    background-color: #0071e3; /* Azul de Apple */
+    background-color: var(--accent-blue);
     color: white;
     border-radius: 980px; /* Píldora */
     padding: 14px 32px;
@@ -465,7 +509,7 @@ body.dark-mode #omi-chatbot-input-container { border-top-color: #333; }
 }
 
 .hero-main-box .btn-pro:hover {
-    background-color: #147ce5; /* Azul más claro al pasar el ratón */
+    background-color: var(--accent-blue-hover);
     transform: scale(1.05);
     color: white;
     box-shadow: none;
@@ -530,8 +574,8 @@ body.dark-mode #omi-chatbot-input-container { border-top-color: #333; }
 
 /* --- Estilos Globales Modernos --- */
 .section-box {
-    background: #1d1d1f; /* Gris oscuro para contenedores */
-    border: 1px solid #3a3a3c; /* Borde sutil */
+    background: var(--color-dark-bg-secondary);
+    border: 1px solid var(--color-dark-border);
     border-radius: 18px;
     padding: 60px 30px;
 }
@@ -540,7 +584,7 @@ body.dark-mode #omi-chatbot-input-container { border-top-color: #333; }
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
     font-size: clamp(2rem, 6vw, 3rem);
-    color: #f5f5f7;
+    color: var(--text-primary);
     margin-bottom: 40px;
 }
 
@@ -550,8 +594,8 @@ body.dark-mode #omi-chatbot-input-container { border-top-color: #333; }
 }
 
 .servicio-card {
-    background: #2c2c2e; /* Un gris ligeramente más claro */
-    border: 1px solid #424245;
+    background: var(--color-dark-card);
+    border: 1px solid var(--color-dark-border-hover);
     border-radius: 18px;
     padding: 24px;
     text-align: left;
@@ -561,28 +605,28 @@ body.dark-mode #omi-chatbot-input-container { border-top-color: #333; }
 .servicio-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-    border-color: #525255;
+    border-color: var(--color-dark-border-hover);
 }
 
 .servicio-card strong {
     font-family: 'Poppins', sans-serif;
     font-size: 1.25rem;
     font-weight: 600;
-    color: #f5f5f7;
+    color: var(--text-primary);
 }
 
 .servicio-desc {
-    color: #a1a1a6;
+    color: var(--text-secondary);
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
 }
 
 .service-icon {
-    background: #3a3a3c;
+    background: var(--color-dark-border);
     border-radius: 12px;
     padding: 12px;
     display: inline-block;
-    color: #0071e3; /* Azul Apple */
+    color: var(--accent-blue);
     margin-bottom: 12px;
 }
 
@@ -591,7 +635,7 @@ body.dark-mode #omi-chatbot-input-container { border-top-color: #333; }
     text-align: center;
 }
 #nosotros p {
-    color: #a1a1a6;
+    color: var(--text-secondary);
     font-family: 'Poppins', sans-serif;
     max-width: 700px;
     margin-left: auto;
@@ -599,7 +643,7 @@ body.dark-mode #omi-chatbot-input-container { border-top-color: #333; }
 }
 #nosotros .sobre-subtitulo {
     font-size: 1.5rem;
-    color: #f5f5f7;
+    color: var(--text-primary);
     font-weight: 600;
 }
 
@@ -611,23 +655,21 @@ body.dark-mode #omi-chatbot-input-container { border-top-color: #333; }
 }
 
 .form-container {
-    background: #1d1d1f;
-    border: 1px solid #3a3a3c;
+    border: 1px solid var(--color-dark-border);
     border-radius: 18px;
 }
 
 .contacto-card-item {
-    background: #1d1d1f;
-    border: 1px solid #3a3a3c;
+    background: var(--color-dark-card);
     border-radius: 18px;
-    color: #f5f5f7;
+    color: var(--text-primary);
 }
 
 .contacto-card-item strong {
-    color: #f5f5f7;
+    color: var(--text-primary);
 }
 
 .contacto-text a {
-    color: #0071e3 !important;
+    color: var(--accent-blue) !important;
 }
 /* --- Fin de Estilos Hero --- */

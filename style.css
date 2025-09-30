@@ -125,15 +125,6 @@ h3 {
 }
 
 /* 📋 Lista de servicios */
-ul {
-  background: rgb(218, 79, 79);
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  list-style: none;
-  width: 100%;
-}
-
 ul li {
   padding: 10px 0;
   border-bottom: 1px solid #f7f7f7;
@@ -196,6 +187,30 @@ button:hover,
   border: none;
   transform: scale(1.05);
   box-shadow: none;
+}
+
+/* Spinner para el botón de enviar */
+.spinner {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* 📍 Pie de página */

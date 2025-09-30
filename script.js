@@ -15,6 +15,9 @@ form.addEventListener('submit', function (e) {
   e.preventDefault(); // Evita el envío tradicional
 
   // 🧼 Obtiene y limpia los valores de los campos
+  const submitButton = form.querySelector('button[type="submit"]');
+  const originalButtonText = submitButton.innerHTML;
+
   const name = document.getElementById('name').value.trim();
   const email = document.getElementById('email').value.trim();
   const message = document.getElementById('message').value.trim();
@@ -42,9 +45,11 @@ form.addEventListener('submit', function (e) {
   }
 
   // Muestra un mensaje de "Enviando..."
-  result.innerHTML = '⏳ <strong>Enviando tu mensaje...</strong>';
-  result.style.color = '#1565c0'; // Azul
-  result.style.opacity = 1;
+  submitButton.disabled = true;
+  submitButton.innerHTML = `
+    <span class="spinner"></span>
+    Enviando...
+  `;
 
   // Envía el formulario usando Fetch a Formspree
   fetch("https://formspree.io/f/xjkakbdr", {
@@ -55,22 +60,31 @@ form.addEventListener('submit', function (e) {
     }
   }).then(response => {
     if (response.ok) {
-      // ✅ Éxito: mensaje enviado
+      result.style.display = 'block';
       result.innerHTML = '✅ <strong>Gracias, ' + name + '.</strong> Tu mensaje ha sido recibido.';
       result.style.color = 'green';
+      result.style.opacity = 1;
       form.reset(); // Limpia el formulario solo si el envío fue exitoso
     } else {
-      // ❌ Error en el envío
+      result.style.display = 'block';
       result.innerHTML = '❌ <strong>Hubo un error al enviar.</strong> Inténtalo de nuevo.';
       result.style.color = 'red';
+      result.style.opacity = 1;
     }
   }).catch(error => {
+    result.style.display = 'block';
     result.innerHTML = '❌ <strong>Error de conexión.</strong> Verifica tu red.';
     result.style.color = 'red';
+    result.style.opacity = 1;
+  }).finally(() => {
+    // Restaura el botón sin importar el resultado
+    submitButton.disabled = false;
+    submitButton.innerHTML = originalButtonText;
   });
 
   // ⏳ Oculta el mensaje después de 5 segundos
   setTimeout(() => {
     result.style.opacity = 0;
+    setTimeout(() => { result.style.display = 'none'; }, 500); // Oculta después de la transición
   }, 5000);
 });

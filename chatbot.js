@@ -1,5 +1,6 @@
 /// 🤖 chatbot.js - Lógica para el Asistente Omi
  
+
 document.addEventListener('DOMContentLoaded', () => {
     // Elementos para la animación del rodillo (global)
     const rollerImage = document.querySelector('.hero-roller-image');
@@ -12,6 +13,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const sendButton = document.getElementById('omi-chatbot-send');
     const notificationSound = document.getElementById('omi-notification-sound');
  
+    // Constantes para los estados del chatbot
+    const STAGES = {
+        LOCATION: 'location',
+        NAME: 'name',
+        EMAIL: 'email',
+        PHONE: 'phone'
+    };
+
     // Precios base para los servicios (puedes ajustarlos)
     const services = {
         'fontanería': { price: 80, unit: 'día', includesAssistant: true }, // Incluye ayudante
@@ -67,11 +76,20 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('omiHasVisited', 'true');
         }, 3000); // Espera 3 segundos antes de abrir
     }
-
+    
     // --- Funciones del Chatbot ---
+
+    const getTranslation = (key, replacements = {}) => {
+        let text = translations[currentLang]?.[key] || translations['es'][key] || key;
+        for (const placeholder in replacements) {
+            text = text.replace(`{${placeholder}}`, replacements[placeholder]);
+        }
+        return text;
+    };
 
     const toggleChatbot = () => {
         chatbotWindow.classList.toggle('hidden');
+        setLanguage(currentLang); // Sincroniza el idioma del chat al abrir
         if (!chatbotWindow.classList.contains('hidden')) {
             input.focus();
             if (messagesContainer.children.length === 0) {
@@ -91,8 +109,11 @@ document.addEventListener('DOMContentLoaded', () => {
         showTypingIndicator();
         setTimeout(() => {
             hideTypingIndicator();
-            addBotMessage("¡Hola de nuevo! 👋 ¿En qué más puedo ayudarte?");
-            addBotMessage("Recuerda que puedo darte un presupuesto para: <br>• Fontanería<br>• Pintura<br>• Remodelación<br>• Electricidad<br>• Cámaras");
+            addBotMessage(getTranslation("chat_reinicio_1"));
+            respondWithTyping(getTranslation("chat_reinicio_2"), 1000)
+                .then(() => {
+                    createQuickReplyButtons(Object.keys(services));
+                });
         }, 800);
     };
 
@@ -118,6 +139,33 @@ document.addEventListener('DOMContentLoaded', () => {
         wrapper.appendChild(messageElement);
         messagesContainer.appendChild(wrapper);
         messagesContainer.scrollTop = messagesContainer.scrollHeight; // Auto-scroll
+    };
+
+    const createQuickReplyButtons = (options) => {
+        const container = document.createElement('div');
+        container.classList.add('quick-replies');
+
+        options.forEach(optionText => {
+            const button = document.createElement('button');
+            // Usar la clave de traducción para el texto del botón
+            button.textContent = getTranslation(`${optionText}_titulo`) || (optionText.charAt(0).toUpperCase() + optionText.slice(1));
+            button.classList.add('quick-reply-btn');
+            button.dataset.value = optionText; // Guardar valor original
+            container.appendChild(button);
+        });
+
+        messagesContainer.appendChild(container);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+        // Añadir event listener una sola vez usando delegación
+        container.addEventListener('click', (e) => {
+            if (e.target.classList.contains('quick-reply-btn')) {
+                const value = e.target.dataset.value;
+                addUserMessage(e.target.textContent); // Muestra el texto del botón como mensaje de usuario
+                container.remove(); // Elimina los botones después de la selección
+                processMessage(value);
+            }
+        });
     };
 
     const showTypingIndicator = () => {
@@ -162,12 +210,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!text) return;
 
         addUserMessage(input.value);
+        // Deshabilitar y limpiar botones de respuesta rápida si existen
+        document.querySelector('.quick-replies')?.remove();
         input.value = '';
 
         showTypingIndicator();
         setTimeout(() => {
             hideTypingIndicator();
-            processMessage(text);
+            processMessage(text.toLowerCase());
         }, 1000); // Aumentamos el tiempo para que el indicador sea visible
     };
 
@@ -217,65 +267,99 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const giveFinalDisclaimer = (service, total) => {
          showTypingIndicator();
-        setTimeout(() => {
-            hideTypingIndicator();
-            addBotMessage("Para ajustar el presupuesto final, por favor, dime tu <strong>lugar de residencia</strong> (ej: San Salvador, Santa Tecla).");
-            awaitingContactInfo = { stage: 'location', service, total }; // Guardamos el contexto para rellenar el formulario
-        }, 1500);
+         respondWithTyping(getTranslation("chat_pide_residencia"), 1500);
+         awaitingContactInfo = { stage: STAGES.LOCATION, service, total }; // Guardamos el contexto para rellenar el formulario
+    };
+
+    /**
+     * Muestra el indicador de escritura, espera y luego envía un mensaje del bot.
+     * @param {string} text - El mensaje a enviar.
+     * @param {number} delay - El tiempo de espera en milisegundos.
+     */
+    const respondWithTyping = (text, delay = 1000) => {
+        return new Promise(resolve => {
+            showTypingIndicator();
+            setTimeout(() => {
+                hideTypingIndicator();
+                addBotMessage(text);
+                resolve();
+            }, delay);
+        });
     };
 
     const processMessage = (text) => {
         if (awaitingContactInfo) {
-            if (awaitingContactInfo.stage === 'location') {
+            // El error estaba aquí. Se ha corregido la estructura del `if`.
+            // Ahora, si hay un `awaitingContactInfo`, siempre llamará a `processContactFlow`.
+            processContactFlow(text);
+            return;
+        }
+
+        if (awaitingQuantityFor) {
+            processQuantityFlow(text);
+            return;
+        }
+
+        // --- Lógica "Inteligente": Intenta procesar la frase completa ---
+        processInitialQuery(text);
+    };
+
+    const processContactFlow = (text) => {
+        const { stage, name, email } = awaitingContactInfo;
+
+        switch (stage) {
+            case STAGES.LOCATION:
                 const location = text.toLowerCase();
-                let travelFee = defaultFee;
                 const matchedLocation = Object.keys(locationFees).find(loc => location.includes(loc));
-
-                if (matchedLocation) {
-                    travelFee = locationFees[matchedLocation];
-                }
-
+                const travelFee = matchedLocation ? locationFees[matchedLocation] : defaultFee;
                 const newTotal = awaitingContactInfo.total + travelFee;
-                awaitingContactInfo.total = newTotal; // Actualizamos el total
+                awaitingContactInfo.total = newTotal;
 
-                addBotMessage(`¡Entendido! Para la zona de <strong>${location}</strong>, el presupuesto final estimado es de <strong>$${newTotal.toFixed(2)}</strong>.`);
-                addBotMessage("Este costo es por mano de obra y no incluye materiales.");
-                
-                showTypingIndicator();
-                setTimeout(() => {
-                    hideTypingIndicator();
-                    addBotMessage("Para guardar esta cotización y que un especialista te contacte, por favor, bríndame tu <strong>nombre completo</strong>.");
-                    awaitingContactInfo.stage = 'name';
-                }, 1500);
+                addBotMessage(getTranslation("chat_presupuesto_final", { location: location, total: newTotal.toFixed(2) }));
+                addBotMessage(getTranslation("chat_aclaracion_materiales"));
+                respondWithTyping(getTranslation("chat_gracias_nombre", { name: '' }).replace('¡Gracias, !', 'Para guardar esta cotización y que un especialista te contacte, por favor, bríndame tu <strong>nombre completo</strong>'), 1500);
+                awaitingContactInfo.stage = STAGES.NAME;
+                break;
 
-            } else if (awaitingContactInfo.stage === 'name') {
-                const name = text.trim();
-                if (name) {
-                    addBotMessage(`¡Gracias, ${name}! Ahora, por favor, bríndame tu <strong>correo electrónico</strong>.`);
-                    awaitingContactInfo.stage = 'email';
-                    awaitingContactInfo.name = name;
+            case STAGES.NAME:
+                const newName = text.trim();
+                if (newName) {
+                    addBotMessage(getTranslation("chat_gracias_nombre", { name: newName }));
+                    awaitingContactInfo.stage = STAGES.EMAIL;
+                    awaitingContactInfo.name = newName;
                 } else {
-                    addBotMessage("Por favor, escribe tu nombre.");
+                    addBotMessage(getTranslation("chat_pide_nombre"));
                 }
-            } else if (awaitingContactInfo.stage === 'email') {
-                const email = text.trim();
-                if (email.includes('@') && email.includes('.')) {
-                    addBotMessage("¡Genial! Por último, si deseas, puedes dejarme tu <strong>número de teléfono</strong> para un contacto más rápido. Si no, solo escribe 'no'.");
-                    awaitingContactInfo.stage = 'phone';
-                    awaitingContactInfo.email = email;
-                } else {
-                    addBotMessage("El correo no parece válido. Por favor, asegúrate de que tenga un formato como <strong>ejemplo@correo.com</strong>.");
-                }
-            } else if (awaitingContactInfo.stage === 'phone') {
-                const phone = text.trim();
-                const name = awaitingContactInfo.name;
-                const email = awaitingContactInfo.email;
+                break;
 
-                // Prepara los datos para la base de datos y el formulario
+            case STAGES.EMAIL:
+                const newEmail = text.trim();
+                if (newEmail.includes('@') && newEmail.includes('.')) {
+                    addBotMessage(getTranslation("chat_pide_telefono"));
+                    awaitingContactInfo.stage = STAGES.PHONE;
+                    awaitingContactInfo.email = newEmail;
+                } else {
+                    addBotMessage(getTranslation("chat_email_invalido"));
+                }
+                break;
+
+            case STAGES.PHONE:
+                const phoneInput = text.trim();
+                const phoneDigits = phoneInput.replace(/[-\s]/g, ''); // Limpiar guiones y espacios
+                const isValidPhone = /^\d{8}$/.test(phoneDigits); // Validar 8 dígitos
+
+                if (phoneInput.toLowerCase() !== 'no' && !isValidPhone) {
+                    addBotMessage(getTranslation("chat_telefono_invalido"));
+                    // No cambiamos de estado, esperamos de nuevo el teléfono
+                    return;
+                }
+
+                const phone = isValidPhone ? phoneDigits : '';
+
                 const leadData = {
                     name: name,
                     email: email,
-                    phone: (phone.toLowerCase() !== 'no' && phone.length > 5) ? phone : '',
+                    phone: phone,
                     service: awaitingContactInfo.service,
                     total: awaitingContactInfo.total,
                     message: `Hola, estoy interesado en un presupuesto para ${awaitingContactInfo.service}. El chatbot Omi me dio un estimado final de $${awaitingContactInfo.total.toFixed(2)}. Quedo a la espera de su contacto para coordinar los detalles. Gracias.`
@@ -283,111 +367,103 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 document.getElementById('name').value = name;
                 document.getElementById('email').value = email;
-                if (phone.toLowerCase() !== 'no' && phone.length > 5) {
+                if (phone) {
                     document.getElementById('phone').value = phone;
                 }
-                // Rellenar campos ocultos de Formspree para mejorar la entrega
                 document.getElementById('formReplyTo').value = email;
                 document.getElementById('formSubject').value = `Nueva consulta de ${name} (vía Chatbot)`;
-
                 document.getElementById('message').value = leadData.message;
 
-                // Envía los datos a la base de datos de Google Sheets
-                // Usamos una función anónima para poder usar async/await y esperar la respuesta
                 (async () => {
                     try {
-                        // Enviamos los datos y esperamos la confirmación
                         await fetch('https://script.google.com/macros/s/AKfycbzlO-4dj0w7PY_9w33rHe7tbnfa2_OYt9X1WrgC75CtRZeMhvTdbNQUb_fEWR1Euqmv/exec', {
                             method: "POST",
                             body: JSON.stringify(leadData),
                             headers: { "Content-Type": "text/plain;charset=utf-8" },
-                            mode: 'no-cors' // Mantenemos no-cors para evitar errores de navegador
+                            mode: 'no-cors'
                         });
-                        addBotMessage(`¡Listo, ${name}! Tus datos se han guardado. 🎉`);
-                        addBotMessage(`He rellenado el formulario de contacto por ti. Por favor, revísalo y presiona "Enviar Mensaje" para confirmar.`);
+                        addBotMessage(getTranslation("chat_datos_guardados", { name: name }));
+                        addBotMessage(getTranslation("chat_formulario_relleno"));
                     } finally {
                         awaitingContactInfo = null;
                         document.getElementById('contacto').scrollIntoView({ behavior: 'smooth' });
-                        setTimeout(toggleChatbot, 2000); // Cierra el chat para mostrar el formulario
+                        setTimeout(toggleChatbot, 2000);
                     }
                 })();
-            }
-            return;
+                break;
         }
+    };
 
-        if (awaitingQuantityFor) {
-            const serviceName = awaitingQuantityFor;
-            const service = services[serviceName];
-            awaitingQuantityFor = null; // Reiniciar para la siguiente consulta
+    const processQuantityFlow = (text) => {
+        const serviceName = awaitingQuantityFor;
+        const service = services[serviceName];
+        awaitingQuantityFor = null;
 
-            if (serviceName === 'pintura') {
-                const predefinedOption = findBestMatch(text, Object.keys(service.predefined));
-                if (predefinedOption) {
-                    const baseTotal = service.predefined[predefinedOption];
-                    giveFinalDisclaimer(`pintura de ${predefinedOption}`, baseTotal);
-                    return;
-                }
+        if (serviceName === 'pintura') {
+            const predefinedOption = findBestMatch(text, Object.keys(service.predefined));
+            if (predefinedOption) {
+                const baseTotal = service.predefined[predefinedOption];
+                giveFinalDisclaimer(`pintura de ${predefinedOption}`, baseTotal);
+                return;
+            }
 
-                const parts = text.split('x').map(p => parseFloat(p.trim()));
-                if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1]) && parts[0] > 0 && parts[1] > 0) {
-                    const [alto, ancho] = parts;
-                    const area = alto * ancho;
-                    const baseTotal = area * service.price;
-                    addBotMessage(`¡Entendido! Un área de ${area.toFixed(2)} m².`);
-                    giveFinalDisclaimer(`pintura de ${area.toFixed(2)} m²`, baseTotal);
-                } else {
-                    addBotMessage("No entendí tu respuesta. Por favor, dime si es para un <strong>cuarto, casa, local</strong> o dame las medidas en formato <strong>alto x ancho</strong> (ej: 3x4).");
-                    awaitingQuantityFor = serviceName; // Volver a esperar respuesta para el mismo servicio
-                }
-            } else if (serviceName.startsWith('remodelación-')) {
-                const type = serviceName.split('-')[1];
-                const quantity = parseFloat(text);
-                if (!isNaN(quantity) && quantity > 0) {
-                    const price = service.types[type];
-                    const baseTotal = price * quantity;
-                    addBotMessage(`¡Entendido! ${quantity} m² para remodelación de <strong>${type}</strong>.`);
-                    giveFinalDisclaimer(`remodelación de ${type}`, baseTotal);
-                } else {
-                    addBotMessage("Por favor, introduce un número válido para los metros cuadrados (ej: 8, 15.5).");
-                    awaitingQuantityFor = serviceName; // Volver a esperar respuesta
-                }
-            } else if (serviceName === 'remodelación') {
-                // Primero, buscar si el usuario dio medidas como "5x8"
-                const match = text.match(/(\d+(\.\d+)?)\s*x\s*(\d+(\.\d+)?)/);
-                if (match) {
-                    const [, alto, , ancho] = match.map(parseFloat);
-                    const area = alto * ancho;
-                    const price = service.types['general']; // Usamos el precio general
-                    const baseTotal = area * price;
-                    addBotMessage(`¡Entendido! Un área de ${area.toFixed(2)} m² para remodelar.`);
-                    giveFinalDisclaimer(`remodelación de ${area.toFixed(2)} m²`, baseTotal);
-                    return; // Salimos para no continuar
-                }
-                // Si no hay medidas, buscar un tipo (baño, cocina, etc.)
-                const type = findBestMatch(text, Object.keys(service.types));
-                if (type) {
-                    addBotMessage(`¡Entendido, remodelación de <strong>${type}</strong>! El costo base de mano de obra es de <strong>$${service.types[type]}/m²</strong>.`);
-                    addBotMessage("Ahora, por favor, dime cuántos metros cuadrados tiene el área a remodelar.");
-                    awaitingQuantityFor = `remodelación-${type}`; // Espera la cantidad para el tipo específico
-                } else {
-                    addBotMessage("No entendí tu respuesta. Por favor, elige entre <strong>baño, cocina, general</strong> o dame las medidas (ej: <strong>5x8</strong>).");
-                    awaitingQuantityFor = 'remodelación'; // Vuelve a preguntar por el tipo
-                }
+            const parts = text.split('x').map(p => parseFloat(p.trim()));
+            if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1]) && parts[0] > 0 && parts[1] > 0) {
+                const [alto, ancho] = parts;
+                const area = alto * ancho;
+                const baseTotal = area * service.price;
+                addBotMessage(getTranslation("chat_entendido_area", { area: area.toFixed(2) }));
+                giveFinalDisclaimer(`pintura de ${area.toFixed(2)} m²`, baseTotal);
             } else {
-                const quantity = parseFloat(text);
-                if (!isNaN(quantity) && quantity > 0) {
-                    const baseTotal = service.price * quantity;
-                    addBotMessage(`¡Entendido! ${quantity} ${service.unit}(s) de ${serviceName}.`);
-                    giveFinalDisclaimer(serviceName, baseTotal);
-                } else {
-                    addBotMessage("Por favor, introduce un número válido (ej: 2, 5, 10.5).");
-                    awaitingQuantityFor = serviceName; // Volver a esperar respuesta
-                }
+                addBotMessage(getTranslation("chat_error_medidas"));
+                awaitingQuantityFor = serviceName;
             }
-            return;
+        } else if (serviceName.startsWith('remodelación-')) {
+            const type = serviceName.split('-')[1];
+            const quantity = parseFloat(text);
+            if (!isNaN(quantity) && quantity > 0) {
+                const price = service.types[type];
+                const baseTotal = price * quantity;
+                addBotMessage(getTranslation("chat_entendido_cantidad", { quantity: quantity, unit: 'm²', service: `remodelación de ${type}` }));
+                giveFinalDisclaimer(`remodelación de ${type}`, baseTotal);
+            } else {
+                addBotMessage(getTranslation("chat_error_numero"));
+                awaitingQuantityFor = serviceName;
+            }
+        } else if (serviceName === 'remodelación') {
+            const match = text.match(/(\d+(\.\d+)?)\s*x\s*(\d+(\.\d+)?)/);
+            if (match) {
+                const [, alto, , ancho] = match.map(parseFloat);
+                const area = alto * ancho;
+                const price = service.types['general'];
+                const baseTotal = area * price;
+                addBotMessage(getTranslation("chat_entendido_area", { area: area.toFixed(2) }));
+                giveFinalDisclaimer(`remodelación de ${area.toFixed(2)} m²`, baseTotal);
+                return;
+            }
+            const type = findBestMatch(text, Object.keys(service.types));
+            if (type) {
+                addBotMessage(getTranslation("chat_costo_base", { price: service.types[type], unit: 'm²' }));
+                addBotMessage(getTranslation("chat_pide_cantidad", { unit: 'metros cuadrados' }));
+                awaitingQuantityFor = `remodelación-${type}`;
+            } else {
+                addBotMessage(getTranslation("chat_error_remodelacion"));
+                awaitingQuantityFor = 'remodelación';
+            }
+        } else {
+            const quantity = parseFloat(text);
+            if (!isNaN(quantity) && quantity > 0) {
+                const baseTotal = service.price * quantity;
+                addBotMessage(getTranslation("chat_entendido_cantidad", { quantity: quantity, unit: service.unit, service: serviceName }));
+                giveFinalDisclaimer(serviceName, baseTotal);
+            } else {
+                addBotMessage(getTranslation("chat_error_numero"));
+                awaitingQuantityFor = serviceName;
+            }
         }
+    };
 
-        // --- Lógica "Inteligente": Intenta procesar la frase completa ---
+    const processInitialQuery = (text) => {
         const selectedService = findBestMatch(text, Object.keys(services));
 
         if (selectedService) {
@@ -405,7 +481,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const predefined = findBestMatch(text, Object.keys(service.predefined));
                 if (predefined) {
                     const baseTotal = service.predefined[predefined];
-                    addBotMessage(`¡Entendido! Presupuesto para pintar un <strong>${predefined}</strong>.`);
+                    addBotMessage(getTranslation("chat_entendido_servicio", { service: `pintura de ${predefined}` }));
                     giveFinalDisclaimer(`pintura de ${predefined}`, baseTotal);
                     return;
                 }
@@ -414,7 +490,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const [, alto, , ancho] = match.map(parseFloat);
                     const area = alto * ancho;
                     const total = area * service.price;
-                    addBotMessage(`¡Entendido! Un área de ${area.toFixed(2)} m².`);
+                    addBotMessage(getTranslation("chat_entendido_area", { area: area.toFixed(2) }));
                     giveFinalDisclaimer(`pintura de ${area.toFixed(2)} m²`, total);
                     return;
                 }
@@ -423,8 +499,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Caso especial: Remodelación (no tiene precio general, debe preguntar tipo)
             if (selectedService === 'remodelación') {
                 awaitingQuantityFor = 'remodelación';
-                addBotMessage("¡Entendido: remodelación!");
-                addBotMessage("Dime si es para un <strong>baño</strong>, una <strong>cocina</strong>, si es <strong>general</strong> o dame las medidas (ej: <strong>5x8</strong>).");
+                addBotMessage(getTranslation("chat_pide_remodelacion"));
                 return;
             }
 
@@ -433,23 +508,26 @@ document.addEventListener('DOMContentLoaded', () => {
             if (quantityMatch) {
                 const quantity = parseFloat(quantityMatch[0]);
                 const baseTotal = service.price * quantity;
-                addBotMessage(`¡Entendido! ${quantity} ${service.unit}(s) de ${selectedService}.`);
+                addBotMessage(getTranslation("chat_entendido_cantidad", { quantity: quantity, unit: service.unit, service: selectedService }));
                 giveFinalDisclaimer(selectedService, baseTotal);
                 return;
             }
 
             // Si no encontró detalles, pregunta de forma específica
             awaitingQuantityFor = selectedService;
-            addBotMessage(`¡Entendido: ${selectedService}! El costo de mano de obra es de $${service.price.toFixed(2)} por ${service.unit}.`);
+            addBotMessage(getTranslation("chat_costo_base", { price: service.price.toFixed(2), unit: service.unit }));
             if (selectedService === 'pintura') {
-                addBotMessage("Para darte un estimado, dime si es para un <strong>cuarto</strong>, una <strong>casa</strong>, o un <strong>local</strong>. O si prefieres, dame las medidas (ej: <strong>3x4</strong>).");
+                addBotMessage(getTranslation("chat_pide_pintura"));
             } else {
-                addBotMessage(`¿Cuántos ${service.unit}s necesitas cotizar?`);
+                addBotMessage(getTranslation("chat_pide_cantidad", { unit: service.unit }));
             }
         } else {
-            addBotMessage("No entendí muy bien. Por favor, elige uno de los servicios de la lista: <br>• Fontanería<br>• Pintura<br>• Remodelación<br>• Electricidad<br>• Cámaras");
+            respondWithTyping(getTranslation("chat_no_entiendo"), 1000)
+                .then(() => {
+                    createQuickReplyButtons(Object.keys(services));
+                });
         }
-    };
+    }
 
     // --- Event Listeners ---
 
