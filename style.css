@@ -347,3 +347,704 @@ body.dark-mode .dark-toggle {
   .nav a { margin: 0 6px; font-size: 0.85em; padding: 5px 6px; }
   .logo { height: 38px; }
 }
+
+/* --- Paleta de Colores y Fuentes (Variables CSS) --- */
+:root {
+  /* Colores Base */
+  --color-dark-bg: #1a1a1a;
+  --color-dark-bg-secondary: #1d1d1f;
+  --color-dark-card: #2c2c2e;
+  --color-dark-border: #3a3a3c;
+  --color-dark-border-hover: #525255;
+
+  /* Colores de Texto */
+  --text-primary: #f5f5f7;
+  --text-secondary: #a1a1a6;
+
+  /* Colores de Acento */
+  --accent-blue: #0071e3;
+  --accent-blue-hover: #147ce5;
+}
+
+/* Lista especial para '¿Por qué elegirnos?' */
+.elegir-list {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: none;
+    box-shadow: none;
+}
+
+.elegir-list li {
+    display: flex;
+    align-items: center;
+    gap: 16px; /* Espacio entre icono y texto */
+    padding: 12px 0;
+    width: 100%;
+    max-width: 380px; /* Ancho máximo para centrar el contenido */
+    justify-content: flex-start; /* Alinea el contenido a la izquierda */
+}
+
+.elegir-icon {
+    color: var(--accent-blue);
+    flex-shrink: 0; /* Evita que el icono se encoja */
+}
+
+.elegir-text {
+    font-family: 'Changa', Arial, sans-serif;
+    font-size: 1.08em;
+    font-weight: 400;
+    color: var(--text-secondary);
+    letter-spacing: 0.5px;
+    text-align: left;
+}
+
+/* 💎 Recuadros destacados para OMIR */
+.recuadro,
+.card,
+.servicio-card,
+.sobre-card,
+.contacto-card {
+    background: var(--color-dark-card);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.10);
+    padding: 16px 24px;
+    margin: 24px auto;
+    max-width: 900px;
+    border: 1px solid var(--color-dark-border);
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 1.15em;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: box-shadow 0.3s, border-color 0.3s, background 0.3s;
+}
+
+.recuadro:hover,
+.card:hover,
+.servicio-card:hover,
+.sobre-card:hover,
+.contacto-card:hover {
+    box-shadow: 0 12px 32px rgba(58, 123, 213, 0.18);
+    border-color: var(--color-dark-border-hover);
+}
+
+.sobre-central p {
+    text-align: center;
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+.sobre-items-list {
+    display: flex;
+    gap: 32px;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+    justify-content: center;
+    align-items: stretch;
+    /* Para que las tarjetas tengan la misma altura */
+    margin: 24px auto 0 auto;
+    flex-wrap: wrap;
+}
+
+.sobre-items-list li {
+    list-style: none;
+    text-align: center;
+    color: var(--accent-blue);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sobre-items-list li span:first-child {
+    font-size: 2em;
+    display: block;
+}
+
+.sobre-items-list li span:last-child {
+    font-size: 1em;
+    font-weight: 700;
+}
+
+/* --- Clases para contenedores de sección --- */
+.section-box {
+    border: 1px solid var(--color-dark-border);
+    border-radius: 18px;
+    padding: 32px 18px;
+    margin: 32px auto;
+    max-width: 1600px;
+    width: 95vw;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.section-box h2,
+.section-box h3 {
+    text-align: center;
+}
+
+.servicios-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    justify-content: center;
+}
+
+.servicio-card {
+    flex: 1 1 280px;
+    max-width: 360px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.nosotros-flex {
+    display: flex;
+    gap: 48px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.sobre-central {
+    flex: 2;
+    min-width: 260px;
+    max-width: 400px;
+}
+
+.elegir-nos-box {
+    flex: 1;
+    min-width: 320px;
+    max-width: 700px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 18px;
+}
+
+.elegir-list {
+    padding: 0;
+    list-style: none;
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.contacto-flex-container {
+    display: flex;
+    gap: 48px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 24px;
+}
+
+.contacto-info {
+    flex: 1;
+    min-width: 300px;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.contacto-card-item {
+    border-radius: 12px;
+    padding: 20px 24px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    display: flex;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--text-primary);
+}
+
+.contacto-text {
+    font-size: 1.1em;
+}
+
+.form-container {
+    flex: 1;
+    min-width: 300px;
+    max-width: 500px;
+    border-radius: 12px;
+    padding: 32px 28px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* Mejora de legibilidad para '¿Por qué elegirnos?' */
+.elegir-nos-box h3 {
+    margin-bottom: 10px;
+}
+
+.elegir-list {
+    background: transparent !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    max-width: 520px;
+}
+
+.elegir-list li {
+    /* Evitar líneas heredadas y mejorar lectura */
+    border-bottom: none !important;
+    padding: 10px 0;
+    margin: 2px 0;
+    line-height: 1.35;
+    font-family: 'Poppins', 'Changa', Arial, sans-serif;
+    font-weight: 700;
+}
+
+.elegir-text {
+    font-size: 1.05em;
+    letter-spacing: 0.3px;    
+}
+
+@media (max-width: 600px) {
+    .elegir-list { max-width: 90vw; }
+    .elegir-text { font-size: 1em; }
+}
+
+/* --- Estilos para el Chatbot Omi --- */
+#omi-chatbot-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: var(--accent-blue);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 999;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+#omi-chatbot-icon:hover {
+    transform: scale(1.1);
+}
+
+#omi-chatbot-window {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 350px;
+    max-width: 90vw;
+    height: 500px;
+    max-height: 70vh;
+    background: var(--color-dark-card);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    transition: opacity 0.3s, transform 0.3s;
+    transform-origin: bottom right;
+}
+
+#omi-chatbot-window.hidden {
+    opacity: 0;
+    transform: scale(0.5);
+    pointer-events: none;
+}
+
+#omi-chatbot-header {
+    padding: 12px 16px;
+    background: var(--color-dark-bg-secondary);
+    border-bottom: 1px solid var(--color-dark-border);
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-primary);
+}
+
+#omi-chatbot-close {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: var(--text-secondary);
+}
+
+#omi-chatbot-messages {
+    flex-grow: 1;
+    padding: 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.message-wrapper {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    max-width: 90%;
+}
+
+.bot-wrapper { align-self: flex-start; }
+.user-wrapper { align-self: flex-end; flex-direction: row-reverse; }
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--color-dark-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-blue);
+}
+
+.omi-message { background: var(--color-dark-border); color: var(--text-primary); padding: 10px 14px; border-radius: 16px 16px 16px 0; align-self: flex-start; max-width: 80%; }
+.user-message { background: var(--accent-blue); color: #fff; padding: 10px 14px; border-radius: 16px 16px 0 16px; align-self: flex-end; max-width: 80%; }
+
+#omi-chatbot-input-container { display: flex; padding: 10px; border-top: 1px solid var(--color-dark-border); }
+#omi-chatbot-input { flex-grow: 1; border: 1px solid var(--color-dark-border-hover); border-radius: 6px; padding: 8px; background: var(--color-dark-bg-secondary); color: var(--text-primary); }
+#omi-chatbot-send { margin-left: 8px; }
+
+/* Modo Oscuro para Chatbot */
+/* Estilos para los botones de respuesta rápida */
+.quick-replies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px 0;
+    justify-content: flex-start;
+    align-self: stretch;
+}
+
+.quick-reply-btn {
+    background: transparent;
+    border: 1px solid var(--accent-blue);
+    color: var(--accent-blue);
+    border-radius: 16px;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.quick-reply-btn:hover {
+    background-color: var(--accent-blue);
+    color: white;
+}
+body.dark-mode #omi-chatbot-icon { background-color: #ffcc00; color: var(--color-dark-bg); }
+body.dark-mode #omi-chatbot-window { background: #232a3a; } /* Ejemplo de color oscuro diferente */
+body.dark-mode #omi-chatbot-header { background: #1a1d24; border-bottom-color: #333; color: #ffcc00; } body.dark-mode #omi-chatbot-close,
+body.dark-mode #omi-chatbot-restart { 
+    color: #aaa;
+}
+body.dark-mode .avatar { background: #364b7b; color: #ffcc00; }
+body.dark-mode .user-wrapper .avatar { background: #ffcc00; color: #121212; }
+body.dark-mode .omi-message { background: #364b7b; color: #f0f0f0; }
+body.dark-mode .user-message { background: #ffcc00; color: #121212; }
+body.dark-mode #omi-chatbot-input-container { border-top-color: #333; } /* Ejemplo */
+
+/* Ajuste para avatar con imagen */
+.avatar img {
+    background: transparent;
+}
+
+/* --- Adaptación del Chatbot para Dispositivos Móviles --- */
+@media (max-width: 480px) {
+    #omi-chatbot-window {
+        width: 95vw; /* Ocupa más ancho en pantallas pequeñas */
+        max-width: 95vw;
+        height: 85vh; /* Un poco más alto para mejor visibilidad */
+        max-height: 85vh;
+        bottom: 80px; /* Ajuste de posición */
+        right: 2.5vw; /* Centrado con un pequeño margen */
+    }
+
+    #omi-chatbot-icon {
+        width: 55px; /* Ícono ligeramente más pequeño en móviles */
+        height: 55px;
+    }
+}
+
+/* --- Estilos para el Indicador de Escritura --- */
+.typing-indicator {
+    display: flex;
+    align-items: center;
+    padding: 14px 18px !important; /* Ajuste para que se vea bien */
+}
+
+.typing-indicator span {
+    height: 8px;
+    width: 8px;
+    background-color: var(--accent-blue);
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 2px;
+    animation: typing-bounce 1.4s infinite ease-in-out both;
+}
+
+.typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+.typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes typing-bounce {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1.0); }
+}
+
+/* --- Estilos Modernos para la Sección Hero (Apple-like) --- */
+.hero-main-box {
+    background: var(--color-dark-bg);
+    border: none; /* Sin bordes */
+    border-radius: 18px; /* Bordes más suaves */
+    padding: 80px 30px; /* Más espacio interno */
+    max-width: 1200px;
+    width: 95vw;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    position: relative; /* Necesario para posicionar la imagen */
+}
+
+.hero-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(3rem, 10vw, 6rem); /* Tamaño de fuente adaptable */
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.1;
+}
+
+.hero-subtitle,
+.hero-description {
+    font-family: 'Poppins', sans-serif;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 16px auto 0 auto;
+}
+
+.hero-subtitle {
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.hero-description {
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    margin-bottom: 32px; /* Espacio antes del botón */
+}
+
+/* Botón de acción modernizado */
+.hero-main-box .btn-pro {
+    background-color: var(--accent-blue);
+    color: white;
+    border-radius: 980px; /* Píldora */
+    padding: 14px 32px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.hero-main-box .btn-pro:hover {
+    background-color: var(--accent-blue-hover);
+    transform: scale(1.05);
+    color: white;
+    box-shadow: none;
+}
+
+/* --- Estilos para la imagen 3D de la llave --- */
+.hero-3d-image-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px; /* Activa la perspectiva 3D */
+    overflow: hidden; /* Evita que la imagen se salga del recuadro */
+    z-index: 0; /* Detrás del texto */
+}
+
+.hero-3d-image {
+    width: 450px; /* Ajusta el tamaño según necesites */
+    max-width: 80%;
+    opacity: 0.15; /* La hacemos semitransparente para que no compita con el texto */
+    transform-style: preserve-3d;
+    transition: transform 1.5s cubic-bezier(0.165, 0.84, 0.44, 1); /* Transición suave */
+    transform: rotateX(10deg) rotateY(-15deg) rotateZ(5deg); /* Estado inicial */
+}
+
+/* Animación al pasar el puntero sobre la sección */
+.hero-main-box:hover .hero-3d-image {
+    transform: rotateX(0deg) rotateY(20deg) rotateZ(-5deg) scale(1.1);
+}
+
+/* Aseguramos que el texto esté por encima de la imagen */
+.hero-title, .hero-subtitle, .hero-description, .hero-main-box .btn-pro {
+    position: relative;
+    z-index: 1;
+}
+/* --- Fin de Estilos Hero --- */
+
+/* --- Estilos para el Rodillo de Pintura --- */
+.hero-roller-container {
+    position: fixed; /* Se mantiene en la ventana del navegador */
+    top: -100px; /* Comienza ligeramente fuera de la vista superior */
+    right: 5%; /* Posición a la derecha */
+    width: 150px; /* Tamaño del rodillo (ajusta si es necesario) */
+    height: auto;
+    z-index: 2; /* Por encima de la llave, por debajo del texto */
+    pointer-events: none; /* Para que no interfiera con la interacción del usuario */
+    /* La transformación inicial y la animación se manejarán con JavaScript */
+}
+
+.hero-roller-image {
+    width: 100%;
+    height: auto;
+    opacity: 0.8; /* Ligeramente transparente */
+    transform-origin: center center; /* Punto de origen para la rotación */
+    transition: transform 0.1s linear; /* Transición suave para el movimiento */
+}
+/* --- Fin de Estilos para el Rodillo --- */
+
+/* --- Estilos Globales Modernos --- */
+.section-box {
+    background: var(--color-dark-bg-secondary);
+    border: 1px solid var(--color-dark-border);
+    border-radius: 18px;
+    padding: 60px 30px;
+}
+
+.section-box h2 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: clamp(2rem, 6vw, 3rem);
+    color: var(--text-primary);
+    margin-bottom: 40px;
+}
+
+/* Estilo para las tarjetas de servicio */
+.modern-grid {
+    gap: 20px;
+}
+
+.servicio-card {
+    background: var(--color-dark-card);
+    border: 1px solid var(--color-dark-border-hover);
+    border-radius: 18px;
+    padding: 24px;
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.servicio-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    border-color: var(--color-dark-border-hover);
+}
+
+.servicio-card strong {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.servicio-desc {
+    color: var(--text-secondary);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+}
+
+.service-icon {
+    background: var(--color-dark-border);
+    border-radius: 12px;
+    padding: 12px;
+    display: inline-block;
+    color: var(--accent-blue);
+    margin-bottom: 12px;
+}
+
+/* Estilo para la sección "Sobre Nosotros" */
+#nosotros .section-box {
+    text-align: center;
+}
+#nosotros p {
+    color: var(--text-secondary);
+    font-family: 'Poppins', sans-serif;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+#nosotros .sobre-subtitulo {
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* Estilo para el formulario de contacto */
+.contacto-box {
+    background: transparent;
+    border: none;
+    padding-top: 0;
+}
+
+.form-container {
+    border: 1px solid var(--color-dark-border);
+    border-radius: 18px;
+}
+
+.contacto-card-item {
+    background: var(--color-dark-card);
+    border-radius: 18px;
+    color: var(--text-primary);
+}
+
+.contacto-card-item strong {
+    color: var(--text-primary);
+}
+
+.contacto-text a {
+    color: var(--accent-blue) !important;
+}
+/* --- Fin de Estilos Hero --- */
+
+    .omir {
+      font-family: 'Alfa Slab One', serif;
+      font-size: clamp(28px, 9vw, 48px);
+      color: #004080;
+      text-transform: uppercase;
+    }
+    
+    /* ⚠️ NOTA: Todos los estilos de .main-container, .header-controls, .logo-container, .nav y sus media queries
+       fueron MOVISTOS a 'recuadro-extra.css' para un control centralizado del modo oscuro. */
+
+
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0;
+  }
+  #langSelector {
+    background-color: #2c2c2e;
+    color: #f5f5f7;
+    border: 1px solid #424245;
+    border-radius: 8px;
+    padding: 4px 8px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+  }
