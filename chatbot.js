@@ -476,45 +476,71 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const descargarPDF = (data) => {
-        addBotMessage("Abriendo la vista de impresión en una nueva pestaña...");
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-        const invoiceHTML = generarFacturaHTML(data);
-        
-        const newWindow = window.open('', '_blank');
-        newWindow.document.write(`
-            <html>
-                <head>
-                    <title>Presupuesto OMIR - ${data.name}</title>
-                    <style>
-                        body { font-family: Arial, sans-serif; }
-                        #invoice-container { 
-                            padding: 1in; 
-                            font-family: Arial, sans-serif; 
-                            max-width: 8.5in; 
-                            height: 11in; 
-                            margin: auto; 
-                            background: #fff; 
-                            color: #000; 
-                            font-size: 11pt; 
-                            box-sizing: border-box; 
-                        }
-                        #download-invoice { display: none; } /* Ocultar botón en la impresión */
-                    </style>
-                </head>
-                <body>
-                    ${invoiceHTML}
-                    <script>
-                        window.onload = function() {
-                            setTimeout(function() {
-                                window.print();
-                                window.close();
-                            }, 250); // Pequeña espera para asegurar que todo cargue
-                        }
-                    </script>
-                </body>
-            </html>
-        `);
-        newWindow.document.close();
+        if (isMobile) {
+            addBotMessage("Generando tu presupuesto en PDF...");
+
+            const invoiceElement = document.createElement('div');
+            invoiceElement.innerHTML = generarFacturaHTML(data);
+
+            // Ocultar el botón de descarga en el PDF generado
+            const downloadButtonInPdf = invoiceElement.querySelector('#download-invoice');
+            if (downloadButtonInPdf) {
+                downloadButtonInPdf.style.display = 'none';
+            }
+
+            const opt = {
+              margin:       0.5,
+              filename:     `Presupuesto-OMIR-${data.name.replace(/\s+/g, '-')}.pdf`,
+              image:        { type: 'jpeg', quality: 0.98 },
+              html2canvas:  { scale: 2 },
+              jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            // Generar el PDF y guardarlo
+            html2pdf().from(invoiceElement).set(opt).save();
+        } else {
+            addBotMessage("Abriendo la vista de impresión en una nueva pestaña...");
+
+            const invoiceHTML = generarFacturaHTML(data);
+            
+            const newWindow = window.open('', '_blank');
+            newWindow.document.write(`
+                <html>
+                    <head>
+                        <title>Presupuesto OMIR - ${data.name}</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; }
+                            #invoice-container { 
+                                padding: 1in; 
+                                font-family: Arial, sans-serif; 
+                                max-width: 8.5in; 
+                                height: 11in; 
+                                margin: auto; 
+                                background: #fff; 
+                                color: #000; 
+                                font-size: 11pt; 
+                                box-sizing: border-box; 
+                            }
+                            #download-invoice { display: none; } /* Ocultar botón en la impresión */
+                        </style>
+                    </head>
+                    <body>
+                        ${invoiceHTML}
+                        <script>
+                            window.onload = function() {
+                                setTimeout(function() {
+                                    window.print();
+                                    window.close();
+                                }, 250); // Pequeña espera para asegurar que todo cargue
+                            }
+                        </script>
+                    </body>
+                </html>
+            `);
+            newWindow.document.close();
+        }
     };
 
     const processQuantityFlow = (text) => {
