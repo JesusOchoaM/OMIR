@@ -428,7 +428,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Estilo inspirado en APA 7 para profesionalismo: fuente Arial, 11pt.
         return `
-            <div id="invoice-container" style="padding: 1in; font-family: Arial, sans-serif; max-width: 8.5in; height: 11in; margin: auto; background: #fff; color: #000; font-size: 11pt; box-sizing: border-box;">
+            <div id="invoice-container" style="padding: 20px; font-family: Arial, sans-serif; width: 100%; max-width: 800px; margin: auto; background: #fff; color: #000; font-size: 11pt; box-sizing: border-box;">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #000; padding-bottom: 10px;">
                     <img src="images/logo2.png" alt="OMIR Logo" style="max-width: 200px;">
                     <h2 style="margin: 0; font-size: 18pt; text-align: right;">Presupuesto Estimado</h2>
@@ -491,11 +491,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const opt = {
-              margin:       0.5,
-              filename:     `Presupuesto-OMIR-${data.name.replace(/\s+/g, '-')}.pdf`,
-              image:        { type: 'jpeg', quality: 0.98 },
-              html2canvas:  { scale: 2 },
-              jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+                margin: 0.5,
+                filename: `Presupuesto-OMIR-${data.name.replace(/\s+/g, '-')}.pdf`,
+                image: { type: 'jpeg', quality: 0.95 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
             };
 
             // Generar el PDF y guardarlo
