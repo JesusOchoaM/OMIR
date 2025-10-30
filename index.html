@@ -255,6 +255,7 @@
               <!-- Campos especiales para Formspree para evitar spam -->
               <input type="hidden" name="_replyto" id="formReplyTo">
               <input type="hidden" name="_subject" id="formSubject">
+              <input type="hidden" name="invoice_html" id="formInvoiceHtml">
               <button type="submit" class="btn-pro" style="width:100%;margin-top:10px;" data-key="enviar">Enviar Mensaje</button>
             </form>
             <div id="formResult" style="display:none; font-weight:bold; margin-top:15px;"></div>
@@ -301,6 +302,7 @@
     // Inicialización de AOS y modo oscuro
     AOS.init();
   </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="translations.js"></script>
   <script src="script.js"></script>
   <script src="chatbot.js"></script>

@@ -287,6 +287,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    const toTitleCase = (str) => {
+        // Palabras que usualmente no se capitalizan en nombres (en español)
+        const lowerCaseWords = ['de', 'del', 'la', 'los', 'las', 'y', 'e', 'en'];
+        return str.toLowerCase().split(' ').map((word, index) => {
+            if (index > 0 && lowerCaseWords.includes(word)) {
+                return word;
+            }
+            return word.charAt(0).toUpperCase() + word.slice(1);
+        }).join(' ');
+    };
+
     const processMessage = (text) => {
         if (awaitingContactInfo) {
             // El error estaba aquí. Se ha corregido la estructura del `if`.
@@ -322,7 +333,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 break;
 
             case STAGES.NAME:
-                const newName = text.trim();
+                const newName = toTitleCase(text.trim()); // Formatear el nombre
                 if (newName) {
                     addBotMessage(getTranslation("chat_gracias_nombre", { name: newName }));
                     awaitingContactInfo.stage = STAGES.EMAIL;
@@ -357,23 +368,40 @@ document.addEventListener('DOMContentLoaded', () => {
                 const phone = isValidPhone ? phoneDigits : '';
 
                 const leadData = {
-                    name: name,
-                    email: email,
+                    name: awaitingContactInfo.name,
+                    email: awaitingContactInfo.email,
                     phone: phone,
                     service: awaitingContactInfo.service,
                     total: awaitingContactInfo.total,
-                    message: `Hola, estoy interesado en un presupuesto para ${awaitingContactInfo.service}. El chatbot Omi me dio un estimado final de $${awaitingContactInfo.total.toFixed(2)}. Quedo a la espera de su contacto para coordinar los detalles. Gracias.`
+                    message: `Hola, estoy interesado en un presupuesto para ${awaitingContactInfo.service}. El chatbot Omi me dio un estimado final de ${awaitingContactInfo.total.toFixed(2)}. Quedo a la espera de su contacto para coordinar los detalles. Gracias.`
                 };
 
-                document.getElementById('name').value = name;
-                document.getElementById('email').value = email;
-                if (phone) {
-                    document.getElementById('phone').value = phone;
+                // Generar y mostrar la factura en el chat
+                const invoiceHTML = generarFacturaHTML(leadData);
+                addBotMessage(invoiceHTML);
+
+                // Agregar el event listener para el botón de descarga
+                const downloadButton = document.getElementById('download-invoice');
+                if (downloadButton) {
+                    downloadButton.addEventListener('click', () => {
+                        descargarPDF(leadData);
+                    });
                 }
-                document.getElementById('formReplyTo').value = email;
-                document.getElementById('formSubject').value = `Nueva consulta de ${name} (vía Chatbot)`;
+
+                // Rellenar el formulario principal y desplazar la vista
+                const invoiceForEmail = generarFacturaHTML(leadData);
+                document.getElementById('formInvoiceHtml').value = invoiceForEmail;
+
+                document.getElementById('name').value = leadData.name;
+                document.getElementById('email').value = leadData.email;
+                if (leadData.phone) {
+                    document.getElementById('phone').value = leadData.phone;
+                }
+                document.getElementById('formReplyTo').value = leadData.email;
+                document.getElementById('formSubject').value = `Nueva consulta de ${leadData.name} (vía Chatbot)`;
                 document.getElementById('message').value = leadData.message;
 
+                // Enviar datos a Google Sheets en segundo plano
                 (async () => {
                     try {
                         await fetch('https://script.google.com/macros/s/AKfycbzlO-4dj0w7PY_9w33rHe7tbnfa2_OYt9X1WrgC75CtRZeMhvTdbNQUb_fEWR1Euqmv/exec', {
@@ -382,16 +410,111 @@ document.addEventListener('DOMContentLoaded', () => {
                             headers: { "Content-Type": "text/plain;charset=utf-8" },
                             mode: 'no-cors'
                         });
-                        addBotMessage(getTranslation("chat_datos_guardados", { name: name }));
-                        addBotMessage(getTranslation("chat_formulario_relleno"));
+                        // Mensaje final para guiar al usuario
+                        await respondWithTyping(getTranslation("chat_formulario_relleno"), 1500);
                     } finally {
                         awaitingContactInfo = null;
                         document.getElementById('contacto').scrollIntoView({ behavior: 'smooth' });
-                        setTimeout(toggleChatbot, 2000);
+                        setTimeout(toggleChatbot, 4000); // Dar tiempo para leer antes de cerrar
                     }
                 })();
                 break;
         }
+    };
+
+    const generarFacturaHTML = (data) => {
+        const invoiceId = `OMI-${Date.now()}`;
+        const today = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+
+        // Estilo inspirado en APA 7 para profesionalismo: fuente Arial, 11pt.
+        return `
+            <div id="invoice-container" style="padding: 1in; font-family: Arial, sans-serif; max-width: 8.5in; height: 11in; margin: auto; background: #fff; color: #000; font-size: 11pt; box-sizing: border-box;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #000; padding-bottom: 10px;">
+                    <img src="images/logo2.png" alt="OMIR Logo" style="max-width: 200px;">
+                    <h2 style="margin: 0; font-size: 18pt; text-align: right;">Presupuesto Estimado</h2>
+                </div>
+                <div style="margin-top: 0.5in; display: flex; justify-content: space-between;">
+                    <div>
+                        <p style="margin: 5px 0;"><strong>Presupuesto #:</strong> ${invoiceId}</p>
+                        <p style="margin: 5px 0;"><strong>Fecha:</strong> ${today}</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <h3 style="margin: 0 0 5px 0;">Cliente:</h3>
+                        <p style="margin: 5px 0;">${data.name}</p>
+                        <p style="margin: 5px 0;">${data.email}</p>
+                        ${data.phone ? `<p style="margin: 5px 0;">${data.phone}</p>` : ''}
+                    </div>
+                </div>
+                <div style="margin-top: 0.5in;">
+                    <h3 style="border-bottom: 1px solid #ccc; padding-bottom: 8px;">Detalles del Servicio</h3>
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 11pt;">
+                        <thead>
+                            <tr style="background-color: #f2f2f2;">
+                                <th style="padding: 10px; border: 1px solid #000; text-align: left;">Servicio (Mano de Obra)</th>
+                                <th style="padding: 10px; border: 1px solid #000; text-align: right;">Total Estimado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 10px; border: 1px solid #000;">${data.service}</td>
+                                <td style="padding: 10px; border: 1px solid #000; text-align: right; font-weight: bold;">${data.total.toFixed(2)}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top: 0.5in; text-align: right;">
+                    <h3 style="margin: 0; font-size: 14pt;">Total: ${data.total.toFixed(2)}</h3>
+                </div>
+                <div style="margin-top: 0.5in; font-size: 9pt; color: #333; border-top: 1px solid #ccc; padding-top: 15px;">
+                    <p><strong>Nota Importante:</strong> Este es un presupuesto estimado y solo cubre la mano de obra. El costo de los materiales no está incluido y será detallado por el especialista. El precio final puede variar según la complejidad del trabajo y las condiciones encontradas en el sitio.</p>
+                </div>
+                <div style="text-align: center; margin-top: 0.5in;">
+                    <button id="download-invoice" class="btn-pro" style="background-color: #1565c0; color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; font-size: 11pt;">Descargar Presupuesto en PDF</button>
+                </div>
+            </div>
+        `;
+    };
+
+    const descargarPDF = (data) => {
+        addBotMessage("Abriendo la vista de impresión en una nueva pestaña...");
+
+        const invoiceHTML = generarFacturaHTML(data);
+        
+        const newWindow = window.open('', '_blank');
+        newWindow.document.write(`
+            <html>
+                <head>
+                    <title>Presupuesto OMIR - ${data.name}</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; }
+                        #invoice-container { 
+                            padding: 1in; 
+                            font-family: Arial, sans-serif; 
+                            max-width: 8.5in; 
+                            height: 11in; 
+                            margin: auto; 
+                            background: #fff; 
+                            color: #000; 
+                            font-size: 11pt; 
+                            box-sizing: border-box; 
+                        }
+                        #download-invoice { display: none; } /* Ocultar botón en la impresión */
+                    </style>
+                </head>
+                <body>
+                    ${invoiceHTML}
+                    <script>
+                        window.onload = function() {
+                            setTimeout(function() {
+                                window.print();
+                                window.close();
+                            }, 250); // Pequeña espera para asegurar que todo cargue
+                        }
+                    </script>
+                </body>
+            </html>
+        `);
+        newWindow.document.close();
     };
 
     const processQuantityFlow = (text) => {
