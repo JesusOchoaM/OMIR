@@ -1,0 +1,119 @@
+
+body {
+    font-family: Arial, sans-serif;
+    font-size: 11pt;
+    line-height: 1.5;
+    color: #000;
+    background: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+#invoice-container {
+    max-width: 8.5in;
+    margin: auto;
+    padding: 1in;
+    box-sizing: border-box;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 2px solid #000;
+    padding-bottom: 10px;
+}
+
+.header img {
+    max-width: 200px;
+}
+
+.header h2 {
+    margin: 0;
+    font-size: 18pt;
+    text-align: right;
+}
+
+.details {
+    margin-top: 0.5in;
+    display: flex;
+    justify-content: space-between;
+}
+
+.details p {
+    margin: 5px 0;
+}
+
+.details .client {
+    text-align: right;
+}
+
+.details .client h3 {
+    margin: 0 0 5px 0;
+}
+
+.body {
+    margin-top: 0.5in;
+}
+
+.body h3 {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 8px;
+}
+
+.body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 11pt;
+}
+
+.body table th,
+.body table td {
+    padding: 10px;
+    border: 1px solid #000;
+}
+
+.body table th {
+    text-align: left;
+    background-color: #f2f2f2;
+}
+
+.body table td.total {
+    text-align: right;
+    font-weight: bold;
+}
+
+.total-section {
+    margin-top: 0.5in;
+    text-align: right;
+}
+
+.total-section h3 {
+    margin: 0;
+    font-size: 14pt;
+}
+
+.footer {
+    margin-top: 0.5in;
+    font-size: 9pt;
+    color: #333;
+    border-top: 1px solid #ccc;
+    padding-top: 15px;
+}
+
+.download-button {
+    text-align: center;
+    margin-top: 0.5in;
+}
+
+.btn-pro {
+    background-color: #1565c0;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 11pt;
+    text-decoration: none;
+}

@@ -426,50 +426,49 @@ document.addEventListener('DOMContentLoaded', () => {
         const invoiceId = `OMI-${Date.now()}`;
         const today = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
 
-        // Estilo inspirado en APA 7 para profesionalismo: fuente Arial, 11pt.
         return `
-            <div id="invoice-container" style="padding: 20px; font-family: Arial, sans-serif; width: 100%; max-width: 800px; margin: auto; background: #fff; color: #000; font-size: 11pt; box-sizing: border-box;">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #000; padding-bottom: 10px;">
-                    <img src="images/logo2.png" alt="OMIR Logo" style="max-width: 200px;">
-                    <h2 style="margin: 0; font-size: 18pt; text-align: right;">Presupuesto Estimado</h2>
+            <div id="invoice-container">
+                <div class="header">
+                    <img src="images/logo2.png" alt="OMIR Logo">
+                    <h2>Presupuesto Estimado</h2>
                 </div>
-                <div style="margin-top: 0.5in; display: flex; justify-content: space-between;">
+                <div class="details">
                     <div>
-                        <p style="margin: 5px 0;"><strong>Presupuesto #:</strong> ${invoiceId}</p>
-                        <p style="margin: 5px 0;"><strong>Fecha:</strong> ${today}</p>
+                        <p><strong>Presupuesto #:</strong> ${invoiceId}</p>
+                        <p><strong>Fecha:</strong> ${today}</p>
                     </div>
-                    <div style="text-align: right;">
-                        <h3 style="margin: 0 0 5px 0;">Cliente:</h3>
-                        <p style="margin: 5px 0;">${data.name}</p>
-                        <p style="margin: 5px 0;">${data.email}</p>
-                        ${data.phone ? `<p style="margin: 5px 0;">${data.phone}</p>` : ''}
+                    <div class="client">
+                        <h3>Cliente:</h3>
+                        <p>${data.name}</p>
+                        <p>${data.email}</p>
+                        ${data.phone ? `<p>${data.phone}</p>` : ''}
                     </div>
                 </div>
-                <div style="margin-top: 0.5in;">
-                    <h3 style="border-bottom: 1px solid #ccc; padding-bottom: 8px;">Detalles del Servicio</h3>
-                    <table style="width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 11pt;">
+                <div class="body">
+                    <h3>Detalles del Servicio</h3>
+                    <table>
                         <thead>
-                            <tr style="background-color: #f2f2f2;">
-                                <th style="padding: 10px; border: 1px solid #000; text-align: left;">Servicio (Mano de Obra)</th>
-                                <th style="padding: 10px; border: 1px solid #000; text-align: right;">Total Estimado</th>
+                            <tr>
+                                <th>Servicio (Mano de Obra)</th>
+                                <th>Total Estimado</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td style="padding: 10px; border: 1px solid #000;">${data.service}</td>
-                                <td style="padding: 10px; border: 1px solid #000; text-align: right; font-weight: bold;">${data.total.toFixed(2)}</td>
+                                <td>${data.service}</td>
+                                <td class="total">${data.total.toFixed(2)}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <div style="margin-top: 0.5in; text-align: right;">
-                    <h3 style="margin: 0; font-size: 14pt;">Total: ${data.total.toFixed(2)}</h3>
+                <div class="total-section">
+                    <h3>Total: ${data.total.toFixed(2)}</h3>
                 </div>
-                <div style="margin-top: 0.5in; font-size: 9pt; color: #333; border-top: 1px solid #ccc; padding-top: 15px;">
+                <div class="footer">
                     <p><strong>Nota Importante:</strong> Este es un presupuesto estimado y solo cubre la mano de obra. El costo de los materiales no está incluido y será detallado por el especialista. El precio final puede variar según la complejidad del trabajo y las condiciones encontradas en el sitio.</p>
                 </div>
-                <div style="text-align: center; margin-top: 0.5in;">
-                    <button id="download-invoice" class="btn-pro" style="background-color: #1565c0; color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; font-size: 11pt;">Descargar Presupuesto en PDF</button>
+                <div class="download-button">
+                    <button id="download-invoice" class="btn-pro">Descargar Presupuesto en PDF</button>
                 </div>
             </div>
         `;
@@ -478,52 +477,171 @@ document.addEventListener('DOMContentLoaded', () => {
     const descargarPDF = (data) => {
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
+        const invoiceHTML = generarFacturaHTML(data);
+
         if (isMobile) {
-            addBotMessage("Generando tu presupuesto en PDF...");
+            addBotMessage("Generando su presupuesto en formato PDF...");
 
-            const invoiceElement = document.createElement('div');
-            invoiceElement.innerHTML = generarFacturaHTML(data);
+            const element = document.createElement('html');
+            const head = document.createElement('head');
+            const style = document.createElement('style');
+            style.innerHTML = `
+body {
+    font-family: Arial, sans-serif;
+    font-size: 11pt;
+    line-height: 1.5;
+    color: #000;
+    background: #fff;
+    margin: 0;
+    padding: 0;
+}
 
-            // Ocultar el botón de descarga en el PDF generado
-            const downloadButtonInPdf = invoiceElement.querySelector('#download-invoice');
+#invoice-container {
+    max-width: 8.5in;
+    margin: auto;
+    padding: 1in;
+    box-sizing: border-box;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 2px solid #000;
+    padding-bottom: 10px;
+}
+
+.header img {
+    max-width: 200px;
+}
+
+.header h2 {
+    margin: 0;
+    font-size: 18pt;
+    text-align: right;
+}
+
+.details {
+    margin-top: 0.5in;
+    display: flex;
+    justify-content: space-between;
+}
+
+.details p {
+    margin: 5px 0;
+}
+
+.details .client {
+    text-align: right;
+}
+
+.details .client h3 {
+    margin: 0 0 5px 0;
+}
+
+.body {
+    margin-top: 0.5in;
+}
+
+.body h3 {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 8px;
+}
+
+.body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 11pt;
+}
+
+.body table th,
+.body table td {
+    padding: 10px;
+    border: 1px solid #000;
+}
+
+.body table th {
+    text-align: left;
+    background-color: #f2f2f2;
+}
+
+.body table td.total {
+    text-align: right;
+    font-weight: bold;
+}
+
+.total-section {
+    margin-top: 0.5in;
+    text-align: right;
+}
+
+.total-section h3 {
+    margin: 0;
+    font-size: 14pt;
+}
+
+.footer {
+    margin-top: 0.5in;
+    font-size: 9pt;
+    color: #333;
+    border-top: 1px solid #ccc;
+    padding-top: 15px;
+}
+
+.download-button {
+    text-align: center;
+    margin-top: 0.5in;
+}
+
+.btn-pro {
+    background-color: #1565c0;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 11pt;
+    text-decoration: none;
+}
+`;
+            head.appendChild(style);
+            const body = document.createElement('body');
+            body.innerHTML = invoiceHTML;
+            
+            const downloadButtonInPdf = body.querySelector('#download-invoice');
             if (downloadButtonInPdf) {
                 downloadButtonInPdf.style.display = 'none';
             }
 
+            element.appendChild(head);
+            element.appendChild(body);
+
             const opt = {
-                margin: 0.5,
+                margin: 0,
                 filename: `Presupuesto-OMIR-${data.name.replace(/\s+/g, '-')}.pdf`,
-                image: { type: 'jpeg', quality: 0.95 },
+                image: { type: 'jpeg', quality: 1.0 },
                 html2canvas: { scale: 2, useCORS: true },
                 jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
             };
 
-            // Generar el PDF y guardarlo
-            html2pdf().from(invoiceElement).set(opt).save();
-        } else {
-            addBotMessage("Abriendo la vista de impresión en una nueva pestaña...");
+            html2pdf().from(element).set(opt).save();
 
-            const invoiceHTML = generarFacturaHTML(data);
-            
+        } else {
+            addBotMessage("Preparando la vista de impresión de su presupuesto...");
+
             const newWindow = window.open('', '_blank');
             newWindow.document.write(`
                 <html>
                     <head>
                         <title>Presupuesto OMIR - ${data.name}</title>
+                        <link rel="stylesheet" href="invoice.css">
                         <style>
-                            body { font-family: Arial, sans-serif; }
-                            #invoice-container { 
-                                padding: 1in; 
-                                font-family: Arial, sans-serif; 
-                                max-width: 8.5in; 
-                                height: 11in; 
-                                margin: auto; 
-                                background: #fff; 
-                                color: #000; 
-                                font-size: 11pt; 
-                                box-sizing: border-box; 
+                            @media print {
+                                .download-button {
+                                    display: none;
+                                }
                             }
-                            #download-invoice { display: none; } /* Ocultar botón en la impresión */
                         </style>
                     </head>
                     <body>
@@ -533,7 +651,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 setTimeout(function() {
                                     window.print();
                                     window.close();
-                                }, 250); // Pequeña espera para asegurar que todo cargue
+                                }, 250);
                             }
                         </script>
                     </body>
