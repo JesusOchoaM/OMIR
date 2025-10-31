@@ -83,10 +83,16 @@
             const opt = {
                 margin:       0.5,
                 filename:     'factura-omir.pdf',
-                html2canvas:  { scale: 1 },
+                html2canvas:  { scale: 1.5, useCORS: true },
                 jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
             };
-            html2pdf().set(opt).from(element).save();
+
+            try {
+                html2pdf().set(opt).from(element).save();
+            } catch (error) {
+                console.error("Error generating PDF:", error);
+                alert("Hubo un error al generar el PDF. Por favor, intente de nuevo.");
+            }
         });
     </script>
 </body>
