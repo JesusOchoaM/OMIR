@@ -429,7 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return `
             <div id="invoice-container">
                 <div class="header">
-                    <img src="images/logo2.png" alt="OMIR Logo">
+                    <h1>OMIR</h1>
                     <h2>Presupuesto Estimado</h2>
                 </div>
                 <div class="details">
