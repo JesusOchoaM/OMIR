@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factura - OMIR</title>
+    <link rel="stylesheet" href="invoice.css">
+</head>
+<body>
+    <div id="invoice-container">
+        <div class="header">
+            <img src="images/logo3.png" alt="Logo OMIR">
+            <h2>Factura</h2>
+        </div>
+
+        <div class="details">
+            <div class="company">
+                <h3>De:</h3>
+                <p>
+                    <strong>OMIR</strong><br>
+                    Ochoa Meléndez Innovación en Reparación<br>
+                    San Salvador, El Salvador<br>
+                    servicios.ochoamelendez.sv@gmail.com
+                </p>
+            </div>
+            <div class="client">
+                <h3>Para:</h3>
+                <p>
+                    <strong>Nombre del Cliente</strong><br>
+                    Dirección del Cliente<br>
+                    Email del Cliente
+                </p>
+            </div>
+        </div>
+
+        <div class="body">
+            <h3>Detalles del Servicio</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Descripción</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unitario</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Servicio de Fontanería</td>
+                        <td>1</td>
+                        <td>$50.00</td>
+                        <td class="total">$50.00</td>
+                    </tr>
+                    <tr>
+                        <td>Pintura de Habitación</td>
+                        <td>1</td>
+                        <td>$150.00</td>
+                        <td class="total">$150.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="total-section">
+            <h3>Total: $200.00</h3>
+        </div>
+
+        <div class="footer">
+            <p><strong>Notas:</strong></p>
+            <p>El pago debe realizarse en un plazo de 30 días.</p>
+            <p>Gracias por su confianza en OMIR.</p>
+        </div>
+
+        <div class="download-button">
+            <button class="btn-pro" id="download-pdf">Descargar como PDF</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+        document.getElementById('download-pdf').addEventListener('click', function () {
+            const element = document.getElementById('invoice-container');
+            const opt = {
+                margin:       0.5,
+                filename:     'factura-omir.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
+        });
+    </script>
+</body>
+</html>
