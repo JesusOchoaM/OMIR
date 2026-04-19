@@ -278,7 +278,8 @@
 
   <footer class="footer" data-aos="fade-up">
     <div class="container">
-      <p>&copy; 2025 OMIR - Ochoa Meléndez Innovación en Reparación</p>
+      <p>&copy; <span id="current-year">2025</span> OMIR - Ochoa Meléndez Innovación en Reparación</p>
+      <script>document.getElementById('current-year').textContent = new Date().getFullYear();</script>
     </div>
   </footer>
 
