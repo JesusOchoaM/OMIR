@@ -94,10 +94,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!chatbotWindow.classList.contains('hidden')) {
             input.focus();
             if (messagesContainer.children.length === 0) {
-                addBotMessage("¡Hola! Soy Omi, tu asistente virtual. 👋");
-                setTimeout(() => {
-                    addBotMessage("Puedo darte un presupuesto estimado de <strong>mano de obra</strong>. ¿Qué servicio te interesa? <br>• Fontanería<br>• Pintura<br>• Remodelación<br>• Electricidad<br>• Cámaras");
-                }, 1000);
+                addBotMessage(getTranslation("chat_saludo_1"));
+                addBotMessage(getTranslation("chat_saludo_2"));
+                createQuickReplyButtons(Object.keys(services));
             }
         }
     };
@@ -107,15 +106,9 @@ document.addEventListener('DOMContentLoaded', () => {
         awaitingQuantityFor = null;
         awaitingContactInfo = null;
 
-        showTypingIndicator();
-        setTimeout(() => {
-            hideTypingIndicator();
-            addBotMessage(getTranslation("chat_reinicio_1"));
-            respondWithTyping(getTranslation("chat_reinicio_2"), 1000)
-                .then(() => {
-                    createQuickReplyButtons(Object.keys(services));
-                });
-        }, 800);
+        addBotMessage(getTranslation("chat_reinicio_1"));
+        addBotMessage(getTranslation("chat_reinicio_2"));
+        createQuickReplyButtons(Object.keys(services));
     };
 
     const addMessage = (text, sender) => {
@@ -149,7 +142,9 @@ document.addEventListener('DOMContentLoaded', () => {
         options.forEach(optionText => {
             const button = document.createElement('button');
             // Usar la clave de traducción para el texto del botón
-            button.textContent = getTranslation(`${optionText}_titulo`) || (optionText.charAt(0).toUpperCase() + optionText.slice(1));
+            const translationKey = `${optionText.normalize("NFD").replace(/[\u0300-\u036f]/g, "")}_titulo`;
+            const translatedText = getTranslation(translationKey);
+            button.textContent = translatedText !== translationKey ? translatedText : (optionText.charAt(0).toUpperCase() + optionText.slice(1));
             button.classList.add('quick-reply-btn');
             button.dataset.value = optionText; // Guardar valor original
             container.appendChild(button);
