@@ -46,7 +46,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         },
         'electricidad': { price: 75, unit: 'día', includesAssistant: true }, // Incluye ayudante
-        'cámaras': { price: 170, unit: 'instalación base', includesAssistant: true } // Incluye ayudante
+        'cámaras': {
+            unit: 'servicio',
+            includesAssistant: true,
+            types: {
+                'circuito cerrado': 250, // Base labor + IVA + viaticos
+                'wifi': 45,             // Base per cam
+                'limpieza': 40,
+                'mantenimiento': 60,
+                'revisión': 35
+            }
+        }
     };
  
     // Costos de transporte desde Tonacatepeque (puedes ajustarlos)
@@ -65,6 +75,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let awaitingQuantityFor = null; // Para saber qué servicio estamos cotizando.
     let awaitingContactInfo = null; // Para guardar el contexto del presupuesto y esperar datos de contacto.
+    let awaitingProblemFor = null; // Para saber de qué servicio se está esperando una descripción del problema
+    let pendingServiceQuery = null; // Guarda la consulta original mientras se pide el problema
+    let currentProblemDescription = ''; // Guarda la descripción del problema
 
     // --- Abrir automáticamente en la primera visita ---
     const hasVisited = localStorage.getItem('omiHasVisited');
@@ -105,6 +118,9 @@ document.addEventListener('DOMContentLoaded', () => {
         messagesContainer.innerHTML = ''; // Limpia los mensajes
         awaitingQuantityFor = null;
         awaitingContactInfo = null;
+        awaitingProblemFor = null;
+        pendingServiceQuery = null;
+        currentProblemDescription = '';
 
         addBotMessage(getTranslation("chat_reinicio_1"));
         addBotMessage(getTranslation("chat_reinicio_2"));
@@ -299,6 +315,16 @@ document.addEventListener('DOMContentLoaded', () => {
             // El error estaba aquí. Se ha corregido la estructura del `if`.
             // Ahora, si hay un `awaitingContactInfo`, siempre llamará a `processContactFlow`.
             processContactFlow(text);
+            return;
+        }
+
+        if (awaitingProblemFor) {
+            currentProblemDescription = text;
+            const originalText = pendingServiceQuery;
+            awaitingProblemFor = null;
+            pendingServiceQuery = null;
+            // Continuamos procesando la consulta original saltando la pregunta del problema
+            processInitialQuery(originalText, true);
             return;
         }
 
@@ -510,7 +536,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const processQuantityFlow = (text) => {
         const serviceName = awaitingQuantityFor;
-        const service = services[serviceName];
+        const service = services[serviceName] || services[serviceName.split('-')[0]];
         awaitingQuantityFor = null;
 
         if (serviceName === 'pintura') {
@@ -564,6 +590,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 addBotMessage(getTranslation("chat_error_remodelacion"));
                 awaitingQuantityFor = 'remodelación';
             }
+        } else if (serviceName.startsWith('cámaras-')) {
+            const type = serviceName.split('-')[1];
+            const quantity = parseFloat(text);
+            if (!isNaN(quantity) && quantity > 0) {
+                const price = service.types[type];
+                const baseTotal = price * quantity;
+                addBotMessage(getTranslation("chat_entendido_cantidad", { quantity: quantity, unit: 'cámara(s)', service: `cámaras (${type})` }));
+                giveFinalDisclaimer(`cámaras (${type} x${quantity})`, baseTotal);
+            } else {
+                addBotMessage(getTranslation("chat_error_numero"));
+                awaitingQuantityFor = serviceName;
+            }
+        } else if (serviceName === 'cámaras') {
+            const type = findBestMatch(text, Object.keys(service.types));
+            if (type) {
+                if (type === 'wifi' || type === 'limpieza') {
+                    addBotMessage(getTranslation("chat_pide_cantidad_camaras"));
+                    awaitingQuantityFor = `cámaras-${type}`;
+                } else {
+                    const baseTotal = service.types[type];
+                    giveFinalDisclaimer(`cámaras (${type})`, baseTotal);
+                }
+            } else {
+                addBotMessage(getTranslation("chat_error_camaras"));
+                createQuickReplyButtons(Object.keys(service.types));
+                awaitingQuantityFor = 'cámaras';
+            }
         } else {
             const quantity = parseFloat(text);
             if (!isNaN(quantity) && quantity > 0) {
@@ -583,10 +636,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (selectedService) {
             const service = services[selectedService];
 
-            // Caso especial: Cámaras (no necesita cantidad)
+            // Caso especial: Cámaras (debe preguntar tipo)
             if (selectedService === 'cámaras') {
-                const baseTotal = service.price;
-                giveFinalDisclaimer(selectedService, baseTotal);
+                awaitingQuantityFor = 'cámaras';
+                addBotMessage(getTranslation("chat_pide_camaras"));
+                createQuickReplyButtons(Object.keys(service.types));
                 return;
             }
 
